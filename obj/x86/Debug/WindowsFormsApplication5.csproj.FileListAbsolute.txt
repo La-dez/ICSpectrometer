@@ -1,0 +1,10 @@
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\bin\x86\Debug\Camera Capture.exe.config
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\bin\x86\Debug\Camera Capture.exe
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\bin\x86\Debug\Camera Capture.pdb
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\x86\Debug\WindowsFormsApplication5.csprojResolveAssemblyReference.cache
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\x86\Debug\WindowsFormsApplication5.Form1.resources
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\x86\Debug\WindowsFormsApplication5.Properties.Resources.resources
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\x86\Debug\WindowsFormsApplication5.SaveDialog.resources
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\x86\Debug\WindowsFormsApplication5.csproj.GenerateResource.Cache
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\x86\Debug\Camera Capture.exe
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\x86\Debug\Camera Capture.pdb

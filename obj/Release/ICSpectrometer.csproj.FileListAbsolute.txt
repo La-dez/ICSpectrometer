@@ -1,0 +1,11 @@
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\bin\Release\IC Spectrometer v1.1.exe.config
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\bin\Release\IC Spectrometer v1.1.exe
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\bin\Release\IC Spectrometer v1.1.pdb
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\bin\Release\TIS.Imaging.ICImagingControl33.dll
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\Release\ICSpectrometer.csprojResolveAssemblyReference.cache
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\Release\ICSpec.Form1.resources
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\Release\ICSpec.Properties.Resources.resources
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\Release\ICSpec.SaveDialog.resources
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\Release\ICSpectrometer.csproj.GenerateResource.Cache
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\Release\IC Spectrometer v1.1.exe
+D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\obj\Release\IC Spectrometer v1.1.pdb
