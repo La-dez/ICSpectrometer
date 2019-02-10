@@ -128,8 +128,12 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.NUD_CurrentWL = new System.Windows.Forms.NumericUpDown();
             this.NUD_CurrentWN = new System.Windows.Forms.NumericUpDown();
+=======
+            this.NUD_CurWL = new System.Windows.Forms.NumericUpDown();
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.NUD_CurWL = new System.Windows.Forms.NumericUpDown();
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -172,8 +176,12 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurrentWL)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurrentWN)).BeginInit();
+=======
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).BeginInit();
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).BeginInit();
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -257,6 +265,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.SnapshotBut.Location = new System.Drawing.Point(4, 296);
             this.SnapshotBut.Margin = new System.Windows.Forms.Padding(4, 1, 1, 1);
             this.SnapshotBut.Name = "SnapshotBut";
@@ -264,10 +273,13 @@
 =======
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.SnapshotBut.Location = new System.Drawing.Point(4, 176);
             this.SnapshotBut.Margin = new System.Windows.Forms.Padding(4, 1, 1, 1);
             this.SnapshotBut.Name = "SnapshotBut";
             this.SnapshotBut.Size = new System.Drawing.Size(77, 33);
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -275,6 +287,8 @@
             this.SnapshotBut.Margin = new System.Windows.Forms.Padding(4, 1, 1, 1);
             this.SnapshotBut.Name = "SnapshotBut";
             this.SnapshotBut.Size = new System.Drawing.Size(77, 33);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -333,6 +347,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.ContTransAfterSnapshot.Location = new System.Drawing.Point(201, 296);
             this.ContTransAfterSnapshot.Margin = new System.Windows.Forms.Padding(1, 1, 4, 1);
             this.ContTransAfterSnapshot.Name = "ContTransAfterSnapshot";
@@ -340,10 +355,13 @@
 =======
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.ContTransAfterSnapshot.Location = new System.Drawing.Point(165, 176);
             this.ContTransAfterSnapshot.Margin = new System.Windows.Forms.Padding(1, 1, 4, 1);
             this.ContTransAfterSnapshot.Name = "ContTransAfterSnapshot";
             this.ContTransAfterSnapshot.Size = new System.Drawing.Size(215, 33);
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -351,6 +369,8 @@
             this.ContTransAfterSnapshot.Margin = new System.Windows.Forms.Padding(1, 1, 4, 1);
             this.ContTransAfterSnapshot.Name = "ContTransAfterSnapshot";
             this.ContTransAfterSnapshot.Size = new System.Drawing.Size(215, 33);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -370,6 +390,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.SaveImageBut.Location = new System.Drawing.Point(101, 296);
             this.SaveImageBut.Margin = new System.Windows.Forms.Padding(1);
             this.SaveImageBut.Name = "SaveImageBut";
@@ -377,10 +398,13 @@
 =======
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.SaveImageBut.Location = new System.Drawing.Point(83, 176);
             this.SaveImageBut.Margin = new System.Windows.Forms.Padding(1);
             this.SaveImageBut.Name = "SaveImageBut";
             this.SaveImageBut.Size = new System.Drawing.Size(80, 33);
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -388,6 +412,8 @@
             this.SaveImageBut.Margin = new System.Windows.Forms.Padding(1);
             this.SaveImageBut.Name = "SaveImageBut";
             this.SaveImageBut.Size = new System.Drawing.Size(80, 33);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -967,6 +993,9 @@
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.tableLayoutPanel4.Size = new System.Drawing.Size(384, 154);
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1118,6 +1147,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TrB_CurrentWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.TrB_CurrentWL, 6);
             this.TrB_CurrentWL.Location = new System.Drawing.Point(4, 182);
@@ -1128,6 +1158,8 @@
             this.TrB_CurrentWL.TickStyle = System.Windows.Forms.TickStyle.None;
             this.TrB_CurrentWL.Scroll += new System.EventHandler(this.TBCurrentWL_Scroll);
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1143,6 +1175,9 @@
             this.TrBCurrentWL.Scroll += new System.EventHandler(this.TBCurrentWL_Scroll);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1157,11 +1192,14 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TBFinishL.Location = new System.Drawing.Point(104, 477);
             this.TBFinishL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TBFinishL.Name = "TBFinishL";
             this.TBFinishL.Size = new System.Drawing.Size(92, 26);
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1172,6 +1210,9 @@
             this.TBFinishL.Size = new System.Drawing.Size(74, 22);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1187,11 +1228,14 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TBStepL.Location = new System.Drawing.Point(204, 477);
             this.TBStepL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TBStepL.Name = "TBStepL";
             this.TBStepL.Size = new System.Drawing.Size(92, 26);
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1202,6 +1246,9 @@
             this.TBStepL.Size = new System.Drawing.Size(74, 22);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1220,7 +1267,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TBStartL.Size = new System.Drawing.Size(92, 26);
+=======
+            this.TBStartL.Size = new System.Drawing.Size(74, 22);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.TBStartL.Size = new System.Drawing.Size(74, 22);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1265,7 +1316,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label4.Location = new System.Drawing.Point(204, 452);
+=======
+            this.label4.Location = new System.Drawing.Point(168, 263);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label4.Location = new System.Drawing.Point(168, 263);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1284,7 +1339,10 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1302,6 +1360,9 @@
             // 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1315,7 +1376,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label5.Location = new System.Drawing.Point(104, 452);
+=======
+            this.label5.Location = new System.Drawing.Point(86, 263);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label5.Location = new System.Drawing.Point(86, 263);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1337,6 +1402,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.BSetWL.Location = new System.Drawing.Point(304, 5);
             this.BSetWL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BSetWL.Name = "BSetWL";
@@ -1345,11 +1411,14 @@
 =======
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.BSetWL.Location = new System.Drawing.Point(250, 4);
             this.BSetWL.Margin = new System.Windows.Forms.Padding(4);
             this.BSetWL.Name = "BSetWL";
             this.tableLayoutPanel5.SetRowSpan(this.BSetWL, 2);
             this.BSetWL.Size = new System.Drawing.Size(130, 62);
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1358,6 +1427,8 @@
             this.BSetWL.Name = "BSetWL";
             this.tableLayoutPanel5.SetRowSpan(this.BSetWL, 2);
             this.BSetWL.Size = new System.Drawing.Size(130, 62);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1377,7 +1448,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label6.Size = new System.Drawing.Size(142, 40);
+=======
+            this.label6.Size = new System.Drawing.Size(115, 34);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label6.Size = new System.Drawing.Size(115, 34);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1397,6 +1472,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label21.Location = new System.Drawing.Point(254, 19);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
@@ -1404,10 +1480,13 @@
 =======
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.label21.Location = new System.Drawing.Point(209, 9);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(33, 17);
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1415,6 +1494,8 @@
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(33, 17);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1428,6 +1509,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TrBWLNumber.Location = new System.Drawing.Point(4, 240);
             this.TrBWLNumber.Margin = new System.Windows.Forms.Padding(4);
             this.TrBWLNumber.Name = "TrBWLNumber";
@@ -1435,10 +1517,13 @@
 =======
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.TrBWLNumber.Location = new System.Drawing.Point(4, 144);
             this.TrBWLNumber.Margin = new System.Windows.Forms.Padding(4);
             this.TrBWLNumber.Name = "TrBWLNumber";
             this.TrBWLNumber.Size = new System.Drawing.Size(238, 27);
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1446,6 +1531,8 @@
             this.TrBWLNumber.Margin = new System.Windows.Forms.Padding(4);
             this.TrBWLNumber.Name = "TrBWLNumber";
             this.TrBWLNumber.Size = new System.Drawing.Size(238, 27);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1464,7 +1551,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TBStartN.Size = new System.Drawing.Size(92, 26);
+=======
+            this.TBStartN.Size = new System.Drawing.Size(74, 22);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.TBStartN.Size = new System.Drawing.Size(74, 22);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1484,6 +1575,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TBFinishN.Location = new System.Drawing.Point(104, 594);
             this.TBFinishN.Margin = new System.Windows.Forms.Padding(4);
             this.TBFinishN.Name = "TBFinishN";
@@ -1491,10 +1583,13 @@
 =======
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.TBFinishN.Location = new System.Drawing.Point(86, 354);
             this.TBFinishN.Margin = new System.Windows.Forms.Padding(4);
             this.TBFinishN.Name = "TBFinishN";
             this.TBFinishN.Size = new System.Drawing.Size(74, 22);
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1502,6 +1597,8 @@
             this.TBFinishN.Margin = new System.Windows.Forms.Padding(4);
             this.TBFinishN.Name = "TBFinishN";
             this.TBFinishN.Size = new System.Drawing.Size(74, 22);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1515,6 +1612,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.textBox3.Location = new System.Drawing.Point(204, 594);
             this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
@@ -1522,10 +1620,13 @@
 =======
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.textBox3.Location = new System.Drawing.Point(168, 354);
             this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(74, 22);
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1533,6 +1634,8 @@
             this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(74, 22);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1558,7 +1661,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label24.Location = new System.Drawing.Point(104, 570);
+=======
+            this.label24.Location = new System.Drawing.Point(86, 333);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label24.Location = new System.Drawing.Point(86, 333);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1582,7 +1689,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label25.Location = new System.Drawing.Point(204, 570);
+=======
+            this.label25.Location = new System.Drawing.Point(168, 333);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label25.Location = new System.Drawing.Point(168, 333);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1605,6 +1716,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label13.Location = new System.Drawing.Point(304, 196);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
@@ -1612,10 +1724,13 @@
 =======
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.label13.Location = new System.Drawing.Point(250, 114);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(130, 17);
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1623,6 +1738,8 @@
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(130, 17);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1636,11 +1753,14 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label14.Location = new System.Drawing.Point(304, 597);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 7, 4, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(43, 20);
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1651,6 +1771,9 @@
             this.label14.Size = new System.Drawing.Size(130, 17);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1685,7 +1808,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+=======
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1724,6 +1851,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.tableLayoutPanel5.Controls.Add(this.TrB_CurrentWL, 0, 3);
             this.tableLayoutPanel5.Controls.Add(this.ChB_CircleTune, 0, 15);
             this.tableLayoutPanel5.Controls.Add(this.BStartS, 0, 14);
@@ -1734,6 +1862,8 @@
 =======
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.tableLayoutPanel5.Controls.Add(this.TrBCurrentWL, 0, 3);
             this.tableLayoutPanel5.Controls.Add(this.ChB_CircleTune, 0, 15);
             this.tableLayoutPanel5.Controls.Add(this.BStartS, 0, 14);
@@ -1741,6 +1871,7 @@
             this.tableLayoutPanel5.Controls.Add(this.TBwl, 3, 1);
             this.tableLayoutPanel5.Controls.Add(this.NUD_CurWL, 4, 0);
             this.tableLayoutPanel5.Controls.Add(this.label13, 0, 3);
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1751,6 +1882,8 @@
             this.tableLayoutPanel5.Controls.Add(this.TBwl, 3, 1);
             this.tableLayoutPanel5.Controls.Add(this.NUD_CurWL, 4, 0);
             this.tableLayoutPanel5.Controls.Add(this.label13, 0, 3);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1814,11 +1947,14 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label29.Location = new System.Drawing.Point(254, 68);
             this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(30, 40);
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1829,6 +1965,9 @@
             this.label29.Size = new System.Drawing.Size(27, 34);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1849,7 +1988,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.ChB_AutoSetWL.Size = new System.Drawing.Size(142, 108);
+=======
+            this.ChB_AutoSetWL.Size = new System.Drawing.Size(115, 62);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.ChB_AutoSetWL.Size = new System.Drawing.Size(115, 62);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1871,11 +2014,14 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label22.Location = new System.Drawing.Point(304, 479);
             this.label22.Margin = new System.Windows.Forms.Padding(4, 7, 4, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(31, 20);
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1886,6 +2032,9 @@
             this.label22.Size = new System.Drawing.Size(130, 17);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1901,6 +2050,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label20.Location = new System.Drawing.Point(304, 255);
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
@@ -1908,10 +2058,13 @@
 =======
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.label20.Location = new System.Drawing.Point(250, 149);
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(130, 17);
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -1919,6 +2072,8 @@
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(130, 17);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1961,6 +2116,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.NUD_CurrentWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.NUD_CurrentWL, 2);
             this.NUD_CurrentWL.DecimalPlaces = 2;
@@ -1972,6 +2128,8 @@
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.NUD_CurWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_CurWL.DecimalPlaces = 2;
             this.NUD_CurWL.Location = new System.Drawing.Point(164, 6);
@@ -1979,6 +2137,9 @@
             this.NUD_CurWL.Maximum = new decimal(new int[] {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1988,6 +2149,7 @@
             0,
             0,
             0});
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -2010,12 +2172,17 @@
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.NUD_CurWL.Name = "NUD_CurWL";
             this.NUD_CurWL.Size = new System.Drawing.Size(41, 22);
             this.NUD_CurWL.TabIndex = 85;
             this.NUD_CurWL.ValueChanged += new System.EventHandler(this.NUD_CurWL_ValueChanged_1);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -2135,10 +2302,16 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 151F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(2778, 1271);
+=======
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 121F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1801, 814);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 121F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
@@ -2289,8 +2462,12 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurrentWL)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurrentWN)).EndInit();
+=======
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).EndInit();
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).EndInit();
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2

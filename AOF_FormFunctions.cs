@@ -34,7 +34,12 @@ namespace ICSpec
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 L_ReqDevName.Text = Filter.Ask_required_dev_file();
+=======
+
+                //L_RequiredDevName.Text = Filter.Ask_required_dev_file();
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 
                 //L_RequiredDevName.Text = Filter.Ask_required_dev_file();
@@ -54,6 +59,7 @@ namespace ICSpec
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 NUD_CurrentWL.Minimum = (decimal)Filter.WL_Min;
                 TrB_CurrentWL.Minimum = (int)(Filter.WL_Min * AO_WL_precision);
                 NUD_CurrentWL.Maximum = (decimal)Filter.WL_Max;
@@ -64,6 +70,8 @@ namespace ICSpec
              /*   ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
                 Pan_SweepControls.Enabled = Filter.is_inSweepMode;
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
@@ -79,6 +87,9 @@ namespace ICSpec
                 //Pan_SweepControls.Enabled = Filter.is_inSweepMode;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -97,9 +108,14 @@ namespace ICSpec
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
                 NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;*/
 
+=======
+                //NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
+                //NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
                 //NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
                 //NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
@@ -128,8 +144,13 @@ namespace ICSpec
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             NUD_CurrentWL.Value = pwl;
             TrB_CurrentWL.Value = pwl;
+=======
+            NUD_CurWL.Value = pwl;
+            TrBCurrentWL.Value = pwl;
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             NUD_CurWL.Value = pwl;
             TrBCurrentWL.Value = pwl;
