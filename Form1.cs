@@ -10,6 +10,9 @@ using System.IO;
 using System.Threading;
 using TIS.Imaging;
 using TIS.Imaging.VCDHelpers;
+using ICSpec;
+using static ICSpec.ServiceFunctions;
+using static ICSpec.AO_Devices;
 
 namespace ICSpec
 {
@@ -51,6 +54,31 @@ namespace ICSpec
         string WayToCurv_exp = "";
         string WayToCurv_wl = "";
         float[] WLs_toTune = null;
+
+
+        // Все для работы АО
+        bool AO_WL_Controlled_byslider = false;
+        double AO_WL_precision = 100.0;
+        double AO_HZ_precision = 1000.0;
+
+        //Все для sweep
+        double AO_FreqDeviation_Max_byTime = 0;
+        double AO_FreqDeviation = 0.5;
+        double AO_TimeDeviation = 10;
+        bool AO_Sweep_Needed = false;
+        float[,] AO_All_CurveSweep_Params = new float[0, 0];
+        bool AO_Sweep_CurveTuning_isEnabled = false;
+        bool AO_Sweep_CurveTuning_inProgress = false;
+        bool AO_Sweep_CurveTuning_StopFlag = false;
+
+        List<object> ParamList_bkp = new List<object>();
+        List<object> ParamList_final = new List<object>();
+
+        UI.Log.Logger Log;
+        AO_Filter Filter = null;
+        System.Diagnostics.Stopwatch timer_for_sweep = new System.Diagnostics.Stopwatch();
+
+        string AO_ProgramSweepCFG_filename = "AOData.txt";
 
         public Form1()
         {
@@ -314,7 +342,30 @@ namespace ICSpec
 
         private void BDevOpen_Click(object sender, EventArgs e)
         {
-            OpenDevSearcher();
+            string AO_DEV_loaded = null;
+            string AO_DEV_loaded_fullPath = null;
+
+            var DR = OpenDevSearcher(ref AO_DEV_loaded, ref AO_DEV_loaded_fullPath);
+
+            if (DR == DialogResult.OK)
+                try
+                {
+                    var Status = Filter.Read_dev_file(AO_DEV_loaded_fullPath);
+                    if (Status == 0)
+                        Log.Message(AO_DEV_loaded_fullPath + " - файл считан успешно!");
+                    else
+                        throw new Exception(Filter.Implement_Error(Status));
+                }
+                catch (Exception exc)
+                {
+                    Log.Message("Произошла ошибка при прочтении .dev файла");
+                    Log.Error("ORIGINAL:" + exc.Message);
+                    return;
+                }
+            else return;
+
+            AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
+            InitializeComponents_byVariables();
         }
 
         private void BConnect_Click(object sender, EventArgs e)
@@ -324,7 +375,6 @@ namespace ICSpec
 
         private void BPower_Click(object sender, EventArgs e)
         {
-            PowerAOF();
         }
 
         private void BFolderOpen_Click(object sender, EventArgs e)
@@ -368,7 +418,36 @@ namespace ICSpec
 
         private void BSetWL_Click(object sender, EventArgs e)
         {
-            BSetWLOnClick();
+
+            float data_CurrentWL = (float)(TrBCurrentWL.Value / AO_WL_precision);
+            NUD_CurWL.Value = (decimal)(data_CurrentWL);
+
+            if (AO_Sweep_Needed)
+            {
+                try
+                {
+                    ReSweep(data_CurrentWL);
+                }
+                catch (Exception exc)
+                {
+                    Log.Error(exc.Message);
+                }
+            }
+            else
+            {
+                try
+                {
+                    if (Filter.is_inSweepMode) Filter.Set_Sweep_off();
+                    System.Threading.Thread.Sleep(50);
+                    var state = Filter.Set_Wl(data_CurrentWL);
+                    if (state != 0) throw new Exception(Filter.Implement_Error(state));
+                    Log.Message("Перестройка на длину волны " + data_CurrentWL.ToString() + " нм прошла успешно!");
+                }
+                catch (Exception exc)
+                {
+                    Log.Error(exc.Message);
+                }
+            }
         }
 
         private void BSetROI_Click(object sender, EventArgs e)
@@ -706,28 +785,11 @@ namespace ICSpec
 
         private void ChBAutoSetWL_CheckedChanged(object sender, EventArgs e)
         {
-            if(ChB_AutoSetWL.Checked)
-            {
-                AutoSetActivated = true; BSetWL.Enabled = false;
-            }
-            else
-            {
-                AutoSetActivated = false; BSetWL.Enabled = true;
-            }
+            AO_WL_Controlled_byslider = ChB_AutoSetWL.Checked;
         }
 
         private void ChBActivateAOFSimulator_CheckedChanged(object sender, EventArgs e)
         {
-            if(ChBActivateAOFSimulator.Checked)
-            {
-                AOFSimulatorActivated = true;
-                if(AOFisON) GrBAOFWlSet.Enabled = true;
-            }
-            else
-            {
-                AOFSimulatorActivated = false;
-                GrBAOFWlSet.Enabled = false;
-            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -929,6 +991,74 @@ namespace ICSpec
             try { FormatAdaptation(); } catch { }
             CreateAttachmentFactor(ref AttachmentFactor, LBConsole);
 
+        }
+
+        private void ChB_Power_CheckedChanged(object sender, EventArgs e)
+        {
+
+            bool newAOFPowerStatus = ChB_Power.Checked;
+            if (newAOFPowerStatus)
+            {
+                try
+                {
+                    var state = Filter.PowerOn();
+                    if (state == 0)
+                    {
+                        Log.Message("Активация АОФ успешна!");
+                        GrBAOFWlSet.Enabled = true;
+                    }
+                    else throw new Exception(Filter.Implement_Error(state));
+                }
+                catch (Exception exc)
+                {
+                    Log.Message("Возникла проблема при активации АОФ.");
+                    Log.Error(exc.Message);
+                }
+            }
+            else
+            {
+                GrBAOFWlSet.Enabled = false;
+                Filter.PowerOff();
+            }
+        }
+
+        private void NUD_CurWL_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void CurrentWL_Change()
+        {
+            float data_CurrentWL = (float)(TrBCurrentWL.Value / AO_WL_precision);
+            if (AO_WL_Controlled_byslider)
+            {
+                if (AO_Sweep_Needed)
+                {
+                    /* if (!timer_for_sweep.IsRunning || timer_for_sweep.ElapsedMilliseconds > 500)
+                     {
+                         timer_for_sweep.Restart();
+                         ReSweep(data_CurrentWL);
+                     }*/
+                }
+                else
+                {
+                    try
+                    {
+                        var state = Filter.Set_Wl(data_CurrentWL);
+                        if (state != 0) throw new Exception(Filter.Implement_Error(state));
+                        Log.Message("Перестройка на длину волны " + data_CurrentWL.ToString() + " нм прошла успешно!");
+                    }
+                    catch (Exception exc)
+                    {
+                        Log.Error(exc.Message);
+                    }
+                }
+            }
+        }
+
+        private void NUD_CurWL_ValueChanged_1(object sender, EventArgs e)
+        {
+            TrBCurrentWL.Value = (int)(NUD_CurWL.Value * (decimal)AO_WL_precision);
+            CurrentWL_Change();
         }
 
         private void icImagingControl1_OverlayUpdate(object sender, ICImagingControl.OverlayUpdateEventArgs e)

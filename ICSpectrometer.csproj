@@ -86,6 +86,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Config 1|AnyCPU'">
     <OutputPath>bin\Config 1\</OutputPath>
@@ -138,6 +139,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AOF.cs" />
+    <Compile Include="AOF_FormFunctions.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
