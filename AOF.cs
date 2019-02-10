@@ -142,10 +142,6 @@ namespace ICSpec
 
     }
 
-
-
-
-
     public static class AO_Devices
     {
         abstract public class AO_Filter : IDisposable
