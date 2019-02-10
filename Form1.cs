@@ -86,6 +86,17 @@ namespace ICSpec
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            //this.Text = "Перестраиваемый источник " + version;
+            Log = new UI.Log.Logger(LBConsole);
+            Log.Message(" - текущее время");
+            Filter = ICSpec.AO_Devices.Find_and_connect_AnyFilter();
+            if (Filter.FilterType == FilterTypes.Emulator) { Log.Message("ПРЕДУПРЕЖДЕНИЕ: Не обнаружены подключенные АО фильтры. Фильтр будет эмулирован."); }
+            else { Log.Message("Обнаружен подключенный АО фильтр. Тип фильтра: " + Filter.FilterType.ToString()); }
+            ChB_Power.Enabled = false;
+            //GB_AllAOFControls.Enabled = false;
+            //ReadData();
+            //tests();
             this.KeyPreview = true;
 
            /* int st = 500; int fn = 610;
@@ -419,8 +430,8 @@ namespace ICSpec
         private void BSetWL_Click(object sender, EventArgs e)
         {
 
-            float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
-            NUD_CurrentWL.Value = (decimal)(data_CurrentWL);
+            float data_CurrentWL = (float)(TrBCurrentWL.Value / AO_WL_precision);
+            NUD_CurWL.Value = (decimal)(data_CurrentWL);
 
             if (AO_Sweep_Needed)
             {
@@ -1028,7 +1039,7 @@ namespace ICSpec
         }
         private void CurrentWL_Change()
         {
-            float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
+            float data_CurrentWL = (float)(TrBCurrentWL.Value / AO_WL_precision);
             if (AO_WL_Controlled_byslider)
             {
                 if (AO_Sweep_Needed)
@@ -1057,8 +1068,18 @@ namespace ICSpec
 
         private void NUD_CurWL_ValueChanged_1(object sender, EventArgs e)
         {
-            TrB_CurrentWL.Value = (int)(NUD_CurrentWL.Value * (decimal)AO_WL_precision);
+            TrBCurrentWL.Value = (int)(NUD_CurWL.Value * (decimal)AO_WL_precision);
             CurrentWL_Change();
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
 
         private void icImagingControl1_OverlayUpdate(object sender, ICImagingControl.OverlayUpdateEventArgs e)

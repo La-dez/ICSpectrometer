@@ -11,6 +11,7 @@ using System.Threading;
 using TIS.Imaging;
 using TIS.Imaging.VCDHelpers;
 using System.Diagnostics;
+using static ICSpec.AO_Devices;
 
 namespace ICSpec
 {
@@ -534,7 +535,7 @@ namespace ICSpec
             {
                 try
                 {
-                    codeerr = AOF.AOM_SetWL(wlming,AOFSimulatorActivated);
+                    codeerr = Filter.Set_Wl(wlming);//,AOFSimulatorActivated);
                     if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
                 }
                 catch (Exception ex)
@@ -547,7 +548,7 @@ namespace ICSpec
                     wlcurrentg = wlming + i * wlstepg;
                     try
                     {
-                        codeerr = AOF.AOM_SetWL(wlcurrentg, AOFSimulatorActivated);
+                        codeerr = Filter.Set_Wl(wlcurrentg);//, AOFSimulatorActivated);
                         if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
                     }
                     catch (Exception ex)
@@ -574,7 +575,7 @@ namespace ICSpec
             {
                 try
                 {
-                    codeerr = AOF.AOM_SetWL(wlming, AOFSimulatorActivated);
+                    codeerr = Filter.Set_Wl(wlming);//, AOFSimulatorActivated);
                     if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
                 }
                 catch (Exception ex)
@@ -589,7 +590,7 @@ namespace ICSpec
                     wlcurrentg = pStartWL + i * wlstepg;
                     try
                     {
-                        codeerr = AOF.AOM_SetWL(wlcurrentg, AOFSimulatorActivated);
+                        codeerr = Filter.Set_Wl(wlcurrentg);//, AOFSimulatorActivated);
                         if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
                     }
                     catch (Exception ex)
@@ -604,7 +605,7 @@ namespace ICSpec
                 }
                 try
                 {
-                    codeerr = AOF.AOM_SetWL(pFinishWL, AOFSimulatorActivated);
+                    codeerr = Filter.Set_Wl(pFinishWL);//, AOFSimulatorActivated);
                     if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
                     curfhs.SnapImage();
                     rval[pSteps] = curfhs.LastAcquiredBuffer;
@@ -697,7 +698,8 @@ namespace ICSpec
             {
                 try
                 {
-                    codeerr = AOF.AOM_SetWL(wlming, AOFSimulatorActivated);
+                    codeerr = Filter.Set_Wl(wlming);//, AOFSimulatorActivated);
+                    //ICSpec.AO_Devices.AO_Filter.Set_Wl(allvalues[i], AOFSimulatorActivated);   ???????
                     if (IsNeeded_ExpCurve)
                     {
                         LoadExposure(ref AbsValExp, exps[0]);
@@ -727,7 +729,10 @@ namespace ICSpec
                         LoadExposure(ref AbsValExp, exps[i]);
 
                     Stopwatch swl = new Stopwatch(); swl.Start();
-                    AOF.AOM_SetWL(allvalues[i], AOFSimulatorActivated);
+                    //AOF.AOM_SetWL(allvalues[i], AOFSimulatorActivated);
+                    Filter.Set_Wl(allvalues[i]);//, AOFSimulatorActivated);
+
+
                     swl.Stop();
                     Times2SetWL.Add(swl.Elapsed.TotalMilliseconds);
 
@@ -1106,7 +1111,7 @@ namespace ICSpec
             try
             {
                 TrBWLNumber.Value = (int)ConvertWL2WN(wcurrent);
-                codeerr = AOF.AOM_SetWL(wcurrent, AOFSimulatorActivated);
+                    codeerr = Filter.Set_Wl(wcurrent);//, AOFSimulatorActivated);
                 if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); }
                 else LogMessage(NUD_CurrentWL.Text + " wave lenght has been set!");
             }
@@ -1126,7 +1131,7 @@ namespace ICSpec
             if (AutoSetActivated)
                 try
                 {
-                    codeerr = AOF.AOM_SetWL(ConvertWN2WL(wcurrentN), AOFSimulatorActivated);
+                    codeerr = Filter.Set_Wl(ConvertWN2WL(wcurrentN));//, AOFSimulatorActivated);
                     if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); }
                     else LogMessage(NUD_CurrentWL.Text + " wave lenght has been set!");
                 }
@@ -1167,7 +1172,11 @@ namespace ICSpec
             int codeerr = 0;
             try
             {
+<<<<<<< HEAD
+                codeerr = Filter.Set_Wl(Convert.ToInt32(TBwl.Text));//, AOFSimulatorActivated);
+=======
                 codeerr = AOF.AOM_SetWL(Convert.ToInt32(NUD_CurrentWL.Text), AOFSimulatorActivated);
+>>>>>>> e04d022e9d5fa106c754fe178a6a65bc917fcaec
                 if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); }
                 else LogMessage(NUD_CurrentWL.Text + " wave lenght has been set!");
             }
@@ -1966,6 +1975,21 @@ namespace ICSpec
             }
             return bResult;
         }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // Form1
+            // 
+            this.ClientSize = new System.Drawing.Size(282, 253);
+            this.Name = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.ResumeLayout(false);
+
+        }
+
+        
         int GetPartial_scanX_OffsetValue(TIS.Imaging.ICImagingControl ic)
         {
             if (ic.DeviceValid == true)

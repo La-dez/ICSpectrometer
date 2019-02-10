@@ -32,11 +32,26 @@ namespace ICSpec
 
                 ChB_AutoSetWL.Checked = AO_WL_Controlled_byslider;
 
+<<<<<<< HEAD
+                //L_RequiredDevName.Text = Filter.Ask_required_dev_file();
+=======
                 L_ReqDevName.Text = Filter.Ask_required_dev_file();
+>>>>>>> e04d022e9d5fa106c754fe178a6a65bc917fcaec
                 L_RealDevName.Text = Filter.Ask_loaded_dev_file();
                 float data_CurWL = (Filter.WL_Max + Filter.WL_Min) / 2;
                 Filter.Set_Wl(data_CurWL);
 
+<<<<<<< HEAD
+                NUD_CurWL.Minimum = (decimal)Filter.WL_Min;
+                TrBCurrentWL.Minimum = (int)(Filter.WL_Min * AO_WL_precision);
+                NUD_CurWL.Maximum = (decimal)Filter.WL_Max;
+                TrBCurrentWL.Maximum = (int)(Filter.WL_Max * AO_WL_precision);
+                NUD_CurWL.Value = (decimal)data_CurWL;
+                TrBCurrentWL.Value = (int)(data_CurWL * AO_WL_precision);
+
+                //ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
+                //Pan_SweepControls.Enabled = Filter.is_inSweepMode;
+=======
                 NUD_CurrentWL.Minimum = (decimal)Filter.WL_Min;
                 TrB_CurrentWL.Minimum = (int)(Filter.WL_Min * AO_WL_precision);
                 NUD_CurrentWL.Maximum = (decimal)Filter.WL_Max;
@@ -46,18 +61,24 @@ namespace ICSpec
 
              /*   ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
                 Pan_SweepControls.Enabled = Filter.is_inSweepMode;
+>>>>>>> e04d022e9d5fa106c754fe178a6a65bc917fcaec
 
                 var AOFWind_FreqDeviation_bkp = AO_FreqDeviation; // ибо AO_FreqDeviation изменяется, если изменяются максимумы
-                NUD_FreqDeviation.Minimum = (decimal)Filter.AO_FreqDeviation_Min;
-                NUD_FreqDeviation.Maximum = (decimal)
-                    (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);
+                //NUD_FreqDeviation.Minimum = (decimal)Filter.AO_FreqDeviation_Min;
+                //NUD_FreqDeviation.Maximum = (decimal)
+                //    (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);
 
                 var AOFWind_TimeDeviation_bkp = AO_TimeDeviation; // ибо AOFWind_TimeDeviation изменяется, если изменяются максимумы
-                NUD_TimeFdev.Minimum = (decimal)Filter.AO_TimeDeviation_Min;
-                NUD_TimeFdev.Maximum = (decimal)Filter.AO_TimeDeviation_Max;
+                //NUD_TimeFdev.Minimum = (decimal)Filter.AO_TimeDeviation_Min;
+                //NUD_TimeFdev.Maximum = (decimal)Filter.AO_TimeDeviation_Max;
 
+<<<<<<< HEAD
+                //NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
+                //NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
+=======
                 NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
                 NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;*/
+>>>>>>> e04d022e9d5fa106c754fe178a6a65bc917fcaec
 
                 ChB_Power.Enabled = true;
 
@@ -71,8 +92,13 @@ namespace ICSpec
 
         private void SetWL_everywhere(int pwl)
         {
+<<<<<<< HEAD
+            NUD_CurWL.Value = pwl;
+            TrBCurrentWL.Value = pwl;
+=======
             NUD_CurrentWL.Value = pwl;
             TrB_CurrentWL.Value = pwl;
+>>>>>>> e04d022e9d5fa106c754fe178a6a65bc917fcaec
         }
         private void ReSweep(float p_data_CurrentWL)
         {
