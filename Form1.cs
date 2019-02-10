@@ -106,7 +106,7 @@ namespace ICSpec
                     if (!icImagingControl1.DeviceValid)
                     {
                         MessageBox.Show("Не было выбрано ни одного устройства", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //Application.Exit();
+                        Application.Exit();
                     }
                     else
                     {
