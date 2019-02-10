@@ -126,8 +126,12 @@
             this.ChB_CircleTune = new System.Windows.Forms.CheckBox();
             this.ChB_LoadWLCurve = new System.Windows.Forms.CheckBox();
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.NUD_CurrentWL = new System.Windows.Forms.NumericUpDown();
             this.NUD_CurrentWN = new System.Windows.Forms.NumericUpDown();
+=======
+            this.NUD_CurWL = new System.Windows.Forms.NumericUpDown();
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.NUD_CurWL = new System.Windows.Forms.NumericUpDown();
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -162,8 +166,12 @@
             this.GrBAOFWlSet.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
 <<<<<<< HEAD
+<<<<<<< HEAD
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurrentWL)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurrentWN)).BeginInit();
+=======
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).BeginInit();
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).BeginInit();
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -239,10 +247,17 @@
             this.tableLayoutPanel5.SetColumnSpan(this.SnapshotBut, 2);
             this.SnapshotBut.Dock = System.Windows.Forms.DockStyle.Fill;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.SnapshotBut.Location = new System.Drawing.Point(4, 296);
             this.SnapshotBut.Margin = new System.Windows.Forms.Padding(4, 1, 1, 1);
             this.SnapshotBut.Name = "SnapshotBut";
             this.SnapshotBut.Size = new System.Drawing.Size(95, 57);
+=======
+            this.SnapshotBut.Location = new System.Drawing.Point(4, 176);
+            this.SnapshotBut.Margin = new System.Windows.Forms.Padding(4, 1, 1, 1);
+            this.SnapshotBut.Name = "SnapshotBut";
+            this.SnapshotBut.Size = new System.Drawing.Size(77, 33);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.SnapshotBut.Location = new System.Drawing.Point(4, 176);
             this.SnapshotBut.Margin = new System.Windows.Forms.Padding(4, 1, 1, 1);
@@ -302,10 +317,17 @@
             this.tableLayoutPanel5.SetColumnSpan(this.ContTransAfterSnapshot, 3);
             this.ContTransAfterSnapshot.Dock = System.Windows.Forms.DockStyle.Fill;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.ContTransAfterSnapshot.Location = new System.Drawing.Point(201, 296);
             this.ContTransAfterSnapshot.Margin = new System.Windows.Forms.Padding(1, 1, 4, 1);
             this.ContTransAfterSnapshot.Name = "ContTransAfterSnapshot";
             this.ContTransAfterSnapshot.Size = new System.Drawing.Size(229, 57);
+=======
+            this.ContTransAfterSnapshot.Location = new System.Drawing.Point(165, 176);
+            this.ContTransAfterSnapshot.Margin = new System.Windows.Forms.Padding(1, 1, 4, 1);
+            this.ContTransAfterSnapshot.Name = "ContTransAfterSnapshot";
+            this.ContTransAfterSnapshot.Size = new System.Drawing.Size(215, 33);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.ContTransAfterSnapshot.Location = new System.Drawing.Point(165, 176);
             this.ContTransAfterSnapshot.Margin = new System.Windows.Forms.Padding(1, 1, 4, 1);
@@ -326,10 +348,17 @@
             this.tableLayoutPanel5.SetColumnSpan(this.SaveImageBut, 2);
             this.SaveImageBut.Dock = System.Windows.Forms.DockStyle.Fill;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.SaveImageBut.Location = new System.Drawing.Point(101, 296);
             this.SaveImageBut.Margin = new System.Windows.Forms.Padding(1);
             this.SaveImageBut.Name = "SaveImageBut";
             this.SaveImageBut.Size = new System.Drawing.Size(98, 57);
+=======
+            this.SaveImageBut.Location = new System.Drawing.Point(83, 176);
+            this.SaveImageBut.Margin = new System.Windows.Forms.Padding(1);
+            this.SaveImageBut.Name = "SaveImageBut";
+            this.SaveImageBut.Size = new System.Drawing.Size(80, 33);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.SaveImageBut.Location = new System.Drawing.Point(83, 176);
             this.SaveImageBut.Margin = new System.Windows.Forms.Padding(1);
@@ -904,7 +933,11 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.tableLayoutPanel4.Size = new System.Drawing.Size(434, 192);
+=======
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(384, 154);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.tableLayoutPanel4.Size = new System.Drawing.Size(384, 154);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1054,6 +1087,7 @@
             // TrBCurrentWL
             // 
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TrB_CurrentWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.TrB_CurrentWL, 6);
             this.TrB_CurrentWL.Location = new System.Drawing.Point(4, 182);
@@ -1064,6 +1098,8 @@
             this.TrB_CurrentWL.TickStyle = System.Windows.Forms.TickStyle.None;
             this.TrB_CurrentWL.Scroll += new System.EventHandler(this.TBCurrentWL_Scroll);
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.TrBCurrentWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.TrBCurrentWL, 6);
             this.TrBCurrentWL.Location = new System.Drawing.Point(4, 109);
@@ -1073,6 +1109,9 @@
             this.TrBCurrentWL.TabIndex = 16;
             this.TrBCurrentWL.TickStyle = System.Windows.Forms.TickStyle.None;
             this.TrBCurrentWL.Scroll += new System.EventHandler(this.TBCurrentWL_Scroll);
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             // 
             // TBFinishL
@@ -1081,15 +1120,21 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.TBFinishL, 2);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TBFinishL.Location = new System.Drawing.Point(104, 477);
             this.TBFinishL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TBFinishL.Name = "TBFinishL";
             this.TBFinishL.Size = new System.Drawing.Size(92, 26);
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.TBFinishL.Location = new System.Drawing.Point(86, 284);
             this.TBFinishL.Margin = new System.Windows.Forms.Padding(4);
             this.TBFinishL.Name = "TBFinishL";
             this.TBFinishL.Size = new System.Drawing.Size(74, 22);
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.TBFinishL.TabIndex = 8;
             // 
@@ -1099,15 +1144,21 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.TBStepL, 2);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TBStepL.Location = new System.Drawing.Point(204, 477);
             this.TBStepL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TBStepL.Name = "TBStepL";
             this.TBStepL.Size = new System.Drawing.Size(92, 26);
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.TBStepL.Location = new System.Drawing.Point(168, 284);
             this.TBStepL.Margin = new System.Windows.Forms.Padding(4);
             this.TBStepL.Name = "TBStepL";
             this.TBStepL.Size = new System.Drawing.Size(74, 22);
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.TBStepL.TabIndex = 7;
             // 
@@ -1120,7 +1171,11 @@
             this.TBStartL.Margin = new System.Windows.Forms.Padding(4);
             this.TBStartL.Name = "TBStartL";
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TBStartL.Size = new System.Drawing.Size(92, 26);
+=======
+            this.TBStartL.Size = new System.Drawing.Size(74, 22);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.TBStartL.Size = new System.Drawing.Size(74, 22);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1157,7 +1212,11 @@
             this.label4.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label4, 2);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label4.Location = new System.Drawing.Point(204, 452);
+=======
+            this.label4.Location = new System.Drawing.Point(168, 263);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label4.Location = new System.Drawing.Point(168, 263);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1168,7 +1227,10 @@
             this.label4.Text = "Step:";
             // 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             // TBwl
             // 
             this.TBwl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -1180,6 +1242,9 @@
             this.TBwl.TabIndex = 6;
             this.TBwl.TextChanged += new System.EventHandler(this.TBwl_TextChanged);
             // 
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             // label5
             // 
@@ -1187,7 +1252,11 @@
             this.label5.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label5, 2);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label5.Location = new System.Drawing.Point(104, 452);
+=======
+            this.label5.Location = new System.Drawing.Point(86, 263);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label5.Location = new System.Drawing.Point(86, 263);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1201,11 +1270,19 @@
             // 
             this.BSetWL.Dock = System.Windows.Forms.DockStyle.Fill;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.BSetWL.Location = new System.Drawing.Point(304, 5);
             this.BSetWL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BSetWL.Name = "BSetWL";
             this.tableLayoutPanel5.SetRowSpan(this.BSetWL, 2);
             this.BSetWL.Size = new System.Drawing.Size(126, 108);
+=======
+            this.BSetWL.Location = new System.Drawing.Point(250, 4);
+            this.BSetWL.Margin = new System.Windows.Forms.Padding(4);
+            this.BSetWL.Name = "BSetWL";
+            this.tableLayoutPanel5.SetRowSpan(this.BSetWL, 2);
+            this.BSetWL.Size = new System.Drawing.Size(130, 62);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.BSetWL.Location = new System.Drawing.Point(250, 4);
             this.BSetWL.Margin = new System.Windows.Forms.Padding(4);
@@ -1227,7 +1304,11 @@
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label6.Size = new System.Drawing.Size(142, 40);
+=======
+            this.label6.Size = new System.Drawing.Size(115, 34);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label6.Size = new System.Drawing.Size(115, 34);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1239,10 +1320,17 @@
             this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label21.AutoSize = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label21.Location = new System.Drawing.Point(254, 19);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(42, 20);
+=======
+            this.label21.Location = new System.Drawing.Point(209, 9);
+            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(33, 17);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label21.Location = new System.Drawing.Point(209, 9);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -1257,10 +1345,17 @@
             this.TrBWLNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.TrBWLNumber, 6);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TrBWLNumber.Location = new System.Drawing.Point(4, 240);
             this.TrBWLNumber.Margin = new System.Windows.Forms.Padding(4);
             this.TrBWLNumber.Name = "TrBWLNumber";
             this.TrBWLNumber.Size = new System.Drawing.Size(292, 51);
+=======
+            this.TrBWLNumber.Location = new System.Drawing.Point(4, 144);
+            this.TrBWLNumber.Margin = new System.Windows.Forms.Padding(4);
+            this.TrBWLNumber.Name = "TrBWLNumber";
+            this.TrBWLNumber.Size = new System.Drawing.Size(238, 27);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.TrBWLNumber.Location = new System.Drawing.Point(4, 144);
             this.TrBWLNumber.Margin = new System.Windows.Forms.Padding(4);
@@ -1280,7 +1375,11 @@
             this.TBStartN.Margin = new System.Windows.Forms.Padding(4);
             this.TBStartN.Name = "TBStartN";
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TBStartN.Size = new System.Drawing.Size(92, 26);
+=======
+            this.TBStartN.Size = new System.Drawing.Size(74, 22);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.TBStartN.Size = new System.Drawing.Size(74, 22);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1292,10 +1391,17 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.TBFinishN, 2);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.TBFinishN.Location = new System.Drawing.Point(104, 594);
             this.TBFinishN.Margin = new System.Windows.Forms.Padding(4);
             this.TBFinishN.Name = "TBFinishN";
             this.TBFinishN.Size = new System.Drawing.Size(92, 26);
+=======
+            this.TBFinishN.Location = new System.Drawing.Point(86, 354);
+            this.TBFinishN.Margin = new System.Windows.Forms.Padding(4);
+            this.TBFinishN.Name = "TBFinishN";
+            this.TBFinishN.Size = new System.Drawing.Size(74, 22);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.TBFinishN.Location = new System.Drawing.Point(86, 354);
             this.TBFinishN.Margin = new System.Windows.Forms.Padding(4);
@@ -1310,10 +1416,17 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.textBox3, 2);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.textBox3.Location = new System.Drawing.Point(204, 594);
             this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(92, 26);
+=======
+            this.textBox3.Location = new System.Drawing.Point(168, 354);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(74, 22);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.textBox3.Location = new System.Drawing.Point(168, 354);
             this.textBox3.Margin = new System.Windows.Forms.Padding(4);
@@ -1340,7 +1453,11 @@
             this.label24.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label24, 2);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label24.Location = new System.Drawing.Point(104, 570);
+=======
+            this.label24.Location = new System.Drawing.Point(86, 333);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label24.Location = new System.Drawing.Point(86, 333);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1356,7 +1473,11 @@
             this.label25.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label25, 2);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label25.Location = new System.Drawing.Point(204, 570);
+=======
+            this.label25.Location = new System.Drawing.Point(168, 333);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label25.Location = new System.Drawing.Point(168, 333);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1371,10 +1492,17 @@
             this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label13.Location = new System.Drawing.Point(304, 196);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(126, 20);
+=======
+            this.label13.Location = new System.Drawing.Point(250, 114);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(130, 17);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label13.Location = new System.Drawing.Point(250, 114);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -1389,15 +1517,21 @@
             this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label14.AutoSize = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label14.Location = new System.Drawing.Point(304, 597);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 7, 4, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(43, 20);
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.label14.Location = new System.Drawing.Point(250, 359);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(130, 17);
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.label14.TabIndex = 34;
             this.label14.Text = "1/cm";
@@ -1426,7 +1560,11 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+=======
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1457,6 +1595,7 @@
             this.tableLayoutPanel5.Controls.Add(this.TrBWLNumber, 0, 4);
             this.tableLayoutPanel5.Controls.Add(this.label20, 6, 4);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.tableLayoutPanel5.Controls.Add(this.TrB_CurrentWL, 0, 3);
             this.tableLayoutPanel5.Controls.Add(this.ChB_CircleTune, 0, 15);
             this.tableLayoutPanel5.Controls.Add(this.BStartS, 0, 14);
@@ -1464,6 +1603,15 @@
             this.tableLayoutPanel5.Controls.Add(this.label13, 6, 3);
             this.tableLayoutPanel5.Controls.Add(this.NUD_CurrentWL, 3, 0);
             this.tableLayoutPanel5.Controls.Add(this.NUD_CurrentWN, 3, 1);
+=======
+            this.tableLayoutPanel5.Controls.Add(this.TrBCurrentWL, 0, 3);
+            this.tableLayoutPanel5.Controls.Add(this.ChB_CircleTune, 0, 15);
+            this.tableLayoutPanel5.Controls.Add(this.BStartS, 0, 14);
+            this.tableLayoutPanel5.Controls.Add(this.ChB_LoadWLCurve, 0, 13);
+            this.tableLayoutPanel5.Controls.Add(this.TBwl, 3, 1);
+            this.tableLayoutPanel5.Controls.Add(this.NUD_CurWL, 4, 0);
+            this.tableLayoutPanel5.Controls.Add(this.label13, 0, 3);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.tableLayoutPanel5.Controls.Add(this.TrBCurrentWL, 0, 3);
             this.tableLayoutPanel5.Controls.Add(this.ChB_CircleTune, 0, 15);
@@ -1531,15 +1679,21 @@
             this.label29.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label29.AutoSize = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label29.Location = new System.Drawing.Point(254, 68);
             this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(30, 40);
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.label29.Location = new System.Drawing.Point(209, 35);
             this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(27, 34);
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.label29.TabIndex = 53;
             this.label29.Text = "1/cm";
@@ -1554,7 +1708,11 @@
             this.ChB_AutoSetWL.Name = "ChB_AutoSetWL";
             this.tableLayoutPanel5.SetRowSpan(this.ChB_AutoSetWL, 2);
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.ChB_AutoSetWL.Size = new System.Drawing.Size(142, 108);
+=======
+            this.ChB_AutoSetWL.Size = new System.Drawing.Size(115, 62);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.ChB_AutoSetWL.Size = new System.Drawing.Size(115, 62);
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
@@ -1568,15 +1726,21 @@
             this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label22.AutoSize = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label22.Location = new System.Drawing.Point(304, 479);
             this.label22.Margin = new System.Windows.Forms.Padding(4, 7, 4, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(31, 20);
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.label22.Location = new System.Drawing.Point(250, 289);
             this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(130, 17);
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.label22.TabIndex = 50;
             this.label22.Text = "nm";
@@ -1586,10 +1750,17 @@
             this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label20.AutoSize = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label20.Location = new System.Drawing.Point(304, 255);
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(126, 20);
+=======
+            this.label20.Location = new System.Drawing.Point(250, 149);
+            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(130, 17);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.label20.Location = new System.Drawing.Point(250, 149);
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -1633,6 +1804,7 @@
             // NUD_CurWL
             // 
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.NUD_CurrentWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.NUD_CurrentWL, 2);
             this.NUD_CurrentWL.DecimalPlaces = 2;
@@ -1640,16 +1812,22 @@
             this.NUD_CurrentWL.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_CurrentWL.Maximum = new decimal(new int[] {
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.NUD_CurWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_CurWL.DecimalPlaces = 2;
             this.NUD_CurWL.Location = new System.Drawing.Point(164, 6);
             this.NUD_CurWL.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_CurWL.Maximum = new decimal(new int[] {
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             1000,
             0,
             0,
             0});
+<<<<<<< HEAD
 <<<<<<< HEAD
             this.NUD_CurrentWL.Name = "NUD_CurrentWL";
             this.NUD_CurrentWL.Size = new System.Drawing.Size(100, 26);
@@ -1666,10 +1844,15 @@
             this.NUD_CurrentWN.Size = new System.Drawing.Size(100, 26);
             this.NUD_CurrentWN.TabIndex = 86;
 =======
+=======
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             this.NUD_CurWL.Name = "NUD_CurWL";
             this.NUD_CurWL.Size = new System.Drawing.Size(41, 22);
             this.NUD_CurWL.TabIndex = 85;
             this.NUD_CurWL.ValueChanged += new System.EventHandler(this.NUD_CurWL_ValueChanged_1);
+<<<<<<< HEAD
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
+=======
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
             // 
             // GrBImageSettings
@@ -1783,10 +1966,16 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 185F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 151F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(2778, 1271);
+=======
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 121F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1801, 814);
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 121F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
@@ -1925,8 +2114,12 @@
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
 <<<<<<< HEAD
+<<<<<<< HEAD
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurrentWL)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurrentWN)).EndInit();
+=======
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).EndInit();
+>>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 =======
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CurWL)).EndInit();
 >>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
