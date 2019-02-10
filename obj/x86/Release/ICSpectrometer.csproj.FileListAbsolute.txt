@@ -90,3 +90,16 @@ C:\trash\work_space\naumov\ICSpectrometer - версия с компа на ра
 D:\Работа\Разработки\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer - версия с компа на работе\bin\x86\Release\IC Spectrometer v1.9 Beta.exe.config
 D:\Работа\Разработки\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer - версия с компа на работе\obj\x86\Release\IC Spectrometer v1.9 Beta.exe
 D:\Работа\Разработки\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer - версия с компа на работе\obj\x86\Release\IC Spectrometer v1.9 Beta.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csprojAssemblyReference.cache
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpec.Form1.resources
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpec.Properties.Resources.resources
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpec.SaveDialog.resources
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.GenerateResource.cache
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.CoreCompileInputs.cache
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v1.9 Beta.exe
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v1.9 Beta.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v1.9 Beta.exe.config
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v1.9 Beta.exe
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v1.9 Beta.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\TIS.Imaging.ICImagingControl34.dll
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.CopyComplete

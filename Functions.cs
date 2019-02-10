@@ -649,7 +649,7 @@ namespace ICSpec
                 LogError("ORIGINAL: " + e3.Message);
             }
             SetInactiveDependence(1);
-            TBwl.Text = wlcurrentg.ToString();
+            NUD_CurrentWL.Text = wlcurrentg.ToString();
             SetInactiveDependence(0);
         }
         private void New_SnapAndSaveMassive(int pStartWL, int pFinishWL, int pSteps,float[] WLVals = null)
@@ -790,7 +790,7 @@ namespace ICSpec
                 }
             }
             SetInactiveDependence(1);
-            TBwl.Text = wlcurrentg.ToString();
+            NUD_CurrentWL.Text = wlcurrentg.ToString();
             SetInactiveDependence(0);
         }
         private void SaveMassive(Bitmap[] Massive2Save)
@@ -857,7 +857,7 @@ namespace ICSpec
             }
             
             SetInactiveDependence(1);
-            TBwl.Text = wlcurrentg.ToString();
+            NUD_CurrentWL.Text = wlcurrentg.ToString();
             SetInactiveDependence(0);
         }
         private void SnapSequence2img()
@@ -1069,14 +1069,14 @@ namespace ICSpec
                 LoadingAOFValues = true;
                 TBStepL.Text = wlstepg.ToString();
                 MaximumWL = (int)wlmaxg; ; MinimumWL = (int)wlming;
-                TrBCurrentWL.Maximum = (int)wlmaxg;
-                TrBCurrentWL.Minimum = (int)wlming;
+                TrB_CurrentWL.Maximum = (int)wlmaxg;
+                TrB_CurrentWL.Minimum = (int)wlming;
                 TrBWLNumber.Minimum = (int)(ConvertWL2WN(wlmaxg));
                 TrBWLNumber.Maximum = (int)(ConvertWL2WN(wlming));
                                        
-                TBwl.Text = wlcurrentg.ToString();
-                TBwn.Text = ConvertWL2WN(wlcurrentg).ToString();
-                TrBCurrentWL.Value =(int) wlcurrentg;
+                NUD_CurrentWL.Text = wlcurrentg.ToString();
+                NUD_CurrentWN.Text = ConvertWL2WN(wlcurrentg).ToString();
+                TrB_CurrentWL.Value =(int) wlcurrentg;
                 TrBWLNumber.Value = (int)ConvertWL2WN(wlcurrentg);
                 
                 TBStartL.Text = wlming.ToString();
@@ -1099,16 +1099,16 @@ namespace ICSpec
         {
             int codeerr = 0;
             float wcurrent = 0;
-            wcurrent = Convert.ToInt32(TrBCurrentWL.Value);
-            TBwl.Text = wcurrent.ToString();
-            TBwn.Text = ConvertWL2WN(wcurrent).ToString();           
+            wcurrent = Convert.ToInt32(TrB_CurrentWL.Value);
+            NUD_CurrentWL.Text = wcurrent.ToString();
+            NUD_CurrentWN.Text = ConvertWL2WN(wcurrent).ToString();           
             if(AutoSetActivated)
             try
             {
                 TrBWLNumber.Value = (int)ConvertWL2WN(wcurrent);
                 codeerr = AOF.AOM_SetWL(wcurrent, AOFSimulatorActivated);
                 if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); }
-                else LogMessage(TBwl.Text + " wave lenght has been set!");
+                else LogMessage(NUD_CurrentWL.Text + " wave lenght has been set!");
             }
             catch (Exception ex)
             {
@@ -1120,15 +1120,15 @@ namespace ICSpec
             int codeerr = 0;
             float wcurrentN = 0;
             wcurrentN = Convert.ToInt32( TrBWLNumber.Value);
-            TBwn.Text = wcurrentN.ToString();
-            TBwl.Text = ((int)ConvertWN2WL(wcurrentN)).ToString();
-            TrBCurrentWL.Value = (int)ConvertWN2WL(wcurrentN);
+            NUD_CurrentWN.Text = wcurrentN.ToString();
+            NUD_CurrentWL.Text = ((int)ConvertWN2WL(wcurrentN)).ToString();
+            TrB_CurrentWL.Value = (int)ConvertWN2WL(wcurrentN);
             if (AutoSetActivated)
                 try
                 {
                     codeerr = AOF.AOM_SetWL(ConvertWN2WL(wcurrentN), AOFSimulatorActivated);
                     if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); }
-                    else LogMessage(TBwl.Text + " wave lenght has been set!");
+                    else LogMessage(NUD_CurrentWL.Text + " wave lenght has been set!");
                 }
                 catch (Exception ex)
                 {
@@ -1140,10 +1140,10 @@ namespace ICSpec
             ChB_AutoSetWL.Checked = false;
             try
             { 
-            int curWL = Convert.ToInt16(TBwl.Text);
-            TBwn.Text = ConvertWL2WN(curWL).ToString();
+            int curWL = Convert.ToInt16(NUD_CurrentWL.Text);
+            NUD_CurrentWN.Text = ConvertWL2WN(curWL).ToString();
             
-            TrBCurrentWL.Value = curWL;
+            TrB_CurrentWL.Value = curWL;
             TrBWLNumber.Value = (int)ConvertWL2WN(curWL);
             }
             catch { LogError("Указанное значение находится вне диапазона"); }
@@ -1154,10 +1154,10 @@ namespace ICSpec
             ChB_AutoSetWL.Checked = false;
             try
             {
-            int curWN = Convert.ToInt16(TBwn.Text);
-            TBwl.Text = ((int)ConvertWN2WL(curWN)).ToString();
+            int curWN = Convert.ToInt16(NUD_CurrentWN.Text);
+            NUD_CurrentWL.Text = ((int)ConvertWN2WL(curWN)).ToString();
             
-                TrBCurrentWL.Value = (int)ConvertWN2WL(curWN);
+                TrB_CurrentWL.Value = (int)ConvertWN2WL(curWN);
                 TrBWLNumber.Value = curWN;
             }
             catch { LogError("Указанное значение находится вне диапазона"); }
@@ -1167,9 +1167,9 @@ namespace ICSpec
             int codeerr = 0;
             try
             {
-                codeerr = AOF.AOM_SetWL(Convert.ToInt32(TBwl.Text), AOFSimulatorActivated);
+                codeerr = AOF.AOM_SetWL(Convert.ToInt32(NUD_CurrentWL.Text), AOFSimulatorActivated);
                 if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); }
-                else LogMessage(TBwl.Text + " wave lenght has been set!");
+                else LogMessage(NUD_CurrentWL.Text + " wave lenght has been set!");
             }
             catch (Exception ex)
             {
@@ -1199,7 +1199,7 @@ namespace ICSpec
         private int CalculateSteps()
         {
             wlstepg = Convert.ToInt16(TBStepL.Text);
-            wlcurrentg = Convert.ToInt16(TBwl.Text);
+            wlcurrentg = Convert.ToInt16(NUD_CurrentWL.Text);
             wlming = StartL = Convert.ToInt32(TBStartL.Text);
             wlmaxg = EndL = Convert.ToInt32(TBFinishL.Text);
             int steps = (int)((EndL - StartL) / wlstepg) + 1;

@@ -32,19 +32,19 @@ namespace ICSpec
 
                 ChB_AutoSetWL.Checked = AO_WL_Controlled_byslider;
 
-                L_RequiredDevName.Text = Filter.Ask_required_dev_file();
+                L_ReqDevName.Text = Filter.Ask_required_dev_file();
                 L_RealDevName.Text = Filter.Ask_loaded_dev_file();
                 float data_CurWL = (Filter.WL_Max + Filter.WL_Min) / 2;
                 Filter.Set_Wl(data_CurWL);
 
-                NUD_CurWL.Minimum = (decimal)Filter.WL_Min;
+                NUD_CurrentWL.Minimum = (decimal)Filter.WL_Min;
                 TrB_CurrentWL.Minimum = (int)(Filter.WL_Min * AO_WL_precision);
-                NUD_CurWL.Maximum = (decimal)Filter.WL_Max;
+                NUD_CurrentWL.Maximum = (decimal)Filter.WL_Max;
                 TrB_CurrentWL.Maximum = (int)(Filter.WL_Max * AO_WL_precision);
-                NUD_CurWL.Value = (decimal)data_CurWL;
+                NUD_CurrentWL.Value = (decimal)data_CurWL;
                 TrB_CurrentWL.Value = (int)(data_CurWL * AO_WL_precision);
 
-                ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
+             /*   ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
                 Pan_SweepControls.Enabled = Filter.is_inSweepMode;
 
                 var AOFWind_FreqDeviation_bkp = AO_FreqDeviation; // ибо AO_FreqDeviation изменяется, если изменяются максимумы
@@ -57,7 +57,7 @@ namespace ICSpec
                 NUD_TimeFdev.Maximum = (decimal)Filter.AO_TimeDeviation_Max;
 
                 NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
-                NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
+                NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;*/
 
                 ChB_Power.Enabled = true;
 
@@ -71,7 +71,7 @@ namespace ICSpec
 
         private void SetWL_everywhere(int pwl)
         {
-            NUD_CurWL.Value = pwl;
+            NUD_CurrentWL.Value = pwl;
             TrB_CurrentWL.Value = pwl;
         }
         private void ReSweep(float p_data_CurrentWL)

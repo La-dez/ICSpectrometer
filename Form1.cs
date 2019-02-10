@@ -106,7 +106,7 @@ namespace ICSpec
                     if (!icImagingControl1.DeviceValid)
                     {
                         MessageBox.Show("Не было выбрано ни одного устройства", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        Application.Exit();
+                        //Application.Exit();
                     }
                     else
                     {
@@ -419,8 +419,8 @@ namespace ICSpec
         private void BSetWL_Click(object sender, EventArgs e)
         {
 
-            float data_CurrentWL = (float)(TrBCurrentWL.Value / AO_WL_precision);
-            NUD_CurWL.Value = (decimal)(data_CurrentWL);
+            float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
+            NUD_CurrentWL.Value = (decimal)(data_CurrentWL);
 
             if (AO_Sweep_Needed)
             {
@@ -1028,7 +1028,7 @@ namespace ICSpec
         }
         private void CurrentWL_Change()
         {
-            float data_CurrentWL = (float)(TrBCurrentWL.Value / AO_WL_precision);
+            float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
             if (AO_WL_Controlled_byslider)
             {
                 if (AO_Sweep_Needed)
@@ -1057,7 +1057,7 @@ namespace ICSpec
 
         private void NUD_CurWL_ValueChanged_1(object sender, EventArgs e)
         {
-            TrBCurrentWL.Value = (int)(NUD_CurWL.Value * (decimal)AO_WL_precision);
+            TrB_CurrentWL.Value = (int)(NUD_CurrentWL.Value * (decimal)AO_WL_precision);
             CurrentWL_Change();
         }
 
