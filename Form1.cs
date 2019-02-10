@@ -86,6 +86,17 @@ namespace ICSpec
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            //this.Text = "Перестраиваемый источник " + version;
+            Log = new UI.Log.Logger(LBConsole);
+            Log.Message(" - текущее время");
+            Filter = ICSpec.AO_Devices.Find_and_connect_AnyFilter();
+            if (Filter.FilterType == FilterTypes.Emulator) { Log.Message("ПРЕДУПРЕЖДЕНИЕ: Не обнаружены подключенные АО фильтры. Фильтр будет эмулирован."); }
+            else { Log.Message("Обнаружен подключенный АО фильтр. Тип фильтра: " + Filter.FilterType.ToString()); }
+            ChB_Power.Enabled = false;
+            //GB_AllAOFControls.Enabled = false;
+            //ReadData();
+            //tests();
             this.KeyPreview = true;
 
            /* int st = 500; int fn = 610;
@@ -1059,6 +1070,16 @@ namespace ICSpec
         {
             TrBCurrentWL.Value = (int)(NUD_CurWL.Value * (decimal)AO_WL_precision);
             CurrentWL_Change();
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
 
         private void icImagingControl1_OverlayUpdate(object sender, ICImagingControl.OverlayUpdateEventArgs e)
