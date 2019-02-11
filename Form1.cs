@@ -29,7 +29,7 @@ namespace ICSpec
         TIS.Imaging.FrameHandlerSink curfhs;
         string filedatename = null;
         public string fileName = null;//Application.StartupPath + @"\\SettingsOfWriting.txt";
-        public bool WarningofCapt=false;
+        public bool WarningofCapt = false;
         public bool WarningofImage = false;
         string WarningofCaptMessage = "";
         string WarningofImgMessage = "";
@@ -99,12 +99,12 @@ namespace ICSpec
             //tests();
             this.KeyPreview = true;
 
-           /* int st = 500; int fn = 610;
-            List<int> wls = new List<int>();
-            List<double> exps = new List<double>();
-            ExpCurve.GetCurveFromDirectory("TestCurv3.expcurv", ref wls, ref exps);
-            ExpCurve.GetNiceCurve(450,740, 500, 621,15, ref wls, ref exps);
-            LogMessage("Done!");*/
+            /* int st = 500; int fn = 610;
+             List<int> wls = new List<int>();
+             List<double> exps = new List<double>();
+             ExpCurve.GetCurveFromDirectory("TestCurv3.expcurv", ref wls, ref exps);
+             ExpCurve.GetNiceCurve(450,740, 500, 621,15, ref wls, ref exps);
+             LogMessage("Done!");*/
 
             try
             {
@@ -141,7 +141,9 @@ namespace ICSpec
                     InitSliders();
                     bool liverun = icImagingControl1.LiveVideoRunning;
 
-                    try { AnalyseFormats();
+                    try
+                    {
+                        AnalyseFormats();
                         m_oldSink = New_SetSelectedCamera_SignalStream_Format();
                     }
                     catch { }
@@ -152,7 +154,8 @@ namespace ICSpec
                     try { FindCurrentFPS(false); } catch { }
 
                     try
-                    { if (icImagingControl1.LiveVideoRunning) icImagingControl1.LiveStop();
+                    {
+                        if (icImagingControl1.LiveVideoRunning) icImagingControl1.LiveStop();
                         GetAllPixelFormats();
                         GetAllPixelFormatsForSaving();
                         SwitchOverlay(icImagingControl1.OverlayBitmapAtPath[PathPositions.Display], true);
@@ -160,7 +163,8 @@ namespace ICSpec
                     catch { }
 
                     try
-                    { icImagingControl1.LiveDisplayDefault = false;
+                    {
+                        icImagingControl1.LiveDisplayDefault = false;
 
                         icImagingControl1.LiveCaptureLastImage = false;
 
@@ -171,7 +175,7 @@ namespace ICSpec
                     FormatAdaptation();
 
 
-                                     
+
                     //создание контекстного меню
 
                     /*  System.Windows.Forms.ContextMenu MyContextMenu=new System.Windows.Forms.ContextMenu();                 
@@ -187,23 +191,23 @@ namespace ICSpec
                       menuItem2.Click += new System.EventHandler(this.menuItem2_Click);*/
                 }
             }
-            catch(Exception ext)
+            catch (Exception ext)
             {
                 MessageBox.Show(ext.Message);
             }
             finally { if (icImagingControl1.DeviceValid) icImagingControl1.LiveStart(); }
         }//функция предзагрузки окна для динамической инициализации некоторых элементов управления 
-       
+
         private void ExitBut_Click(object sender, EventArgs e)//функция выхода из приложения
         {
             Close();
         }
-      
+
         private void SaveImgParBut_Click(object sender, EventArgs e)//функция открытия диалового окна сохраниния изображения
         {
             CreateDialog(false);
         }
-       
+
         private void PropBut_Click(object sender, EventArgs e)//функция,вызывающая диалоговое окно свойств
         {
             icImagingControl1.ShowPropertyDialog();
@@ -213,7 +217,7 @@ namespace ICSpec
                 TBExposureVal.Enabled = false;
             }
             else
-            {            
+            {
                 if (AbsValExp.Value < 1) TBExposureVal.Text = "1/" + ((int)(1 / (AbsValExp.Value))).ToString();
                 else TBExposureVal.Text = (AbsValExp.Value).ToString();
                 ChBExposureAuto.Checked = vcdProp.Automation[VCDIDs.VCDID_Exposure];
@@ -231,14 +235,14 @@ namespace ICSpec
                 TrBGainVal.Enabled = !ChBGainAuto.Checked;
             }
             RefreshROIControls(false);
-        }       
+        }
         private void Form1_WheelScrolled(object sender, MouseEventArgs e)//фукция,обрабатывающая прокрутку колеса мыши для увеличения в live режиме
         {
             float ZFactCurrent = icImagingControl1.LiveDisplayZoomFactor;
-            float abs = (float)((PerfectRounding(ZFactCurrent * 100,0)) % 5)/100.0f;
-            if (abs!=0)
+            float abs = (float)((PerfectRounding(ZFactCurrent * 100, 0)) % 5) / 100.0f;
+            if (abs != 0)
             {
-                icImagingControl1.LiveDisplayZoomFactor = ZFactCurrent-abs;
+                icImagingControl1.LiveDisplayZoomFactor = ZFactCurrent - abs;
                 TrBZoomOfImage.Value = (int)(icImagingControl1.LiveDisplayZoomFactor * 100.0f);
                 L_Zoom.Text = TrBZoomOfImage.Value.ToString() + "%";
             }
@@ -247,17 +251,17 @@ namespace ICSpec
                 TrBZoomOfImage.Value += e.Delta / 24;
                 ScrollOcc();
             }
-    }
+        }
         private void ZoomOfImage_Scroll(object sender, EventArgs e)//событие увеличения изображения
         {
-            ScrollOcc();           
+            ScrollOcc();
         }
-    
+
         private void icImagingControl1_Scroll(object sender, ScrollEventArgs e)//функция,запоминающая координаты положения увеличения в live окне
         {
-            Point p = icImagingControl1.AutoScrollPosition;           
+            Point p = icImagingControl1.AutoScrollPosition;
         }
-        
+
         private void TimerForRenew_Tick(object sender, EventArgs e)//Пока включена автоматическая регулировка, эта функция отвечает за отображения значения параметра 
         {
             try
@@ -273,12 +277,12 @@ namespace ICSpec
             }
             catch { }
         }
-      
-       
+
+
         private void SnapshotBut_Click(object sender, EventArgs e)//событие создания скриншота окна
         {
             //if (FlipFilter.GetBoolParameter("Flip H")) FlipFilter.SetBoolParameter("Flip H", false);
-           // else FlipFilter.SetBoolParameter("Flip H", true);
+            // else FlipFilter.SetBoolParameter("Flip H", true);
             SnapShot();
             SaveImageBut.Visible = true;
             DisableFlipButtons();
@@ -286,7 +290,7 @@ namespace ICSpec
             /*  if (FlipFilterFHS.GetBoolParameter("Flip H")) FlipFilterFHS.SetBoolParameter("Flip H", false);
               else FlipFilterFHS.SetBoolParameter("Flip H", true);*/
         }
-        
+
         private void ContTransAfterSnapshot_Click(object sender, EventArgs e)//функция, вызывающия появление кновки "продолжить трансляцию" после скриншота
         {
             icImagingControl1.LiveStart();
@@ -294,20 +298,20 @@ namespace ICSpec
             ContTransAfterSnapshot.Visible = false;
             SaveImageBut.Visible = false;
             EnableFlipButtons();
-           // if (FlipFilter.GetBoolParameter("Flip H")) FlipFilter.SetBoolParameter("Flip H", false);
-           // else FlipFilter.SetBoolParameter("Flip H", true);
+            // if (FlipFilter.GetBoolParameter("Flip H")) FlipFilter.SetBoolParameter("Flip H", false);
+            // else FlipFilter.SetBoolParameter("Flip H", true);
             /*  if (FlipFilterFHS.GetBoolParameter("Flip H")) FlipFilterFHS.SetBoolParameter("Flip H", false);
             else FlipFilterFHS.SetBoolParameter("Flip H", true);*/
-        }     
-       
-       
+        }
+
+
         private void Form1_MouseMove(object sender, MouseEventArgs e)//функция,запоминающая позицию курсора в окне при движении по нему
         {
             Xx = Cursor.Position.X;
-            Yy = Cursor.Position.Y;             
+            Yy = Cursor.Position.Y;
         }
-      
-       
+
+
 
         private void SaveImageBut_Click(object sender, EventArgs e)
         {
@@ -340,14 +344,14 @@ namespace ICSpec
         private void BStartS_Click(object sender, EventArgs e)
         {
             int stepss = CalculateSteps();
-         //   Bitmap[] Massive = StartSession(stepss); 
-           // SaveMassive(Massive);
+            //   Bitmap[] Massive = StartSession(stepss); 
+            // SaveMassive(Massive);
             DisableFlipButtons();
             if (!ChB_LoadWLCurve.Checked)
             {
                 WLs_toTune = null;
             }
-            New_SnapAndSaveMassive((int)StartL,(int)EndL,stepss, WLs_toTune);
+            New_SnapAndSaveMassive((int)StartL, (int)EndL, stepss, WLs_toTune);
             EnableFlipButtons();
         }
 
@@ -379,11 +383,6 @@ namespace ICSpec
             InitializeComponents_byVariables();
         }
 
-        private void BConnect_Click(object sender, EventArgs e)
-        {
-            ConnectAOF();
-        }
-
         private void BPower_Click(object sender, EventArgs e)
         {
         }
@@ -397,13 +396,13 @@ namespace ICSpec
         private void TBCurrentWL_Scroll(object sender, EventArgs e)
         {
             if (DependenceTrBWL && !LoadingAOFValues)
-            { SetInactiveDependence(3); TrBWLOnScroll(); SetInactiveDependence(0); }
+            { SetInactiveDependence(3); TrBWL_OnScroll(); SetInactiveDependence(0); }
         }
         private void TrBWLNumber_Scroll(object sender, EventArgs e)
-        {     
+        {
             if (DependenceTrBWN && !LoadingAOFValues)
             {
-                SetInactiveDependence(4); TrBWNOnScroll(); SetInactiveDependence(0);
+                SetInactiveDependence(4); TrBWN_OnScroll(); SetInactiveDependence(0);
             }
         }
         private void TBwl_TextChanged(object sender, EventArgs e)
@@ -411,19 +410,16 @@ namespace ICSpec
             if (DependenceTBWL && !LoadingAOFValues) { SetInactiveDependence(1); TBWLTextChanged(); SetInactiveDependence(0); }
         }
 
-        private void TBwn_TextChanged(object sender, EventArgs e)
-        {
-            if (DependenceTBWN && !LoadingAOFValues) { SetInactiveDependence(2); TBWNTextChanged(); SetInactiveDependence(0); }
-        }
+     
         private void SetInactiveDependence(int state)
         {
-            switch(state)
+            switch (state)
             {
-                case 1: { DependenceTBWL = true;  DependenceTBWN = false; DependenceTrBWL = false; DependenceTrBWN = false; } break;
-                case 2: { DependenceTBWL = false; DependenceTBWN = true;  DependenceTrBWL = false; DependenceTrBWN = false; } break;
-                case 3: { DependenceTBWL = false; DependenceTBWN = false; DependenceTrBWL = true;  DependenceTrBWN = false; } break;
+                case 1: { DependenceTBWL = true; DependenceTBWN = false; DependenceTrBWL = false; DependenceTrBWN = false; } break;
+                case 2: { DependenceTBWL = false; DependenceTBWN = true; DependenceTrBWL = false; DependenceTrBWN = false; } break;
+                case 3: { DependenceTBWL = false; DependenceTBWN = false; DependenceTrBWL = true; DependenceTrBWN = false; } break;
                 case 4: { DependenceTBWL = false; DependenceTBWN = false; DependenceTrBWL = false; DependenceTrBWN = true; } break;
-               default: { DependenceTBWL = true;  DependenceTBWN = true;  DependenceTrBWL = true;  DependenceTrBWN = true; } break;
+                default: { DependenceTBWL = true; DependenceTBWN = true; DependenceTrBWL = true; DependenceTrBWN = true; } break;
             }
         }
 
@@ -467,13 +463,13 @@ namespace ICSpec
             var ic = icImagingControl1;
             ic.LiveStop();
             var oldS = New_SetSelectedCamera_SignalStream_Format();
-            bool result =  SetSelectedFormatAndBinning();
+            bool result = SetSelectedFormatAndBinning();
             result = SetSelectedPartialScan();
             ROISeted = true;
-          //  SetSelectedCameraPixelFormat();
-         //   SetSelectedPixelFormat();
-         /*   GetAllAvailibleFPS();
-            FindCurrentFPS(true);*/
+            //  SetSelectedCameraPixelFormat();
+            //   SetSelectedPixelFormat();
+            /*   GetAllAvailibleFPS();
+               FindCurrentFPS(true);*/
             try { ic.LiveStart(); }
             catch (ICException exc)
             {
@@ -493,7 +489,7 @@ namespace ICSpec
             FormatAdaptation();
             GetAllAvailibleFPS();
             FindCurrentFPS(false);
-            RefreshROIControls(false,result);
+            RefreshROIControls(false, result);
             GetValuesAfterSet();
             if (ic.LiveVideoRunning)
             {
@@ -508,14 +504,14 @@ namespace ICSpec
 
         private void TBExposureVal_TextChanged(object sender, EventArgs e)
         {
-            if ((ChangingActivatedTextBoxExp) && (TBExposureVal.Text != "")&&(!vcdProp.Automation[VCDIDs.VCDID_Exposure]))
+            if ((ChangingActivatedTextBoxExp) && (TBExposureVal.Text != "") && (!vcdProp.Automation[VCDIDs.VCDID_Exposure]))
             {
                 int toslide = 0;
                 toslide = Exposure_real2slide(NormalConvertToFloat(TBExposureVal.Text));
                 if ((toslide < (TrBExposureVal.Maximum + 1)) && (toslide > (TrBExposureVal.Minimum - 1)))
                     TrBExposureVal.Value = toslide;
                 else
-                    TrBExposureVal.Value = Exposure_real2slide(AbsValExp.Default); 
+                    TrBExposureVal.Value = Exposure_real2slide(AbsValExp.Default);
             }
         }
 
@@ -537,7 +533,7 @@ namespace ICSpec
             try
             {
                 ChangingActivatedTextBoxExp = false;
-                double value =Exposure_Slide2real(TrBExposureVal.Value);
+                double value = Exposure_Slide2real(TrBExposureVal.Value);
                 LoadExposure(ref AbsValExp, value);
                 int promval = ((int)(1.0 / Exposure_Slide2real(TrBExposureVal.Value)));
                 if (promval > 1) TBExposureVal.Text = "1/" + promval.ToString();
@@ -651,7 +647,7 @@ namespace ICSpec
         {
             if (!Char.IsLetterOrDigit(e.KeyChar))
             {
-               e.Handled = true;
+                e.Handled = true;
             }
             if (TBNamePrefix.Text.Length > 14) e.Handled = true;
             if (e.KeyChar == Convert.ToChar(8)) e.Handled = false;
@@ -685,7 +681,7 @@ namespace ICSpec
 
         private void CbBinning_SelectedIndexChanged(object sender, EventArgs e)
         {
-           if(CBMResolution.SelectedIndex==0) CorrectROIValues();
+            if (CBMResolution.SelectedIndex == 0) CorrectROIValues();
         }
 
         private void BSelectUserResolution_Click(object sender, EventArgs e)
@@ -715,11 +711,11 @@ namespace ICSpec
                 if (e.Button == MouseButtons.Left)
                 {
                     ROISeted = false; ChBROIAutoCent.Checked = false;
-                    UserROIGraphics2.X = (int)(((float)e.Location.X)/icImagingControl1.LiveDisplayZoomFactor);
+                    UserROIGraphics2.X = (int)(((float)e.Location.X) / icImagingControl1.LiveDisplayZoomFactor);
                     UserROIGraphics2.Y = (int)(((float)e.Location.Y) / icImagingControl1.LiveDisplayZoomFactor);
-                   /* int devide = icImagingControl1.VideoFormatCurrent.BinningFactor;
-                    UserROIGraphics.X /= devide;
-                    UserROIGraphics.Y /= devide;*/
+                    /* int devide = icImagingControl1.VideoFormatCurrent.BinningFactor;
+                     UserROIGraphics.X /= devide;
+                     UserROIGraphics.Y /= devide;*/
                 }
             }
         }
@@ -730,23 +726,23 @@ namespace ICSpec
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    UserROIGraphics2.Width = (int)(((float)e.Location.X )/ icImagingControl1.LiveDisplayZoomFactor);
+                    UserROIGraphics2.Width = (int)(((float)e.Location.X) / icImagingControl1.LiveDisplayZoomFactor);
                     UserROIGraphics2.Height = (int)(((float)e.Location.Y) / icImagingControl1.LiveDisplayZoomFactor);
                     NormalizeRect(UserROIGraphics2, false);
-                   /* int devide = icImagingControl1.VideoFormatCurrent.BinningFactor;
-                    UserROIGraphics.Height /= devide;
-                    UserROIGraphics.Height /= devide;*/
+                    /* int devide = icImagingControl1.VideoFormatCurrent.BinningFactor;
+                     UserROIGraphics.Height /= devide;
+                     UserROIGraphics.Height /= devide;*/
                 }
             }
         }
         private void icImagingControl1_MouseUp(object sender, MouseEventArgs e)
-        {     
+        {
             if (UserROIVisualFlag)
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    UserROIGraphics2.Width =(int)(((float) e.Location.X)/ icImagingControl1.LiveDisplayZoomFactor);
-                    UserROIGraphics2.Height = (int)(((float) e.Location.Y) / icImagingControl1.LiveDisplayZoomFactor);
+                    UserROIGraphics2.Width = (int)(((float)e.Location.X) / icImagingControl1.LiveDisplayZoomFactor);
+                    UserROIGraphics2.Height = (int)(((float)e.Location.Y) / icImagingControl1.LiveDisplayZoomFactor);
                     /*int devide = icImagingControl1.VideoFormatCurrent.BinningFactor;
                     UserROIGraphics.X /= devide;
                     UserROIGraphics.Y /= devide;
@@ -778,9 +774,9 @@ namespace ICSpec
         }
 
         private void ICInvalidateTimer_Tick(object sender, EventArgs e)
-        { 
-           // if(icImagingControl1.LiveVideoRunning)
-               // DBInvalidate(icImagingControl1.OverlayBitmap);
+        {
+            // if(icImagingControl1.LiveVideoRunning)
+            // DBInvalidate(icImagingControl1.OverlayBitmap);
         }
 
         private void BROIFull_Click(object sender, EventArgs e)
@@ -805,16 +801,12 @@ namespace ICSpec
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            int a = -1;
-            try { a = AOF.AOM_PowerOff(AOFSimulatorActivated); } catch { }
-            if(a!=0) { LogError(AOF.AOM_IntErr(a)); }
-            try { a = AOF.AOM_Close(AOFSimulatorActivated); } catch { }
-            if (a != 0) { LogError(AOF.AOM_IntErr(a)); }
+          
         }
 
         private void CBoxPixelFormat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void BSnSq_Click(object sender, EventArgs e)
@@ -830,7 +822,7 @@ namespace ICSpec
             }
         }
 
-     
+
         private void ChkBLoadedExpCurve_CheckedChanged(object sender, EventArgs e)
         {
 
@@ -847,7 +839,7 @@ namespace ICSpec
                     wlming = Convert.ToInt32(TBStartL.Text);
                     wlmaxg = Convert.ToInt32(TBFinishL.Text);
                     double Gain = 0, FPS = 0;
-                    ExpCurve.Get_andWrite_NiceCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL, (int)wlming, (int)wlmaxg, (int)wlstepg, ref wls, ref exps,ref Gain,ref FPS);
+                    ExpCurve.Get_andWrite_NiceCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL, (int)wlming, (int)wlmaxg, (int)wlstepg, ref wls, ref exps, ref Gain, ref FPS);
 
                     LogMessage("Перестройка по кривой включена.");
                 }
@@ -862,9 +854,9 @@ namespace ICSpec
 
         }
 
-      /*  delegate void DCreation(ref TIS.Imaging.ICImagingControl IC,
-            ref TIS.Imaging.VCDHelpers.VCDSimpleProperty VSExp, ref TIS.Imaging.VCDAbsoluteValueProperty pAbsVal,
-            int pWlRealMin, int pWlRealMax, int pStWL, int pFinWL, int pStep);*/
+        /*  delegate void DCreation(ref TIS.Imaging.ICImagingControl IC,
+              ref TIS.Imaging.VCDHelpers.VCDSimpleProperty VSExp, ref TIS.Imaging.VCDAbsoluteValueProperty pAbsVal,
+              int pWlRealMin, int pWlRealMax, int pStWL, int pFinWL, int pStep);*/
 
         private void BCreateAutoCurve_Click(object sender, EventArgs e)
         {
@@ -881,7 +873,7 @@ namespace ICSpec
                 BCreateAutoCurve.Text = "Создать кривую по автоэкспозиции";
                 BkGrWorker_forExpCurveBuilding.CancelAsync();
             }
-           // DCreation DelegateForCurv = new DCreation(ExpCurve.CreateCurve);
+            // DCreation DelegateForCurv = new DCreation(ExpCurve.CreateCurve);
         }
 
         private void BkGrWorker_forExpCurveBuilding_DoWork(object sender, DoWorkEventArgs e)
@@ -891,30 +883,30 @@ namespace ICSpec
             string ChangeVCDID = TIS.Imaging.VCDIDs.VCDID_Exposure;
 
             if (worker.CancellationPending == true)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                try
                 {
-                    e.Cancel = true;
+                    ShowStringDelegate MessageDelegate = new ShowStringDelegate(LogMessage);
+                    var ptrExp = AbsValExp;
+                    double CurFPS = icImagingControl1.DeviceFrameRate;
+                    int CurGain = vcdProp.RangeValue[VCDIDs.VCDID_Gain];
+
+                    wasAutomation = vcdProp.Automation[ChangeVCDID];
+
+                    ExpCurve.CreateCurve(ref worker, ref e, ref icImagingControl1, ref vcdProp, ref ptrExp,
+                           MinimumWL, MaximumWL, (int)StartL, (int)EndL, (int)wlstepg, CurGain, CurFPS, MessageDelegate, wasAutomation,Filter);
+                    vcdProp.Automation[ChangeVCDID] = wasAutomation;
                 }
-                else
+                catch (Exception exc)
                 {
-                    try
-                    {
-                        ShowStringDelegate MessageDelegate = new ShowStringDelegate(LogMessage);
-                        var ptrExp = AbsValExp;
-                        double CurFPS = icImagingControl1.DeviceFrameRate;
-                        int CurGain = vcdProp.RangeValue[VCDIDs.VCDID_Gain];
-
-                        wasAutomation = vcdProp.Automation[ChangeVCDID];
-
-                        ExpCurve.CreateCurve(ref worker,ref e , ref icImagingControl1, ref vcdProp, ref ptrExp,
-                               MinimumWL, MaximumWL, (int)StartL, (int)EndL, (int)wlstepg, CurGain, CurFPS, MessageDelegate, wasAutomation);
-                        vcdProp.Automation[ChangeVCDID] = wasAutomation;
-                    }
-                    catch(Exception exc)
-                    {
-                        LogError(exc.Message);
-                        vcdProp.Automation[ChangeVCDID] = wasAutomation;
-                    }
+                    LogError(exc.Message);
+                    vcdProp.Automation[ChangeVCDID] = wasAutomation;
                 }
+            }
         }
 
         private void BkGrWorker_forExpCurveBuilding_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -963,7 +955,7 @@ namespace ICSpec
 
             if (ChB_LoadWLCurve.Checked)
             {
-                WayToCurv_wl = Files.OpenFiles("Choose your tune file", true,false,".txt")[0];
+                WayToCurv_wl = Files.OpenFiles("Choose your tune file", true, false, ".txt")[0];
                 if (WayToCurv_wl == "") { ChB_LoadWLCurve.Text = "Перестройка по кривой"; }
                 else
                 {
@@ -973,11 +965,11 @@ namespace ICSpec
                     Files.Get_WLData_byKnownCountofNumbers(1, allstrings.ToArray(), out mass, out WLs_toTune, out mass2);
                     List<float> data = new List<float>(WLs_toTune);
                     data.Reverse();
-                    for(int i =0;i < data.Count();i++)
+                    for (int i = 0; i < data.Count(); i++)
                     {
 
-                        
-                        if ((data[i] < MinimumWL) || (data[i] > MaximumWL)) 
+
+                        if ((data[i] < MinimumWL) || (data[i] > MaximumWL))
                         {
                             LogMessage(String.Format("Обнаруженная в списке длина волны {0} не принадлежит диапазону {1}-{2}. Съемка на этой длине волны производиться не будет.",
                               data[i], MinimumWL, MaximumWL));
@@ -1033,10 +1025,6 @@ namespace ICSpec
             }
         }
 
-        private void NUD_CurWL_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
         private void CurrentWL_Change()
         {
             float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
@@ -1066,7 +1054,7 @@ namespace ICSpec
             }
         }
 
-        private void NUD_CurWL_ValueChanged_1(object sender, EventArgs e)
+        private void NUD_CurWL_ValueChanged(object sender, EventArgs e)
         {
             TrB_CurrentWL.Value = (int)(NUD_CurrentWL.Value * (decimal)AO_WL_precision);
             CurrentWL_Change();
@@ -1085,7 +1073,7 @@ namespace ICSpec
         private void icImagingControl1_OverlayUpdate(object sender, ICImagingControl.OverlayUpdateEventArgs e)
         {
             var arg = e.overlay;
-            if(icImagingControl1.LiveVideoRunning) DBInvalidate(arg);
+            if (icImagingControl1.LiveVideoRunning) DBInvalidate(arg);
         }
 
         private void CBFinalPixelFormat_SelectedIndexChanged(object sender, EventArgs e)
@@ -1097,15 +1085,15 @@ namespace ICSpec
         {
             if (FlipFilter.GetBoolParameter("Flip V")) FlipFilter.SetBoolParameter("Flip V", false);
             else FlipFilter.SetBoolParameter("Flip V", true);
-         /*   if (FlipFilterFHS.GetBoolParameter("Flip V")) FlipFilterFHS.SetBoolParameter("Flip V", false);
-            else FlipFilterFHS.SetBoolParameter("Flip V", true);*/
+            /*   if (FlipFilterFHS.GetBoolParameter("Flip V")) FlipFilterFHS.SetBoolParameter("Flip V", false);
+               else FlipFilterFHS.SetBoolParameter("Flip V", true);*/
         }
         private void FlipRightLeftBut_Click(object sender, EventArgs e)//функция отзеркаливания live изображения слева направо
         {
             if (FlipFilter.GetBoolParameter("Flip H")) FlipFilter.SetBoolParameter("Flip H", false);
             else FlipFilter.SetBoolParameter("Flip H", true);
-           /* if (FlipFilterFHS.GetBoolParameter("Flip H")) FlipFilterFHS.SetBoolParameter("Flip H", false);
-            else FlipFilterFHS.SetBoolParameter("Flip H", true);*/
+            /* if (FlipFilterFHS.GetBoolParameter("Flip H")) FlipFilterFHS.SetBoolParameter("Flip H", false);
+             else FlipFilterFHS.SetBoolParameter("Flip H", true);*/
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -1114,22 +1102,135 @@ namespace ICSpec
             {
                 Application.Exit(); return;// RemovePointsInRect();
             }
-       /*     else if ((e.KeyCode == Keys.D) && e.Control)
-            {
-                RemovePointsInRect();
-            }
-            else if ((e.KeyCode == Keys.F) && e.Alt)
-            {
-                if (FullScrin) { MinimizeWindow(); FullScrin = false; }
-                else { MaximizeWindow(); FullScrin = true; }
-            }*/
+            /*     else if ((e.KeyCode == Keys.D) && e.Control)
+                 {
+                     RemovePointsInRect();
+                 }
+                 else if ((e.KeyCode == Keys.F) && e.Alt)
+                 {
+                     if (FullScrin) { MinimizeWindow(); FullScrin = false; }
+                     else { MaximizeWindow(); FullScrin = true; }
+                 }*/
 
         }
-        
-      
 
-       
+        private void NUD_CurrentWN_ValueChanged(object sender, EventArgs e)
+        {
+            if (DependenceTBWN && !LoadingAOFValues) { SetInactiveDependence(2); TBWN_onValueChanged(); SetInactiveDependence(0); }
+        }
+
+        private void tests()
+        {
+
+            Filter.Read_dev_file("ampl_avm1-011-3.dev");
+            Filter.PowerOn();
+            Filter.Set_Wl(Filter.WL_Max);
+            Filter.Set_Wl((Filter.WL_Max + Filter.WL_Min) / 2);
+            Filter.Set_Wl(Filter.WL_Min);
+            Filter.Set_Hz((Filter.HZ_Min + Filter.HZ_Max) / 2);
+            float delta = 5;
+            Filter.Set_Sweep_on((Filter.HZ_Max + Filter.HZ_Min) / 2 - delta, 2 * delta, 1, true);
+            System.Threading.Thread.Sleep(2000);
+            Filter.Set_Sweep_off();
+            //  Filter.PowerOff();
+        }
+        private void InitializeComponents_byVariables()
+        {
+            try
+            {
+                ChB_Power.Checked = false;
+
+                ChB_AutoSetWL.Checked = AO_WL_Controlled_byslider;
+                L_ReqDevName.Text = Filter.Ask_required_dev_file();
+                L_RealDevName.Text = Filter.Ask_loaded_dev_file();
+                float data_CurWL = (Filter.WL_Max + Filter.WL_Min) / 2;
+                Filter.Set_Wl(data_CurWL);
+
+                NUD_CurrentWL.Minimum = (decimal)Filter.WL_Min;
+                TrB_CurrentWL.Minimum = (int)(Filter.WL_Min * AO_WL_precision);
+                NUD_CurrentWL.Maximum = (decimal)Filter.WL_Max;
+                TrB_CurrentWL.Maximum = (int)(Filter.WL_Max * AO_WL_precision);
+                NUD_CurrentWL.Value = (decimal)data_CurWL;
+                TrB_CurrentWL.Value = (int)(data_CurWL * AO_WL_precision);
+
+                /*   ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
+                   Pan_SweepControls.Enabled = Filter.is_inSweepMode;
+
+                   var AOFWind_FreqDeviation_bkp = AO_FreqDeviation; // ибо AO_FreqDeviation изменяется, если изменяются максимумы
+                   //NUD_FreqDeviation.Minimum = (decimal)Filter.AO_FreqDeviation_Min;
+                   //NUD_FreqDeviation.Maximum = (decimal)
+                   //    (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);
+
+                   var AOFWind_TimeDeviation_bkp = AO_TimeDeviation; // ибо AOFWind_TimeDeviation изменяется, если изменяются максимумы
+                   //NUD_TimeFdev.Minimum = (decimal)Filter.AO_TimeDeviation_Min;
+                   //NUD_TimeFdev.Maximum = (decimal)Filter.AO_TimeDeviation_Max;
+
+
+                   NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
+                   NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;*/
+
+                ChB_Power.Enabled = true;
+
+                Log.Message("Инициализация элементов управления прошла успешно!");
+            }
+            catch (Exception exc)
+            {
+                Log.Error("Инициализация элементов управления завершилась с ошибкой.");
+            }
+        }
+
+        private void SetWL_everywhere(int pwl)
+        {
+
+            NUD_CurrentWL.Value = pwl;
+            TrB_CurrentWL.Value = pwl;
+        }
+        private void ReSweep(float p_data_CurrentWL)
+        {
+            Filter.Set_Sweep_off();
+            float HZ_toset = Filter.Get_HZ_via_WL(p_data_CurrentWL);
+            System.Drawing.PointF data_for_sweep = Filter.Sweep_Recalculate_borders(HZ_toset, (float)AO_FreqDeviation);
+
+            Log.Message(String.Format("ЛЧМ Параметры: ДВ:{0} / Частота:{1} / Девиация частоты:{2}", p_data_CurrentWL, HZ_toset, AO_FreqDeviation));
+            Log.Message(String.Format("Доступные для установки ЛЧМ параметры:  ДВ: {0} / Частота:{1} / Девиация частоты: {2} ",
+                p_data_CurrentWL, HZ_toset, data_for_sweep.Y / 2));
+            Log.Message(String.Format("Пересчет:  {0}+{1}", data_for_sweep.X, data_for_sweep.Y));
+
+
+
+            var state = Filter.Set_Sweep_on(data_for_sweep.X, data_for_sweep.Y, AO_TimeDeviation, true);
+            if (state != 0) throw new Exception(Filter.Implement_Error(state));
+            Log.Message("Режим ЛЧМ около длины волны " + p_data_CurrentWL.ToString() + " нм запущен!");
+        }
+        private DialogResult OpenDevSearcher(ref string CfgToLoad, ref string CfgToLoad_fullPath)
+        {
+
+            OpenFileDialog OPF = new OpenFileDialog();
+            OPF.InitialDirectory = Application.StartupPath;
+            OPF.Filter = "DEV config files (*.dev)|*.dev|All files (*.*)|*.*";
+            OPF.FilterIndex = 0;
+            OPF.RestoreDirectory = true;
+
+            if (OPF.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    int k = 1 + OPF.FileName.LastIndexOf('\\');
+                    CfgToLoad_fullPath = OPF.FileName;
+                    CfgToLoad = OPF.FileName.Substring(k, OPF.FileName.Length - k);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("Не удалось считать файл с диска. Оригинал ошибки: " + ex.Message);
+                }
+                return DialogResult.OK;
+            }
+            else return DialogResult.Cancel;
+        }
+
+
+
 
     }
-    
+
 }

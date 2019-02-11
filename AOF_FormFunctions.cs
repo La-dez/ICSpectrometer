@@ -31,35 +31,11 @@ namespace ICSpec
                 ChB_Power.Checked = false;
 
                 ChB_AutoSetWL.Checked = AO_WL_Controlled_byslider;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                 L_ReqDevName.Text = Filter.Ask_required_dev_file();
-=======
-
-                //L_RequiredDevName.Text = Filter.Ask_required_dev_file();
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
-
-                //L_RequiredDevName.Text = Filter.Ask_required_dev_file();
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
-
-                //L_RequiredDevName.Text = Filter.Ask_required_dev_file();
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
-
-                //L_RequiredDevName.Text = Filter.Ask_required_dev_file();
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
                 L_RealDevName.Text = Filter.Ask_loaded_dev_file();
                 float data_CurWL = (Filter.WL_Max + Filter.WL_Min) / 2;
                 Filter.Set_Wl(data_CurWL);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
                 NUD_CurrentWL.Minimum = (decimal)Filter.WL_Min;
                 TrB_CurrentWL.Minimum = (int)(Filter.WL_Min * AO_WL_precision);
                 NUD_CurrentWL.Maximum = (decimal)Filter.WL_Max;
@@ -69,32 +45,6 @@ namespace ICSpec
 
              /*   ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
                 Pan_SweepControls.Enabled = Filter.is_inSweepMode;
-=======
-=======
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-                NUD_CurWL.Minimum = (decimal)Filter.WL_Min;
-                TrBCurrentWL.Minimum = (int)(Filter.WL_Min * AO_WL_precision);
-                NUD_CurWL.Maximum = (decimal)Filter.WL_Max;
-                TrBCurrentWL.Maximum = (int)(Filter.WL_Max * AO_WL_precision);
-                NUD_CurWL.Value = (decimal)data_CurWL;
-                TrBCurrentWL.Value = (int)(data_CurWL * AO_WL_precision);
-
-                //ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
-                //Pan_SweepControls.Enabled = Filter.is_inSweepMode;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 
                 var AOFWind_FreqDeviation_bkp = AO_FreqDeviation; // ибо AO_FreqDeviation изменяется, если изменяются максимумы
                 //NUD_FreqDeviation.Minimum = (decimal)Filter.AO_FreqDeviation_Min;
@@ -105,29 +55,9 @@ namespace ICSpec
                 //NUD_TimeFdev.Minimum = (decimal)Filter.AO_TimeDeviation_Min;
                 //NUD_TimeFdev.Maximum = (decimal)Filter.AO_TimeDeviation_Max;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
                 NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
                 NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;*/
-
-=======
-                //NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
-                //NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
-                //NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
-                //NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
-                //NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
-                //NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
-                //NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
-                //NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
 
                 ChB_Power.Enabled = true;
 
@@ -141,28 +71,9 @@ namespace ICSpec
 
         private void SetWL_everywhere(int pwl)
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             NUD_CurrentWL.Value = pwl;
             TrB_CurrentWL.Value = pwl;
-=======
-            NUD_CurWL.Value = pwl;
-            TrBCurrentWL.Value = pwl;
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
-            NUD_CurWL.Value = pwl;
-            TrBCurrentWL.Value = pwl;
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
-            NUD_CurWL.Value = pwl;
-            TrBCurrentWL.Value = pwl;
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
-=======
-            NUD_CurWL.Value = pwl;
-            TrBCurrentWL.Value = pwl;
->>>>>>> parent of 05d053c... initialize filter & change AOM to AOF 2
         }
         private void ReSweep(float p_data_CurrentWL)
         {

@@ -182,7 +182,7 @@ namespace ICSpec
         public static void CreateCurve(ref System.ComponentModel.BackgroundWorker pBackWorker, ref System.ComponentModel.DoWorkEventArgs pE,
             ref TIS.Imaging.ICImagingControl IC, ref TIS.Imaging.VCDHelpers.VCDSimpleProperty VSExp, ref TIS.Imaging.VCDAbsoluteValueProperty pAbsVal,
             int pWlRealMin, int pWlRealMax, int pStWL, int pFinWL, int pStep, int pCurGain, double pFPS,
-            Form1.ShowStringDelegate pMesShowDel, bool pwasAutomation)
+            Form1.ShowStringDelegate pMesShowDel, bool pwasAutomation,AO_Devices.AO_Filter pFilter)
         {
             try
             {
@@ -211,7 +211,7 @@ namespace ICSpec
                     VSExp.Automation[ChangeVCDID] = true;
                 }
                 if (pBackWorker.CancellationPending) { pE.Cancel = true; return; }
-                AOF.AOM_SetWL(Wls[0]);
+                pFilter.Set_Wl(Wls[0]);
                 System.Threading.Thread.Sleep(1000);
                 System.Diagnostics.Stopwatch stw = new System.Diagnostics.Stopwatch();
                 double CurrentExp = pAbsVal.Value;
@@ -221,7 +221,7 @@ namespace ICSpec
                     string message = "Начальная экспозиция для длины волны " + Wls[i].ToString() + ": " + CurrentExp.ToString();
                     pMesShowDel.Invoke(message);
                     //LB.BeginInvoke(pMesShowDel, new object[] { message });
-                    AOF.AOM_SetWL(Wls[i]);
+                    pFilter.Set_Wl(Wls[i]);
                     stw.Restart();
                     //  System.Threading.Thread.Sleep()
                     bool TimeNotElapsed = true;

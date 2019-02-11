@@ -536,7 +536,7 @@ namespace ICSpec
                 try
                 {
                     codeerr = Filter.Set_Wl(wlming);//,AOFSimulatorActivated);
-                    if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
+                    if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); };
                 }
                 catch (Exception ex)
                 {
@@ -549,7 +549,7 @@ namespace ICSpec
                     try
                     {
                         codeerr = Filter.Set_Wl(wlcurrentg);//, AOFSimulatorActivated);
-                        if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
+                        if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); };
                     }
                     catch (Exception ex)
                     {
@@ -576,7 +576,7 @@ namespace ICSpec
                 try
                 {
                     codeerr = Filter.Set_Wl(wlming);//, AOFSimulatorActivated);
-                    if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
+                    if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); };
                 }
                 catch (Exception ex)
                 {
@@ -591,7 +591,7 @@ namespace ICSpec
                     try
                     {
                         codeerr = Filter.Set_Wl(wlcurrentg);//, AOFSimulatorActivated);
-                        if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
+                        if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); };
                     }
                     catch (Exception ex)
                     {
@@ -606,7 +606,7 @@ namespace ICSpec
                 try
                 {
                     codeerr = Filter.Set_Wl(pFinishWL);//, AOFSimulatorActivated);
-                    if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
+                    if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); };
                     curfhs.SnapImage();
                     rval[pSteps] = curfhs.LastAcquiredBuffer;
                    // LogMessage(String.Format("Изображение №{0:D2} захвачено. ", pSteps.ToString()));
@@ -650,7 +650,7 @@ namespace ICSpec
                 LogError("ORIGINAL: " + e3.Message);
             }
             SetInactiveDependence(1);
-            TBwl.Text = wlcurrentg.ToString();
+            NUD_CurrentWL.Text = wlcurrentg.ToString();
             SetInactiveDependence(0);
         }
         private void New_SnapAndSaveMassive(int pStartWL, int pFinishWL, int pSteps,float[] WLVals = null)
@@ -706,7 +706,7 @@ namespace ICSpec
                         LoadGain(ref vcdProp, Gain);
                     }
                     Thread.Sleep(500);
-                    if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
+                    if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); };
                 }
                 catch (Exception ex)
                 {
@@ -795,7 +795,7 @@ namespace ICSpec
                 }
             }
             SetInactiveDependence(1);
-            TBwl.Text = wlcurrentg.ToString();
+            NUD_CurrentWL.Text = wlcurrentg.ToString();
             SetInactiveDependence(0);
         }
         private void SaveMassive(Bitmap[] Massive2Save)
@@ -862,7 +862,7 @@ namespace ICSpec
             }
             
             SetInactiveDependence(1);
-            TBwl.Text = wlcurrentg.ToString();
+            NUD_CurrentWL.Text = wlcurrentg.ToString();
             SetInactiveDependence(0);
         }
         private void SnapSequence2img()
@@ -1023,117 +1023,46 @@ namespace ICSpec
             if (Math.Abs(val - (int)val) > 0.5f) return (((int)val + 1 * Math.Sign(val - (int)val)) / mnoj);
             else return ((int)val / mnoj);
         }
-        private void ConnectAOF()
-        {
-            try
-            {
-                int codeerr = 0;
-                int num=-1;
-                try { num = AOF.AOM_GetNumDevices(AOFSimulatorActivated);}
-                catch { LogError("Ошибка в функции AOM_GetNumDevices"); }
-                try
-                {
-                    codeerr = AOF.AOM_Init(0, AOFSimulatorActivated);
-                }
-                catch { LogError("Ошибка в функции AOM_Init"); }
-                /*if (codeerr == 4)
-                    try
-                    {
-                        var newpath = "aom_v2.dll";
-                        AOF.basepath = newpath ;
-                        codeerr = AOF.AOM_Init(0, AOFSimulatorActivated);
-                    }
-                    catch (Exception)
-                    {
-
-                        throw;
-                    }
-                */
-                try
-                {
-                    if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
-                }
-                catch { LogError("Ошибка в функции AOM_IntErr"); }
-                StringBuilder cfgname2 = new StringBuilder(7);
-                try
-                {
-                    codeerr = AOF.AOM_GetID(cfgname2, AOFSimulatorActivated);
-                }
-                catch { LogError("Ошибка в функции AOM_GetID"); }
-                L_ReqDevName.Text = cfgname2.ToString()+".dev";
-                if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
-                float wlmin = 0.0f;
-                float wlmax = 0.0f;
-
-                string cfgname = L_RealDevName.Text;// cfgname2.ToString() + ".dev";
-
-                codeerr = AOF.AOM_LoadSettings(cfgname, ref wlmin, ref wlmax);
-                if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
-                
-                wlming = wlmin; wlmaxg = wlmax; wlcurrentg = (wlmaxg + wlming) / 2;
-                LoadingAOFValues = true;
-                TBStepL.Text = wlstepg.ToString();
-                MaximumWL = (int)wlmaxg; ; MinimumWL = (int)wlming;
-                TrBCurrentWL.Maximum = (int)wlmaxg;
-                TrBCurrentWL.Minimum = (int)wlming;
-                TrBWLNumber.Minimum = (int)(ConvertWL2WN(wlmaxg));
-                TrBWLNumber.Maximum = (int)(ConvertWL2WN(wlming));
-                                       
-                TBwl.Text = wlcurrentg.ToString();
-                TBwn.Text = ConvertWL2WN(wlcurrentg).ToString();
-                TrBCurrentWL.Value =(int) wlcurrentg;
-                TrBWLNumber.Value = (int)ConvertWL2WN(wlcurrentg);
-                
-                TBStartL.Text = wlming.ToString();
-                TBFinishL.Text = wlmaxg.ToString();   
-                TBStartN.Text = ConvertWL2WN(wlming).ToString();
-                TBFinishN.Text = ConvertWL2WN(wlmaxg).ToString();
-                LoadingAOFValues = false;
-            }
-            catch (Exception ex)
-            {
-                LogError(ex.Message);
-            }
-        }
+        
         private static void IC_DigitalIO(ICImagingControl ctrl,bool SetActive)
         {
             if(SetActive) { }
             else { }
         }
-        private void TrBWLOnScroll()
+        private void TrBWL_OnScroll()
         {
             int codeerr = 0;
-            float wcurrent = 0;
-            wcurrent = Convert.ToInt32(TrBCurrentWL.Value);
-            TBwl.Text = wcurrent.ToString();
-            TBwn.Text = ConvertWL2WN(wcurrent).ToString();           
+            float wl_current = 0;
+            wl_current = (float)(TrB_CurrentWL.Value/AO_WL_precision);
+            NUD_CurrentWL.Value = (decimal)wl_current;
+            NUD_CurrentWN.Value = (decimal)ConvertWL2WN(wl_current);           
             if(AutoSetActivated)
             try
             {
-                TrBWLNumber.Value = (int)ConvertWL2WN(wcurrent);
-                    codeerr = Filter.Set_Wl(wcurrent);//, AOFSimulatorActivated);
-                if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); }
-                else LogMessage(TBwl.Text + " wave lenght has been set!");
+                
+                codeerr = Filter.Set_Wl(wl_current);//, AOFSimulatorActivated);
+                if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); }
+                else LogMessage(NUD_CurrentWL.Text + " wave lenght has been set!");
             }
             catch (Exception ex)
             {
                 LogError(ex.Message);
             }
         }
-        private void TrBWNOnScroll()
+        private void TrBWN_OnScroll()
         {
             int codeerr = 0;
-            float wcurrentN = 0;
-            wcurrentN = Convert.ToInt32( TrBWLNumber.Value);
-            TBwn.Text = wcurrentN.ToString();
-            TBwl.Text = ((int)ConvertWN2WL(wcurrentN)).ToString();
-            TrBCurrentWL.Value = (int)ConvertWN2WL(wcurrentN);
+            float current_WN = 0;
+            current_WN = Convert.ToInt32( TrB_CurrentWN.Value);
+            NUD_CurrentWN.Value = (decimal)current_WN;
+            NUD_CurrentWL.Value = (decimal)ConvertWN2WL(current_WN);
+            TrB_CurrentWL.Value = (int)(ConvertWN2WL(current_WN)*AO_WL_precision);
             if (AutoSetActivated)
                 try
                 {
-                    codeerr = Filter.Set_Wl(ConvertWN2WL(wcurrentN));//, AOFSimulatorActivated);
-                    if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); }
-                    else LogMessage(TBwl.Text + " wave lenght has been set!");
+                    codeerr = Filter.Set_Wl(ConvertWN2WL(current_WN));//, AOFSimulatorActivated);
+                    if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); }
+                    else LogMessage(NUD_CurrentWL.Text + " wave lenght has been set!");
                 }
                 catch (Exception ex)
                 {
@@ -1145,25 +1074,24 @@ namespace ICSpec
             ChB_AutoSetWL.Checked = false;
             try
             { 
-            int curWL = Convert.ToInt16(TBwl.Text);
-            TBwn.Text = ConvertWL2WN(curWL).ToString();
+            int curWL = Convert.ToInt16(NUD_CurrentWL.Text);
+            NUD_CurrentWN.Text = ConvertWL2WN(curWL).ToString();
             
-            TrBCurrentWL.Value = curWL;
-            TrBWLNumber.Value = (int)ConvertWL2WN(curWL);
+            TrB_CurrentWL.Value = curWL;
+            TrB_CurrentWN.Value = (int)ConvertWL2WN(curWL);
             }
             catch { LogError("Указанное значение находится вне диапазона"); }
 
         }
-        private void TBWNTextChanged()
+        private void TBWN_onValueChanged()
         {
             ChB_AutoSetWL.Checked = false;
             try
             {
-            int curWN = Convert.ToInt16(TBwn.Text);
-            TBwl.Text = ((int)ConvertWN2WL(curWN)).ToString();
-            
-                TrBCurrentWL.Value = (int)ConvertWN2WL(curWN);
-                TrBWLNumber.Value = curWN;
+                int curWN = Convert.ToInt16(NUD_CurrentWN.Value);
+                NUD_CurrentWL.Value = (decimal)ConvertWN2WL(curWN);
+                TrB_CurrentWL.Value = (int)(ConvertWN2WL(curWN) * AO_WL_precision);
+                TrB_CurrentWN.Value = curWN;
             }
             catch { LogError("Указанное значение находится вне диапазона"); }
         }
@@ -1172,29 +1100,16 @@ namespace ICSpec
             int codeerr = 0;
             try
             {
-                codeerr = Filter.Set_Wl(Convert.ToInt32(TBwl.Text));//, AOFSimulatorActivated);
-                if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); }
-                else LogMessage(TBwl.Text + " wave lenght has been set!");
+                codeerr = Filter.Set_Wl(Convert.ToInt32(NUD_CurrentWL.Value));//, AOFSimulatorActivated);
+                if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); }
+                else LogMessage(NUD_CurrentWL.Text + " wave lenght has been set!");
             }
             catch (Exception ex)
             {
                 LogError(ex.Message);
             }
         }
-        private void PowerAOF()
-        {
-            try
-            {
-                int codeerr = 0;
-                codeerr = AOF.AOM_PowerOn(AOFSimulatorActivated);
-                if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); }
-                else { LogMessage(" AOF Power is ON"); AOFisON = true; GrBAOFWlSet.Enabled = true; }
-            }
-            catch (Exception ex)
-            {
-                LogError(ex.Message);
-            }
-        }
+
         private string CheckScreenShotBasicName()
         {
             string result = "ScreenShot";
@@ -1204,7 +1119,7 @@ namespace ICSpec
         private int CalculateSteps()
         {
             wlstepg = Convert.ToInt16(TBStepL.Text);
-            wlcurrentg = Convert.ToInt16(TBwl.Text);
+            wlcurrentg = Convert.ToInt16(NUD_CurrentWL.Text);
             wlming = StartL = Convert.ToInt32(TBStartL.Text);
             wlmaxg = EndL = Convert.ToInt32(TBFinishL.Text);
             int steps = (int)((EndL - StartL) / wlstepg) + 1;
@@ -1970,19 +1885,6 @@ namespace ICSpec
                 }
             }
             return bResult;
-        }
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // Form1
-            // 
-            this.ClientSize = new System.Drawing.Size(282, 253);
-            this.Name = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.ResumeLayout(false);
-
         }
 
         
