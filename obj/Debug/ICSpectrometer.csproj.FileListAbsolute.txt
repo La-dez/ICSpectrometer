@@ -1,1 +1,7 @@
 D:\Работа\AOF NAU v1.0\WindowsFormsApplication5\bin\Debug\IC Spectrometer v1.1.exe.config
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\Debug\IC Spectrometer v1.9 Beta.exe.config
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\Debug\ICSpectrometer.csprojResolveAssemblyReference.cache
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\Debug\ICSpec.Form1.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\Debug\ICSpec.Properties.Resources.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\Debug\ICSpec.SaveDialog.resources
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\Debug\ICSpectrometer.csproj.GenerateResource.Cache

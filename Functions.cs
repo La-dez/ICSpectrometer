@@ -17,7 +17,7 @@ namespace ICSpec
 {
     public partial class Form1
     {
-        float wlming = 740, wlmaxg = 1000, wlstepg = 10, wlcurrentg = 0, StartL = 0, EndL = 0, Step = 0;
+        float AO_MinimumWL = 740, AO_MaximumWL = 1000, AO_StepWL = 10, AO_CurrentWL = 0, AO_StartL = 0, AO_EndL = 0;
         bool ACenterAvailible = false;
         bool ScanXOffsetAvailible = false;
         bool ScanYOffsetAvailible = false;
@@ -535,7 +535,7 @@ namespace ICSpec
             {
                 try
                 {
-                    codeerr = Filter.Set_Wl(wlming);//,AOFSimulatorActivated);
+                    codeerr = Filter.Set_Wl(AO_MinimumWL);//,AOFSimulatorActivated);
                     if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); };
                 }
                 catch (Exception ex)
@@ -545,10 +545,10 @@ namespace ICSpec
                 System.Threading.Thread.Sleep(200);
                 for (int i = 0; i < Number; i += 1)
                 {
-                    wlcurrentg = wlming + i * wlstepg;
+                    AO_CurrentWL = AO_MinimumWL + i * AO_StepWL;
                     try
                     {
-                        codeerr = Filter.Set_Wl(wlcurrentg);//, AOFSimulatorActivated);
+                        codeerr = Filter.Set_Wl(AO_CurrentWL);//, AOFSimulatorActivated);
                         if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); };
                     }
                     catch (Exception ex)
@@ -575,7 +575,7 @@ namespace ICSpec
             {
                 try
                 {
-                    codeerr = Filter.Set_Wl(wlming);//, AOFSimulatorActivated);
+                    codeerr = Filter.Set_Wl(AO_MinimumWL);//, AOFSimulatorActivated);
                     if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); };
                 }
                 catch (Exception ex)
@@ -587,10 +587,10 @@ namespace ICSpec
                 Stopwatch SessionDone = new Stopwatch(); SessionDone.Start();
                 for (int i = 0; i < pSteps; i += 1)
                 {
-                    wlcurrentg = pStartWL + i * wlstepg;
+                    AO_CurrentWL = pStartWL + i * AO_StepWL;
                     try
                     {
-                        codeerr = Filter.Set_Wl(wlcurrentg);//, AOFSimulatorActivated);
+                        codeerr = Filter.Set_Wl(AO_CurrentWL);//, AOFSimulatorActivated);
                         if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); };
                     }
                     catch (Exception ex)
@@ -628,8 +628,8 @@ namespace ICSpec
             {
                 try
                 {
-                    wlcurrentg = pStartWL + i * wlstepg;
-                    string local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" + wlcurrentg.ToString() + SnapImageStyle.Extension;
+                    AO_CurrentWL = pStartWL + i * AO_StepWL;
+                    string local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" + AO_CurrentWL.ToString() + SnapImageStyle.Extension;
                     rval[i].SaveAsTiff(local);
                    // LogMessage("Формат пикселей: " + Massive2Save[i].PixelFormat.ToString());
                 }
@@ -650,7 +650,7 @@ namespace ICSpec
                 LogError("ORIGINAL: " + e3.Message);
             }
             SetInactiveDependence(1);
-            NUD_CurrentWL.Text = wlcurrentg.ToString();
+            NUD_CurrentWL.Text = AO_CurrentWL.ToString();
             SetInactiveDependence(0);
         }
         private void New_SnapAndSaveMassive(int pStartWL, int pFinishWL, int pSteps,float[] WLVals = null)
@@ -664,7 +664,7 @@ namespace ICSpec
             List<double> exps = new List<double>();
             if (IsNeeded_ExpCurve)
             {
-                ExpCurve.Get_andWrite_NiceCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL,pStartWL, pFinishWL, (int)wlstepg, ref wls, ref exps,ref Gain,ref FPS);
+                ExpCurve.Get_andWrite_NiceCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL,pStartWL, pFinishWL, (int)AO_StepWL, ref wls, ref exps,ref Gain,ref FPS);
             }
 
             List<float> allvalues = new List<float>();
@@ -676,8 +676,8 @@ namespace ICSpec
             {
                 for (int i = 0; i < pSteps; i += 1)
                 {
-                    wlcurrentg = pStartWL + i * wlstepg;
-                    allvalues.Add(wlcurrentg);
+                    AO_CurrentWL = pStartWL + i * AO_StepWL;
+                    allvalues.Add(AO_CurrentWL);
                 }
                 allvalues.Add(pFinishWL);
                 if (allvalues[pSteps] == allvalues[pSteps - 1]) allvalues.RemoveAt(pSteps);
@@ -698,8 +698,7 @@ namespace ICSpec
             {
                 try
                 {
-                    codeerr = Filter.Set_Wl(wlming);//, AOFSimulatorActivated);
-                    //ICSpec.AO_Devices.AO_Filter.Set_Wl(allvalues[i], AOFSimulatorActivated);   ???????
+                    codeerr = Filter.Set_Wl(AO_MinimumWL);//, AOFSimulatorActivated);
                     if (IsNeeded_ExpCurve)
                     {
                         LoadExposure(ref AbsValExp, exps[0]);
@@ -736,7 +735,8 @@ namespace ICSpec
                     swl.Stop();
                     Times2SetWL.Add(swl.Elapsed.TotalMilliseconds);
 
-                    Stopwatch swl2 = new Stopwatch(); swl2.Start();
+                    Stopwatch swl2 = new Stopwatch();
+                    swl2.Start();
                     curfhs.SnapImage();
                     swl2.Stop();
                     Times2SnapImage.Add(swl2.Elapsed.TotalMilliseconds);
@@ -795,7 +795,7 @@ namespace ICSpec
                 }
             }
             SetInactiveDependence(1);
-            NUD_CurrentWL.Text = wlcurrentg.ToString();
+            NUD_CurrentWL.Text = AO_CurrentWL.ToString();
             SetInactiveDependence(0);
         }
         private void SaveMassive(Bitmap[] Massive2Save)
@@ -851,8 +851,8 @@ namespace ICSpec
             {
                 try
                 {
-                    wlcurrentg = wlming + i * wlstepg;
-                    Massive2Save[i].Save(SnapImageStyle.Directory + SCRName + "_" + date + "_" + wlcurrentg.ToString() + SnapImageStyle.Extension, format);
+                    AO_CurrentWL = AO_MinimumWL + i * AO_StepWL;
+                    Massive2Save[i].Save(SnapImageStyle.Directory + SCRName + "_" + date + "_" + AO_CurrentWL.ToString() + SnapImageStyle.Extension, format);
                     LogMessage("Формат пикселей: " + Massive2Save[i].PixelFormat.ToString());
                 }
                 catch (Exception e3)
@@ -862,7 +862,7 @@ namespace ICSpec
             }
             
             SetInactiveDependence(1);
-            NUD_CurrentWL.Text = wlcurrentg.ToString();
+            NUD_CurrentWL.Text = AO_CurrentWL.ToString();
             SetInactiveDependence(0);
         }
         private void SnapSequence2img()
@@ -1053,9 +1053,9 @@ namespace ICSpec
         {
             int codeerr = 0;
             float current_WN = 0;
-            current_WN = Convert.ToInt32( TrB_CurrentWN.Value);
-            NUD_CurrentWN.Value = (decimal)current_WN;
-            NUD_CurrentWL.Value = (decimal)ConvertWN2WL(current_WN);
+            current_WN = TrB_CurrentWN.Value / (float)AO_WL_precision;
+            NUD_CurrentWN.Value = (decimal)(current_WN);
+            NUD_CurrentWL.Value = (decimal)(Math.Round(ConvertWN2WL(current_WN) * AO_WL_precision)/ AO_WL_precision);
             TrB_CurrentWL.Value = (int)(ConvertWN2WL(current_WN)*AO_WL_precision);
             if (AutoSetActivated)
                 try
@@ -1091,7 +1091,7 @@ namespace ICSpec
                 int curWN = Convert.ToInt16(NUD_CurrentWN.Value);
                 NUD_CurrentWL.Value = (decimal)ConvertWN2WL(curWN);
                 TrB_CurrentWL.Value = (int)(ConvertWN2WL(curWN) * AO_WL_precision);
-                TrB_CurrentWN.Value = curWN;
+                TrB_CurrentWN.Value = (int)(curWN * AO_WL_precision);
             }
             catch { LogError("Указанное значение находится вне диапазона"); }
         }
@@ -1118,11 +1118,11 @@ namespace ICSpec
         }
         private int CalculateSteps()
         {
-            wlstepg = Convert.ToInt16(TBStepL.Text);
-            wlcurrentg = Convert.ToInt16(NUD_CurrentWL.Text);
-            wlming = StartL = Convert.ToInt32(TBStartL.Text);
-            wlmaxg = EndL = Convert.ToInt32(TBFinishL.Text);
-            int steps = (int)((EndL - StartL) / wlstepg) + 1;
+            AO_StepWL = Convert.ToInt16(NUD_StepL.Value);
+            AO_CurrentWL = Convert.ToInt16(NUD_CurrentWL.Value);
+            AO_StartL = Convert.ToInt32(NUD_StartL.Value);
+            AO_EndL = Convert.ToInt32(NUD_FinishL.Value);
+            int steps = (int)((AO_EndL - AO_StartL) / AO_StepWL) + 1;
             return steps;
         }
         private void DisableAlltheShit()

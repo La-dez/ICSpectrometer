@@ -174,7 +174,7 @@ namespace ICSpec
                     DisableAlltheShit();
                     FormatAdaptation();
 
-
+                    m_oldSink = New_SetSelectedCamera_SignalStream_Format();
 
                     //создание контекстного меню
 
@@ -329,7 +329,7 @@ namespace ICSpec
                     string SCRName = CheckScreenShotBasicName();
                     string date = GetDateString();
                     var buf = curfhs.LastAcquiredBuffer;
-                    string exactname = SnapImageStyle.Directory + SCRName + "_" + date + "_" + wlcurrentg.ToString() + SnapImageStyle.Extension;
+                    string exactname = SnapImageStyle.Directory + SCRName + "_" + date + "_" + AO_CurrentWL.ToString() + SnapImageStyle.Extension;
                     buf.SaveAsTiff(exactname);
                     LogMessage("Сохранено: " + exactname);
                 }
@@ -351,7 +351,7 @@ namespace ICSpec
             {
                 WLs_toTune = null;
             }
-            New_SnapAndSaveMassive((int)StartL, (int)EndL, stepss, WLs_toTune);
+            New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
             EnableFlipButtons();
         }
 
@@ -462,14 +462,11 @@ namespace ICSpec
             //if (!CheckRight()) return;
             var ic = icImagingControl1;
             ic.LiveStop();
-            var oldS = New_SetSelectedCamera_SignalStream_Format();
+            var oldS = New_SetSelectedCamera_SignalStream_Format(); //из-за этой функции после ресета становится доступно сохранение кадров
             bool result = SetSelectedFormatAndBinning();
             result = SetSelectedPartialScan();
             ROISeted = true;
-            //  SetSelectedCameraPixelFormat();
-            //   SetSelectedPixelFormat();
-            /*   GetAllAvailibleFPS();
-               FindCurrentFPS(true);*/
+            
             try { ic.LiveStart(); }
             catch (ICException exc)
             {
@@ -836,10 +833,10 @@ namespace ICSpec
 
                     List<int> wls = new List<int>();
                     List<double> exps = new List<double>();
-                    wlming = Convert.ToInt32(TBStartL.Text);
-                    wlmaxg = Convert.ToInt32(TBFinishL.Text);
+                    AO_MinimumWL = Convert.ToInt32(NUD_StartL.Text);
+                    AO_MaximumWL = Convert.ToInt32(NUD_FinishL.Text);
                     double Gain = 0, FPS = 0;
-                    ExpCurve.Get_andWrite_NiceCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL, (int)wlming, (int)wlmaxg, (int)wlstepg, ref wls, ref exps, ref Gain, ref FPS);
+                    ExpCurve.Get_andWrite_NiceCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL, (int)AO_MinimumWL, (int)AO_MaximumWL, (int)AO_StepWL, ref wls, ref exps, ref Gain, ref FPS);
 
                     LogMessage("Перестройка по кривой включена.");
                 }
@@ -863,9 +860,9 @@ namespace ICSpec
             if (BCreateAutoCurve.Text == "Создать кривую по автоэкспозиции")
             {
                 BCreateAutoCurve.Text = "Прервать создание кривой";
-                StartL = Convert.ToInt32(TBStartL.Text);
-                EndL = Convert.ToInt32(TBFinishL.Text);
-                wlstepg = Convert.ToInt16(TBStepL.Text);
+                AO_StartL = Convert.ToInt32(NUD_StartL.Text);
+                AO_EndL = Convert.ToInt32(NUD_FinishL.Text);
+                AO_StepWL = Convert.ToInt16(NUD_StepL.Text);
                 BkGrWorker_forExpCurveBuilding.RunWorkerAsync();
             }
             else
@@ -898,7 +895,7 @@ namespace ICSpec
                     wasAutomation = vcdProp.Automation[ChangeVCDID];
 
                     ExpCurve.CreateCurve(ref worker, ref e, ref icImagingControl1, ref vcdProp, ref ptrExp,
-                           MinimumWL, MaximumWL, (int)StartL, (int)EndL, (int)wlstepg, CurGain, CurFPS, MessageDelegate, wasAutomation,Filter);
+                           MinimumWL, MaximumWL, (int)AO_StartL, (int)AO_EndL, (int)AO_StepWL, CurGain, CurFPS, MessageDelegate, wasAutomation,Filter);
                     vcdProp.Automation[ChangeVCDID] = wasAutomation;
                 }
                 catch (Exception exc)
@@ -1119,6 +1116,21 @@ namespace ICSpec
             if (DependenceTBWN && !LoadingAOFValues) { SetInactiveDependence(2); TBWN_onValueChanged(); SetInactiveDependence(0); }
         }
 
+        private void NUD_StartL_ValueChanged(object sender, EventArgs e)
+        {
+            AO_StartL = (float)NUD_StartL.Value;
+        }
+
+        private void NUD_FinishL_ValueChanged(object sender, EventArgs e)
+        {
+            AO_EndL = (float)NUD_FinishL.Value;
+        }
+
+        private void NUD_StepL_ValueChanged(object sender, EventArgs e)
+        {
+            AO_StepWL = (float)NUD_StepL.Value;
+        }
+
         private void tests()
         {
 
@@ -1146,13 +1158,27 @@ namespace ICSpec
                 float data_CurWL = (Filter.WL_Max + Filter.WL_Min) / 2;
                 Filter.Set_Wl(data_CurWL);
 
-                NUD_CurrentWL.Minimum = (decimal)Filter.WL_Min;
-                TrB_CurrentWL.Minimum = (int)(Filter.WL_Min * AO_WL_precision);
                 NUD_CurrentWL.Maximum = (decimal)Filter.WL_Max;
-                TrB_CurrentWL.Maximum = (int)(Filter.WL_Max * AO_WL_precision);
+                NUD_CurrentWL.Minimum = (decimal)Filter.WL_Min;
                 NUD_CurrentWL.Value = (decimal)data_CurWL;
+
+                TrB_CurrentWL.Maximum = (int)(Filter.WL_Max * AO_WL_precision);
+                TrB_CurrentWL.Minimum = (int)(Filter.WL_Min * AO_WL_precision);       
                 TrB_CurrentWL.Value = (int)(data_CurWL * AO_WL_precision);
 
+                NUD_CurrentWN.Maximum = (decimal)ConvertWL2WN(Filter.WL_Min);
+                NUD_CurrentWN.Minimum = (decimal)ConvertWL2WN(Filter.WL_Max);
+                NUD_CurrentWN.Value = (decimal)ConvertWL2WN(data_CurWL);
+
+                TrB_CurrentWN.Maximum = (int)(ConvertWL2WN(Filter.WL_Min) * AO_WL_precision);
+                TrB_CurrentWN.Minimum = (int)(ConvertWL2WN(Filter.WL_Max) * AO_WL_precision);
+                TrB_CurrentWN.Value = (int)(ConvertWL2WN(data_CurWL) * AO_WL_precision);
+
+                NUD_StartL.Minimum = NUD_FinishL.Minimum = NUD_StartL.Value = (decimal)Filter.WL_Min;
+                NUD_StartL.Maximum = NUD_FinishL.Maximum = NUD_FinishL.Value = (decimal)Filter.WL_Max;
+                NUD_StepL.Minimum = 1;
+                NUD_StepL.Maximum =(decimal)(Filter.WL_Max - Filter.WL_Min);
+               // NUD_StepL.
                 /*   ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
                    Pan_SweepControls.Enabled = Filter.is_inSweepMode;
 
