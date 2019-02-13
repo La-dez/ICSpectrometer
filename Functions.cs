@@ -674,7 +674,7 @@ namespace ICSpec
             //List<double> Times2CopyImage = new List<double>();
             if (WLVals == null)
             {
-                for (int i = 0; i < pSteps; i += 1)
+                for (int i = 0; i < pSteps; i++)
                 {
                     AO_CurrentWL = pStartWL + i * AO_StepWL;
                     allvalues.Add(AO_CurrentWL);
@@ -698,7 +698,7 @@ namespace ICSpec
             {
                 try
                 {
-                    codeerr = Filter.Set_Wl(AO_MinimumWL);//, AOFSimulatorActivated);
+                    codeerr = Filter.Set_Wl(pStartWL);//, AOFSimulatorActivated);
                     if (IsNeeded_ExpCurve)
                     {
                         LoadExposure(ref AbsValExp, exps[0]);

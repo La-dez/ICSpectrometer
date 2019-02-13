@@ -122,7 +122,7 @@ namespace ICSpec
                     else
                     {
                         CreateAttachmentFactor(ref AttachmentFactor, LBConsole);
-                        this.Text = "IC Spectrometer v1.9 Beta";
+                        this.Text = "IC Spectrometer v2.0 Beta";
                         fileName = Application.StartupPath + @"\SettingsOfWriting.txt";
                         TrBZoomOfImage.Value = (int)(icImagingControl1.LiveDisplayZoomFactor * 100.00f);
                         vcdProp = new VCDSimpleProperty(icImagingControl1.VCDPropertyItems);
