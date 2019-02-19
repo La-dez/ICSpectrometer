@@ -80,6 +80,10 @@ namespace ICSpec
 
         string AO_ProgramSweepCFG_filename = "AOData.txt";
 
+        string data_of_start = null;
+        string data_NOW = null;
+
+
         public Form1()
         {
             InitializeComponent();//функция инициалиции элементов управления
@@ -122,7 +126,7 @@ namespace ICSpec
                     else
                     {
                         CreateAttachmentFactor(ref AttachmentFactor, LBConsole);
-                        this.Text = "IC Spectrometer v2.0 Beta";
+                        this.Text = "IC Spectrometer v2.0.5 Beta";
                         fileName = Application.StartupPath + @"\SettingsOfWriting.txt";
                         TrBZoomOfImage.Value = (int)(icImagingControl1.LiveDisplayZoomFactor * 100.00f);
                         vcdProp = new VCDSimpleProperty(icImagingControl1.VCDPropertyItems);
@@ -1129,6 +1133,129 @@ namespace ICSpec
         private void NUD_StepL_ValueChanged(object sender, EventArgs e)
         {
             AO_StepWL = (float)NUD_StepL.Value;
+        }
+
+        private void B_Start_TimedSession_Click(object sender, EventArgs e)
+        {
+            if (BStartS.Text != "Break session")
+            {
+                ReadAllSettingsFromFile(false);
+                if (WarningofImage)
+                {
+                    MessageBox.Show(WarningofImgMessage, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+               string date = GetDateString();
+                Directory.CreateDirectory(SnapImageStyle.Directory + date);
+               string NameDirectory = GetDateString() + "\\";
+               string SCRName = CheckScreenShotBasicName();
+                Start_NoAOFSession();
+            }
+            else
+            {
+                DialogResult a = MessageBox.Show("Вы уверены, что хотите прервать сессию? Данные сохранятся, но отчет начнется заново.",
+                    "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (a == DialogResult.Yes) Stop_NoAOFSession();
+                else return;
+            }
+        }
+        private void Start_NoAOFSession()
+        {
+       /*     SessionTiming.Enabled = true;
+            SessionTiming.Start(); AllTheSession.Start();
+            Steps_InSession_MAX = BasicDataSession.GetNumOfFragments();
+            BStartS.Text = "Break session";
+
+            //
+            data_of_Start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
+            stw.Start();
+            SnapShot_New(0, Steps_InSession); stw.Stop();
+            LogMessage("Время сохранения (мс): " + stw.Elapsed.TotalMilliseconds.ToString());*/
+        }
+        private void Stop_NoAOFSession()
+        {
+         /*   SessionTiming.Enabled = false;
+            SessionTiming.Stop(); AllTheSession.Stop();
+            Ticks_InSession = 0; Steps_InSession = 0;
+            BStartS.Text = "Start session";*/
+        }
+
+        private void SessionTiming_Tick(object sender, EventArgs e)
+        {
+          
+            
+           // int Shots = BasicDataSession.Times[Steps_InSession] / (int)BasicDataSession.Intervals[Steps_InSession];
+            string NOW = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
+           // int dd_elapsed = Convert.ToInt32(NOW.Substring(8, 2)) - Convert.ToInt32(data_of_Start.Substring(8, 2));
+           // int hh_elapsed = Convert.ToInt32(NOW.Substring(11, 2)) - Convert.ToInt32(data_of_Start.Substring(11, 2));
+
+            int mm_elapsed = Convert.ToInt32(NOW.Substring(14, 2)) - Convert.ToInt32(data_of_start.Substring(14, 2));
+            int ss_elapsed = Convert.ToInt32(NOW.Substring(17, 2)) - Convert.ToInt32(data_of_start.Substring(17, 2));
+
+            int Secs_total_elapsed =/* dd_elapsed * 86400 + hh_elapsed * 3600 +*/ mm_elapsed * 60 + ss_elapsed; /*- Session_CalculateTime(Steps_InSession);*/
+            if (Secs_total_elapsed >= 60)
+            {
+                data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
+                int stepss = CalculateSteps();
+                //   Bitmap[] Massive = StartSession(stepss); 
+                // SaveMassive(Massive);
+                DisableFlipButtons();
+                if (!ChB_LoadWLCurve.Checked) { WLs_toTune = null; }
+                New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
+                EnableFlipButtons();
+
+            }
+           /* int Secs_total_elapsed = dd_elapsed * 86400 + hh_elapsed * 3600 + mm_elapsed * 60 + ss_elapsed - Session_CalculateTime(Steps_InSession);
+            stw.Start();
+            if (Sec_screened != Secs_total_elapsed)
+            {
+                if (Secs_total_elapsed % (int)BasicDataSession.Intervals[Steps_InSession] == 0)
+                {
+                    SnapShot_New(Secs_total_elapsed, Steps_InSession); Sec_screened = Secs_total_elapsed; stw.Stop();
+                    LogMessage("Время сохранения (мс): " + stw.Elapsed.TotalMilliseconds.ToString());
+                }
+                if (Secs_total_elapsed >= (int)BasicDataSession.Times[Steps_InSession]) //Случай, когда начинается очередной фрагмент
+                {
+                    SnapShot_New(Secs_total_elapsed, Steps_InSession); Sec_screened = Secs_total_elapsed; stw.Stop();
+                    LogMessage("Время сохранения (мс): " + stw.Elapsed.TotalMilliseconds.ToString());
+                    Steps_InSession++;
+                }
+            }
+            if (Steps_InSession == Steps_InSession_MAX) //Случай, когда сессия заканчивается
+            {
+                SnapShot_New(Secs_total_elapsed, Steps_InSession); Sec_screened = Secs_total_elapsed;
+                Stop_NoAOFSession();
+                stw.Stop();
+                LogMessage("Время сохранения (мс): " + stw.Elapsed.TotalMilliseconds.ToString());
+                LogMessage("Сессия завершена! Заданное время съемки: " +
+                    Session_CalculateTime(BasicDataSession.Intervals.Count()).ToString() +
+                    ". Реальное: " + AllTheSession.Elapsed.TotalSeconds.ToString());
+                AllTheSession.Reset();
+            }
+
+            stw.Reset();*/
+        }
+
+        private void ChB_StartTimedSession_CheckedChanged(object sender, EventArgs e)
+        {
+            if(ChB_StartTimedSession.Checked)
+            {
+                data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
+                int stepss = CalculateSteps();
+                //   Bitmap[] Massive = StartSession(stepss); 
+                // SaveMassive(Massive);
+                DisableFlipButtons();
+                if (!ChB_LoadWLCurve.Checked) { WLs_toTune = null; }
+                New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
+                EnableFlipButtons();
+
+                SessionTiming.Start();
+
+            }
+            else
+            {
+                SessionTiming.Stop();
+            }
         }
 
         private void tests()
