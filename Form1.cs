@@ -82,7 +82,7 @@ namespace ICSpec
 
         string data_of_start = null;
         string data_NOW = null;
-
+        bool isTimeSesNeeded = false;
 
         public Form1()
         {
@@ -126,7 +126,7 @@ namespace ICSpec
                     else
                     {
                         CreateAttachmentFactor(ref AttachmentFactor, LBConsole);
-                        this.Text = "IC Spectrometer v2.0.5 Beta";
+                        this.Text = "IC Spectrometer v2.0.7 Beta";
                         fileName = Application.StartupPath + @"\SettingsOfWriting.txt";
                         TrBZoomOfImage.Value = (int)(icImagingControl1.LiveDisplayZoomFactor * 100.00f);
                         vcdProp = new VCDSimpleProperty(icImagingControl1.VCDPropertyItems);
@@ -697,11 +697,18 @@ namespace ICSpec
 
         private void FPSTimer_Tick(object sender, EventArgs e)
         {
-            if (icImagingControl1.DeviceValid)
+            try
             {
-                try
-                { LFPSCurrent.Text = icImagingControl1.DeviceFrameRate.ToString(); }
-                catch { }
+                if (icImagingControl1.DeviceValid)
+                {
+                    try
+                    { LFPSCurrent.Text = icImagingControl1.DeviceFrameRate.ToString(); }
+                    catch { }
+                }
+            }
+            catch
+            {
+
             }
         }
 
@@ -776,8 +783,14 @@ namespace ICSpec
 
         private void ICInvalidateTimer_Tick(object sender, EventArgs e)
         {
-            // if(icImagingControl1.LiveVideoRunning)
-            // DBInvalidate(icImagingControl1.OverlayBitmap);
+            try
+            {// if(icImagingControl1.LiveVideoRunning)
+             // DBInvalidate(icImagingControl1.OverlayBitmap);
+            }
+            catch
+            {
+                
+            }
         }
 
         private void BROIFull_Click(object sender, EventArgs e)
@@ -1182,28 +1195,38 @@ namespace ICSpec
 
         private void SessionTiming_Tick(object sender, EventArgs e)
         {
-          
-            
-           // int Shots = BasicDataSession.Times[Steps_InSession] / (int)BasicDataSession.Intervals[Steps_InSession];
-            string NOW = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
-           // int dd_elapsed = Convert.ToInt32(NOW.Substring(8, 2)) - Convert.ToInt32(data_of_Start.Substring(8, 2));
-           // int hh_elapsed = Convert.ToInt32(NOW.Substring(11, 2)) - Convert.ToInt32(data_of_Start.Substring(11, 2));
-
-            int mm_elapsed = Convert.ToInt32(NOW.Substring(14, 2)) - Convert.ToInt32(data_of_start.Substring(14, 2));
-            int ss_elapsed = Convert.ToInt32(NOW.Substring(17, 2)) - Convert.ToInt32(data_of_start.Substring(17, 2));
-
-            int Secs_total_elapsed =/* dd_elapsed * 86400 + hh_elapsed * 3600 +*/ mm_elapsed * 60 + ss_elapsed; /*- Session_CalculateTime(Steps_InSession);*/
-            if (Secs_total_elapsed >= 60)
+            if (isTimeSesNeeded)
             {
-                data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
-                int stepss = CalculateSteps();
-                //   Bitmap[] Massive = StartSession(stepss); 
-                // SaveMassive(Massive);
-                DisableFlipButtons();
-                if (!ChB_LoadWLCurve.Checked) { WLs_toTune = null; }
-                New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
-                EnableFlipButtons();
+                try
+                {
 
+                    // int Shots = BasicDataSession.Times[Steps_InSession] / (int)BasicDataSession.Intervals[Steps_InSession];
+                    string NOW = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
+                    // int dd_elapsed = Convert.ToInt32(NOW.Substring(8, 2)) - Convert.ToInt32(data_of_Start.Substring(8, 2));
+
+                    int hh_elapsed = Convert.ToInt32(NOW.Substring(11, 2)) - Convert.ToInt32(data_of_start.Substring(11, 2));
+                    int mm_elapsed = Convert.ToInt32(NOW.Substring(14, 2)) - Convert.ToInt32(data_of_start.Substring(14, 2));
+                    int ss_elapsed = Convert.ToInt32(NOW.Substring(17, 2)) - Convert.ToInt32(data_of_start.Substring(17, 2));
+
+                    int Secs_total_elapsed =/* dd_elapsed * 86400 +*/hh_elapsed * 3600 + mm_elapsed * 60 + ss_elapsed; /*- Session_CalculateTime(Steps_InSession);*/
+                    if (Secs_total_elapsed >= 60)
+                    {
+                        data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
+                        int stepss = CalculateSteps();
+                        //   Bitmap[] Massive = StartSession(stepss); 
+                        // SaveMassive(Massive);
+                        DisableFlipButtons();
+                        if (!ChB_LoadWLCurve.Checked) { WLs_toTune = null; }
+                        New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
+                        EnableFlipButtons();
+
+                    }
+                }
+                catch (Exception exc)
+                {
+                    Log.Error("Непредвиеденная ошибка во время съемки.");
+                    Log.Error("ORIGINAL:" + exc.Message);
+                }
             }
            /* int Secs_total_elapsed = dd_elapsed * 86400 + hh_elapsed * 3600 + mm_elapsed * 60 + ss_elapsed - Session_CalculateTime(Steps_InSession);
             stw.Start();
@@ -1240,6 +1263,8 @@ namespace ICSpec
         {
             if(ChB_StartTimedSession.Checked)
             {
+                isTimeSesNeeded = true;
+
                 data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
                 int stepss = CalculateSteps();
                 //   Bitmap[] Massive = StartSession(stepss); 
@@ -1249,12 +1274,10 @@ namespace ICSpec
                 New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
                 EnableFlipButtons();
 
-                SessionTiming.Start();
-
             }
             else
             {
-                SessionTiming.Stop();
+                isTimeSesNeeded = false;
             }
         }
 

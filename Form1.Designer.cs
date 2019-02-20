@@ -234,7 +234,7 @@
             this.SnapshotBut.Location = new System.Drawing.Point(3, 146);
             this.SnapshotBut.Margin = new System.Windows.Forms.Padding(3, 1, 1, 1);
             this.SnapshotBut.Name = "SnapshotBut";
-            this.SnapshotBut.Size = new System.Drawing.Size(58, 27);
+            this.SnapshotBut.Size = new System.Drawing.Size(62, 27);
             this.SnapshotBut.TabIndex = 8;
             this.SnapshotBut.Text = "Grab";
             this.SnapshotBut.UseVisualStyleBackColor = true;
@@ -284,10 +284,10 @@
             // 
             this.tableLayoutPanel5.SetColumnSpan(this.ContTransAfterSnapshot, 3);
             this.ContTransAfterSnapshot.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ContTransAfterSnapshot.Location = new System.Drawing.Point(125, 146);
+            this.ContTransAfterSnapshot.Location = new System.Drawing.Point(133, 146);
             this.ContTransAfterSnapshot.Margin = new System.Windows.Forms.Padding(1, 1, 3, 1);
             this.ContTransAfterSnapshot.Name = "ContTransAfterSnapshot";
-            this.ContTransAfterSnapshot.Size = new System.Drawing.Size(160, 27);
+            this.ContTransAfterSnapshot.Size = new System.Drawing.Size(152, 27);
             this.ContTransAfterSnapshot.TabIndex = 32;
             this.ContTransAfterSnapshot.Text = "Continue";
             this.ContTransAfterSnapshot.UseVisualStyleBackColor = true;
@@ -301,10 +301,10 @@
             // 
             this.tableLayoutPanel5.SetColumnSpan(this.SaveImageBut, 2);
             this.SaveImageBut.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SaveImageBut.Location = new System.Drawing.Point(63, 146);
+            this.SaveImageBut.Location = new System.Drawing.Point(67, 146);
             this.SaveImageBut.Margin = new System.Windows.Forms.Padding(1);
             this.SaveImageBut.Name = "SaveImageBut";
-            this.SaveImageBut.Size = new System.Drawing.Size(60, 27);
+            this.SaveImageBut.Size = new System.Drawing.Size(64, 27);
             this.SaveImageBut.TabIndex = 48;
             this.SaveImageBut.Text = "Save";
             this.SaveImageBut.UseVisualStyleBackColor = true;
@@ -969,7 +969,7 @@
             this.TrB_CurrentWL.Maximum = 150000;
             this.TrB_CurrentWL.Minimum = 1;
             this.TrB_CurrentWL.Name = "TrB_CurrentWL";
-            this.TrB_CurrentWL.Size = new System.Drawing.Size(180, 23);
+            this.TrB_CurrentWL.Size = new System.Drawing.Size(192, 23);
             this.TrB_CurrentWL.TabIndex = 16;
             this.TrB_CurrentWL.TickStyle = System.Windows.Forms.TickStyle.None;
             this.TrB_CurrentWL.Value = 1;
@@ -1004,7 +1004,7 @@
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label4, 2);
-            this.label4.Location = new System.Drawing.Point(127, 219);
+            this.label4.Location = new System.Drawing.Point(135, 219);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(32, 13);
             this.label4.TabIndex = 11;
@@ -1015,7 +1015,7 @@
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label5, 2);
-            this.label5.Location = new System.Drawing.Point(65, 219);
+            this.label5.Location = new System.Drawing.Point(69, 219);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(38, 13);
             this.label5.TabIndex = 12;
@@ -1024,10 +1024,10 @@
             // BSetWL
             // 
             this.BSetWL.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BSetWL.Location = new System.Drawing.Point(189, 3);
+            this.BSetWL.Location = new System.Drawing.Point(201, 3);
             this.BSetWL.Name = "BSetWL";
             this.tableLayoutPanel5.SetRowSpan(this.BSetWL, 2);
-            this.BSetWL.Size = new System.Drawing.Size(96, 66);
+            this.BSetWL.Size = new System.Drawing.Size(84, 66);
             this.BSetWL.TabIndex = 5;
             this.BSetWL.Text = "Set WL";
             this.BSetWL.UseVisualStyleBackColor = true;
@@ -1040,7 +1040,7 @@
             this.tableLayoutPanel5.SetColumnSpan(this.label6, 3);
             this.label6.Location = new System.Drawing.Point(3, 1);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(87, 26);
+            this.label6.Size = new System.Drawing.Size(93, 26);
             this.label6.TabIndex = 16;
             this.label6.Text = "Current WaveLenght:";
             // 
@@ -1048,9 +1048,9 @@
             // 
             this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(158, 8);
+            this.label21.Location = new System.Drawing.Point(168, 8);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(25, 13);
+            this.label21.Size = new System.Drawing.Size(27, 13);
             this.label21.TabIndex = 17;
             this.label21.Text = "nm";
             // 
@@ -1062,7 +1062,7 @@
             this.TrB_CurrentWN.Maximum = 10000000;
             this.TrB_CurrentWN.Minimum = 6666;
             this.TrB_CurrentWN.Name = "TrB_CurrentWN";
-            this.TrB_CurrentWN.Size = new System.Drawing.Size(180, 23);
+            this.TrB_CurrentWN.Size = new System.Drawing.Size(192, 23);
             this.TrB_CurrentWN.TabIndex = 18;
             this.TrB_CurrentWN.TickStyle = System.Windows.Forms.TickStyle.None;
             this.TrB_CurrentWN.Value = 6666;
@@ -1075,7 +1075,7 @@
             this.tableLayoutPanel5.SetColumnSpan(this.TBStartN, 2);
             this.TBStartN.Location = new System.Drawing.Point(3, 293);
             this.TBStartN.Name = "TBStartN";
-            this.TBStartN.Size = new System.Drawing.Size(56, 20);
+            this.TBStartN.Size = new System.Drawing.Size(60, 20);
             this.TBStartN.TabIndex = 19;
             // 
             // TBFinishN
@@ -1083,9 +1083,9 @@
             this.TBFinishN.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.TBFinishN, 2);
-            this.TBFinishN.Location = new System.Drawing.Point(65, 293);
+            this.TBFinishN.Location = new System.Drawing.Point(69, 293);
             this.TBFinishN.Name = "TBFinishN";
-            this.TBFinishN.Size = new System.Drawing.Size(56, 20);
+            this.TBFinishN.Size = new System.Drawing.Size(60, 20);
             this.TBFinishN.TabIndex = 20;
             // 
             // textBox3
@@ -1093,9 +1093,9 @@
             this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.textBox3, 2);
-            this.textBox3.Location = new System.Drawing.Point(127, 293);
+            this.textBox3.Location = new System.Drawing.Point(135, 293);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(56, 20);
+            this.textBox3.Size = new System.Drawing.Size(60, 20);
             this.textBox3.TabIndex = 21;
             // 
             // label23
@@ -1114,7 +1114,7 @@
             this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label24.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label24, 2);
-            this.label24.Location = new System.Drawing.Point(65, 277);
+            this.label24.Location = new System.Drawing.Point(69, 277);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(38, 13);
             this.label24.TabIndex = 25;
@@ -1125,7 +1125,7 @@
             this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label25.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label25, 2);
-            this.label25.Location = new System.Drawing.Point(127, 277);
+            this.label25.Location = new System.Drawing.Point(135, 277);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(32, 13);
             this.label25.TabIndex = 26;
@@ -1135,16 +1135,16 @@
             // 
             this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(189, 95);
+            this.label13.Location = new System.Drawing.Point(201, 95);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(96, 13);
+            this.label13.Size = new System.Drawing.Size(84, 13);
             this.label13.TabIndex = 33;
             this.label13.Text = "nm";
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(189, 295);
+            this.label14.Location = new System.Drawing.Point(201, 295);
             this.label14.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(32, 13);
@@ -1172,7 +1172,7 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
             this.tableLayoutPanel5.Controls.Add(this.NUD_CurrentWN, 3, 1);
             this.tableLayoutPanel5.Controls.Add(this.ChkBLoadedExpCurve, 0, 12);
             this.tableLayoutPanel5.Controls.Add(this.BCreateAutoCurve, 0, 11);
@@ -1237,7 +1237,7 @@
             this.NUD_CurrentWN.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.NUD_CurrentWN, 2);
             this.NUD_CurrentWN.DecimalPlaces = 2;
-            this.NUD_CurrentWN.Location = new System.Drawing.Point(93, 40);
+            this.NUD_CurrentWN.Location = new System.Drawing.Point(99, 40);
             this.NUD_CurrentWN.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_CurrentWN.Maximum = new decimal(new int[] {
             1000,
@@ -1245,7 +1245,7 @@
             0,
             0});
             this.NUD_CurrentWN.Name = "NUD_CurrentWN";
-            this.NUD_CurrentWN.Size = new System.Drawing.Size(62, 20);
+            this.NUD_CurrentWN.Size = new System.Drawing.Size(66, 20);
             this.NUD_CurrentWN.TabIndex = 88;
             this.NUD_CurrentWN.ValueChanged += new System.EventHandler(this.NUD_CurrentWN_ValueChanged);
             // 
@@ -1281,7 +1281,7 @@
             // 
             this.label29.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(158, 37);
+            this.label29.Location = new System.Drawing.Point(168, 37);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(24, 26);
             this.label29.TabIndex = 53;
@@ -1292,9 +1292,9 @@
             this.ChB_AutoSetWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.ChB_AutoSetWL.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.ChB_AutoSetWL, 3);
-            this.ChB_AutoSetWL.Location = new System.Drawing.Point(3, 32);
+            this.ChB_AutoSetWL.Location = new System.Drawing.Point(4, 32);
             this.ChB_AutoSetWL.Name = "ChB_AutoSetWL";
-            this.ChB_AutoSetWL.Size = new System.Drawing.Size(87, 37);
+            this.ChB_AutoSetWL.Size = new System.Drawing.Size(90, 37);
             this.ChB_AutoSetWL.TabIndex = 35;
             this.ChB_AutoSetWL.Text = "Slider autoset";
             this.ChB_AutoSetWL.UseVisualStyleBackColor = true;
@@ -1303,7 +1303,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(189, 237);
+            this.label22.Location = new System.Drawing.Point(201, 237);
             this.label22.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(21, 13);
@@ -1314,9 +1314,9 @@
             // 
             this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(189, 124);
+            this.label20.Location = new System.Drawing.Point(201, 124);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(96, 13);
+            this.label20.Size = new System.Drawing.Size(84, 13);
             this.label20.TabIndex = 49;
             this.label20.Text = "1/cm";
             // 
@@ -1356,7 +1356,7 @@
             this.NUD_CurrentWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.NUD_CurrentWL, 2);
             this.NUD_CurrentWL.DecimalPlaces = 2;
-            this.NUD_CurrentWL.Location = new System.Drawing.Point(93, 4);
+            this.NUD_CurrentWL.Location = new System.Drawing.Point(99, 4);
             this.NUD_CurrentWL.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_CurrentWL.Maximum = new decimal(new int[] {
             1500,
@@ -1369,7 +1369,7 @@
             0,
             131072});
             this.NUD_CurrentWL.Name = "NUD_CurrentWL";
-            this.NUD_CurrentWL.Size = new System.Drawing.Size(62, 20);
+            this.NUD_CurrentWL.Size = new System.Drawing.Size(66, 20);
             this.NUD_CurrentWL.TabIndex = 85;
             this.NUD_CurrentWL.Value = new decimal(new int[] {
             1,
@@ -1389,7 +1389,7 @@
             0,
             0});
             this.NUD_StartL.Name = "NUD_StartL";
-            this.NUD_StartL.Size = new System.Drawing.Size(56, 20);
+            this.NUD_StartL.Size = new System.Drawing.Size(60, 20);
             this.NUD_StartL.TabIndex = 89;
             this.NUD_StartL.ValueChanged += new System.EventHandler(this.NUD_StartL_ValueChanged);
             // 
@@ -1397,14 +1397,14 @@
             // 
             this.tableLayoutPanel5.SetColumnSpan(this.NUD_FinishL, 2);
             this.NUD_FinishL.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NUD_FinishL.Location = new System.Drawing.Point(65, 235);
+            this.NUD_FinishL.Location = new System.Drawing.Point(69, 235);
             this.NUD_FinishL.Maximum = new decimal(new int[] {
             1500,
             0,
             0,
             0});
             this.NUD_FinishL.Name = "NUD_FinishL";
-            this.NUD_FinishL.Size = new System.Drawing.Size(56, 20);
+            this.NUD_FinishL.Size = new System.Drawing.Size(60, 20);
             this.NUD_FinishL.TabIndex = 92;
             this.NUD_FinishL.ValueChanged += new System.EventHandler(this.NUD_FinishL_ValueChanged);
             // 
@@ -1412,14 +1412,14 @@
             // 
             this.tableLayoutPanel5.SetColumnSpan(this.NUD_StepL, 2);
             this.NUD_StepL.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NUD_StepL.Location = new System.Drawing.Point(127, 235);
+            this.NUD_StepL.Location = new System.Drawing.Point(135, 235);
             this.NUD_StepL.Maximum = new decimal(new int[] {
             1500,
             0,
             0,
             0});
             this.NUD_StepL.Name = "NUD_StepL";
-            this.NUD_StepL.Size = new System.Drawing.Size(56, 20);
+            this.NUD_StepL.Size = new System.Drawing.Size(60, 20);
             this.NUD_StepL.TabIndex = 90;
             this.NUD_StepL.ValueChanged += new System.EventHandler(this.NUD_StepL_ValueChanged);
             // 
@@ -1648,6 +1648,7 @@
             // 
             // SessionTiming
             // 
+            this.SessionTiming.Enabled = true;
             this.SessionTiming.Interval = 50;
             this.SessionTiming.Tick += new System.EventHandler(this.SessionTiming_Tick);
             // 
