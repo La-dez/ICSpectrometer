@@ -11,7 +11,7 @@ using System.Threading;
 using TIS.Imaging;
 using TIS.Imaging.VCDHelpers;
 using System.Diagnostics;
-using static ICSpec.AO_Devices;
+using static LDZ_Code.AO_Devices;
 
 namespace ICSpec
 {
@@ -664,7 +664,7 @@ namespace ICSpec
             List<double> exps = new List<double>();
             if (IsNeeded_ExpCurve)
             {
-                ExpCurve.Get_andWrite_NiceCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL,pStartWL, pFinishWL, (int)AO_StepWL, ref wls, ref exps,ref Gain,ref FPS);
+                LDZ_Code.ExpCurve.Get_andWrite_NiceCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL,pStartWL, pFinishWL, (int)AO_StepWL, ref wls, ref exps,ref Gain,ref FPS);
             }
 
             List<float> allvalues = new List<float>();

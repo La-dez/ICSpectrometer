@@ -10,9 +10,9 @@ using System.IO;
 using System.Threading;
 using TIS.Imaging;
 using TIS.Imaging.VCDHelpers;
-using ICSpec;
-using static ICSpec.ServiceFunctions;
-using static ICSpec.AO_Devices;
+using LDZ_Code;
+using static LDZ_Code.ServiceFunctions;
+using static LDZ_Code.AO_Devices;
 
 namespace ICSpec
 {
@@ -94,7 +94,7 @@ namespace ICSpec
             //this.Text = "Перестраиваемый источник " + version;
             Log = new UI.Log.Logger(LBConsole);
             Log.Message(" - текущее время");
-            Filter = ICSpec.AO_Devices.Find_and_connect_AnyFilter();
+            Filter = AO_Devices.Find_and_connect_AnyFilter();
             if (Filter.FilterType == FilterTypes.Emulator) { Log.Message("ПРЕДУПРЕЖДЕНИЕ: Не обнаружены подключенные АО фильтры. Фильтр будет эмулирован."); }
             else { Log.Message("Обнаружен подключенный АО фильтр. Тип фильтра: " + Filter.FilterType.ToString()); }
             ChB_Power.Enabled = false;
@@ -429,36 +429,8 @@ namespace ICSpec
 
         private void BSetWL_Click(object sender, EventArgs e)
         {
-
             float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
-            NUD_CurrentWL.Value = (decimal)(data_CurrentWL);
-
-            if (AO_Sweep_Needed)
-            {
-                try
-                {
-                    ReSweep(data_CurrentWL);
-                }
-                catch (Exception exc)
-                {
-                    Log.Error(exc.Message);
-                }
-            }
-            else
-            {
-                try
-                {
-                    if (Filter.is_inSweepMode) Filter.Set_Sweep_off();
-                    System.Threading.Thread.Sleep(50);
-                    var state = Filter.Set_Wl(data_CurrentWL);
-                    if (state != 0) throw new Exception(Filter.Implement_Error(state));
-                    Log.Message("Перестройка на длину волны " + data_CurrentWL.ToString() + " нм прошла успешно!");
-                }
-                catch (Exception exc)
-                {
-                    Log.Error(exc.Message);
-                }
-            }
+            CurrentWL_Change();
         }
 
         private void BSetROI_Click(object sender, EventArgs e)
@@ -874,28 +846,20 @@ namespace ICSpec
 
         private void BCreateAutoCurve_Click(object sender, EventArgs e)
         {
-            if (BCreateAutoCurve.Text == "Создать кривую по автоэкспозиции")
-            {
-                BCreateAutoCurve.Text = "Прервать создание кривой";
-                AO_StartL = Convert.ToInt32(NUD_StartL.Text);
-                AO_EndL = Convert.ToInt32(NUD_FinishL.Text);
-                AO_StepWL = Convert.ToInt16(NUD_StepL.Text);
-                BkGrWorker_forExpCurveBuilding.RunWorkerAsync();
-            }
-            else
-            {
-                BCreateAutoCurve.Text = "Создать кривую по автоэкспозиции";
-                BkGrWorker_forExpCurveBuilding.CancelAsync();
-            }
+         
             // DCreation DelegateForCurv = new DCreation(ExpCurve.CreateCurve);
         }
 
         private void BkGrWorker_forExpCurveBuilding_DoWork(object sender, DoWorkEventArgs e)
         {
+
+
             var worker = sender as BackgroundWorker;
             bool wasAutomation = false;
             string ChangeVCDID = TIS.Imaging.VCDIDs.VCDID_Exposure;
-
+        //    var a = vcdProp.RangeValue[VCDIDs.VCDElement_AutoReference];
+            //var b = vcdProp.RangeValue[VCDIDs.VCDElement_AutoMaxValueAuto];
+            //var c = vcdProp.RangeValue[VCDIDs.VCDElement_AutoMaxValue];
             if (worker.CancellationPending == true)
             {
                 e.Cancel = true;
@@ -925,7 +889,7 @@ namespace ICSpec
 
         private void BkGrWorker_forExpCurveBuilding_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            string message2 = "Подобрана экспозиция для длины волны " + e.ProgressPercentage;
+            string message2 = "Exposure for " + e.ProgressPercentage + " is fitted";
             LogMessage(message2);
         }
 
@@ -934,18 +898,21 @@ namespace ICSpec
             ShowStringDelegate MessageDelegate = new ShowStringDelegate(LogMessage);
             if (e.Cancelled == true)
             {
-                MessageDelegate.Invoke("Операция отменена!");
-                BCreateAutoCurve.Text = "Создать кривую по автоэкспозиции";
+                MessageDelegate.Invoke("Fitting canceled!");
+                TSMI_CurveCreating_ExposureWL.Text = "Exposure - WL curve";
+                TSMI_CurveCreating_ExposureWL.Checked = false;
             }
             else if (e.Error != null)
             {
-                MessageDelegate.Invoke("Ошибка: " + e.Error.Message);
-                BCreateAutoCurve.Text = "Создать кривую по автоэкспозиции";
+                MessageDelegate.Invoke("Error : " + e.Error.Message);
+                TSMI_CurveCreating_ExposureWL.Text = "Exposure - WL curve";
+                TSMI_CurveCreating_ExposureWL.Checked = false;
             }
             else
             {
-                MessageDelegate.Invoke("Подстройка окончена!");
-                BCreateAutoCurve.Text = "Создать кривую по автоэкспозиции";
+                MessageDelegate.Invoke("Fitting finished!");
+                TSMI_CurveCreating_ExposureWL.Text = "Exposure - WL curve";
+                TSMI_CurveCreating_ExposureWL.Checked = false;
             }
         }
 
@@ -969,14 +936,14 @@ namespace ICSpec
 
             if (ChB_LoadWLCurve.Checked)
             {
-                WayToCurv_wl = Files.OpenFiles("Choose your tune file", true, false, ".txt")[0];
+                WayToCurv_wl = LDZ_Code.Files.OpenFiles("Choose your tune file", true, false, ".txt")[0];
                 if (WayToCurv_wl == "") { ChB_LoadWLCurve.Text = "Перестройка по кривой"; }
                 else
                 {
                     ChB_LoadWLCurve.Text = "Кривая: " + Path.GetFileName(WayToCurv_wl);
-                    var allstrings = Files.Read_txt(WayToCurv_wl);
+                    var allstrings = LDZ_Code.Files.Read_txt(WayToCurv_wl);
                     float[] mass = null, mass2 = null;
-                    Files.Get_WLData_byKnownCountofNumbers(1, allstrings.ToArray(), out mass, out WLs_toTune, out mass2);
+                    LDZ_Code.Files.Get_WLData_byKnownCountofNumbers(1, allstrings.ToArray(), out mass, out WLs_toTune, out mass2);
                     List<float> data = new List<float>(WLs_toTune);
                     data.Reverse();
                     for (int i = 0; i < data.Count(); i++)
@@ -1046,11 +1013,12 @@ namespace ICSpec
             {
                 if (AO_Sweep_Needed)
                 {
-                    /* if (!timer_for_sweep.IsRunning || timer_for_sweep.ElapsedMilliseconds > 500)
-                     {
-                         timer_for_sweep.Restart();
-                         ReSweep(data_CurrentWL);
-                     }*/
+                    if (!timer_for_sweep.IsRunning || timer_for_sweep.ElapsedMilliseconds > 500)
+                    {
+                        timer_for_sweep.Restart();
+                      //  Timer_Sweep.Enabled = true;
+                        ReSweep(data_CurrentWL);
+                    }
                 }
                 else
                 {
@@ -1259,12 +1227,23 @@ namespace ICSpec
             stw.Reset();*/
         }
 
-        private void ChB_StartTimedSession_CheckedChanged(object sender, EventArgs e)
+    
+
+        private void ChB_CircleTune_CheckedChanged(object sender, EventArgs e)
         {
-            if(ChB_StartTimedSession.Checked)
+
+        }
+
+        private void viaUserdefinedWLsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TSMI_Tuning_Pereodical_Click(object sender, EventArgs e)
+        {
+            if(TSMI_Tuning_Pereodical.Checked)
             {
                 isTimeSesNeeded = true;
-
                 data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
                 int stepss = CalculateSteps();
                 //   Bitmap[] Massive = StartSession(stepss); 
@@ -1273,11 +1252,72 @@ namespace ICSpec
                 if (!ChB_LoadWLCurve.Checked) { WLs_toTune = null; }
                 New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
                 EnableFlipButtons();
-
             }
             else
             {
                 isTimeSesNeeded = false;
+            }
+            TSMI_Tuning_Pereodical.Checked = !TSMI_Tuning_Pereodical.Checked;
+        }
+
+        private void exposureWLCurveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TSMI_CurveCreating_ExposureWL_Click(object sender, EventArgs e)
+        {
+            if (!TSMI_CurveCreating_ExposureWL.Checked)
+            {
+                TSMI_CurveCreating_ExposureWL.Checked = true;
+                TSMI_CurveCreating_ExposureWL.Text = "Exposure - WL curve (creating...)";
+                AO_StartL = Convert.ToInt32(NUD_StartL.Text);
+                AO_EndL = Convert.ToInt32(NUD_FinishL.Text);
+                AO_StepWL = Convert.ToInt16(NUD_StepL.Text);
+                BkGrWorker_forExpCurveBuilding.RunWorkerAsync();
+            }
+            else
+            {
+                TSMI_CurveCreating_ExposureWL.Checked = false;
+                TSMI_CurveCreating_ExposureWL.Text = "Exposure - WL curve";
+                BkGrWorker_forExpCurveBuilding.CancelAsync();
+            }
+        }
+
+        private void ChB_SweepEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            TLP_Sweep_EasyMode.Enabled = ChB_SweepEnabled.Checked;
+            AO_Sweep_Needed = ChB_SweepEnabled.Checked;
+        }
+
+        private void NUD_FreqDeviation_ValueChanged(object sender, EventArgs e)
+        {
+            AO_FreqDeviation = (double)NUD_FreqDeviation.Value;
+        }
+
+        private void NUD_TimeFdev_ValueChanged(object sender, EventArgs e)
+        {
+            AO_TimeDeviation = (double)NUD_TimeFdev.Value;
+            AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
+            /*NUD_FreqDeviation.Maximum = (decimal)
+                (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);*/
+            NUD_FreqDeviation.Maximum = (decimal)(Filter.AO_FreqDeviation_Max);
+            NUD_FreqDeviation.Minimum = (decimal)(Filter.AO_FreqDeviation_Min);
+        }
+
+        private void Timer_Sweep_Tick(object sender, EventArgs e)
+        {
+            if (AO_WL_Controlled_byslider)
+            {
+                if (AO_Sweep_Needed)
+                {
+                    if (timer_for_sweep.ElapsedMilliseconds > 600)
+                    {
+                        float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
+                        timer_for_sweep.Reset();
+                        ReSweep(data_CurrentWL);
+                    }
+                }
             }
         }
 

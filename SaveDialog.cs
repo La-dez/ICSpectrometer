@@ -16,7 +16,7 @@ namespace ICSpec
         public bool returning = false;
         private TIS.Imaging.MediaStreamSink m_Sink;
         Form1 frmFirst = null;
-        ImageStyle ReturnImageStyle = new ImageStyle();
+        LDZ_Code.ImageStyle ReturnImageStyle = new LDZ_Code.ImageStyle();
         string LastSaveDirectory=null;
         string fileName = null;
 
@@ -216,7 +216,7 @@ namespace ICSpec
         {    
             return m_Sink;
         }
-        public ImageStyle ReturnImageStyleMethod()
+        public LDZ_Code.ImageStyle ReturnImageStyleMethod()
         {
             return ReturnImageStyle;
         }

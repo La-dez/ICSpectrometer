@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 
-namespace ICSpec
+namespace LDZ_Code
 {
     public class ImageStyle//инициализация класса сохранения параметров изображения
     {
@@ -40,7 +40,7 @@ namespace ICSpec
                 throw new Exception("Некорректное содержимое файла для перестройки.");
             RestructValues(ref pWls, ref pExps);
             InterpolateValues(pMinWL, pMaxhWL, ref pWls, ref pExps);
-            Form1.ShowStringDelegate obj = null;
+            ICSpec.Form1.ShowStringDelegate obj = null;
             WriteCurveToFile(path, pWls, pExps, pGain, pFPS, ref obj, true);
             CutValues(pStWL, pFinWL, pStep, ref pWls, ref pExps);
         }
@@ -173,7 +173,7 @@ namespace ICSpec
             for (int i = 0; i < IndToAdd.Count; i++)
             {
                 NewWls.Add(ppWls[IndToAdd[i]]);
-                NewExps.Add(Form1.PerfectRounding(ppExps[IndToAdd[i]], 5));
+                NewExps.Add(ICSpec.Form1.PerfectRounding(ppExps[IndToAdd[i]], 5));
             }
             ppWls = NewWls;
             ppExps = NewExps;
@@ -182,7 +182,7 @@ namespace ICSpec
         public static void CreateCurve(ref System.ComponentModel.BackgroundWorker pBackWorker, ref System.ComponentModel.DoWorkEventArgs pE,
             ref TIS.Imaging.ICImagingControl IC, ref TIS.Imaging.VCDHelpers.VCDSimpleProperty VSExp, ref TIS.Imaging.VCDAbsoluteValueProperty pAbsVal,
             int pWlRealMin, int pWlRealMax, int pStWL, int pFinWL, int pStep, int pCurGain, double pFPS,
-            Form1.ShowStringDelegate pMesShowDel, bool pwasAutomation,AO_Devices.AO_Filter pFilter)
+            ICSpec.Form1.ShowStringDelegate pMesShowDel, bool pwasAutomation, LDZ_Code.AO_Devices.AO_Filter pFilter)
         {
             try
             {
@@ -236,7 +236,7 @@ namespace ICSpec
                         else if (stw.Elapsed.TotalSeconds > SecondsToWait)
                         {
                             TimeNotElapsed = false;
-                            Exps.Add(Form1.PerfectRounding(CurrentExp, 7));
+                            Exps.Add(ICSpec.Form1.PerfectRounding(CurrentExp, 7));
                             pBackWorker.ReportProgress(Wls[i]);
                             string message2 = "Подобрана экспозиция для длины волны " + Wls[i].ToString() + ": " + Exps[i].ToString();
                             pMesShowDel.Invoke(message2);
@@ -244,7 +244,7 @@ namespace ICSpec
                         }
                     }
                 }
-                string filename = IC.DeviceCurrent.Name.ToString() + "_" + Form1.GetFullDateString() + ".expcurv";
+                string filename = IC.DeviceCurrent.Name.ToString() + "_" + ICSpec.Form1.GetFullDateString() + ".expcurv";
                 string message3 = "Подбор экспозиций завершен! Запись в файл " + filename;
                 pMesShowDel.Invoke(message3);
                 if (pBackWorker.CancellationPending) { pE.Cancel = true; return; }
@@ -259,7 +259,7 @@ namespace ICSpec
                 throw exc;
             }
         }
-        public static void WriteCurveToFile(string filename, List<int> pWls, List<double> pExps, double ppGain, double ppFPS, ref Form1.ShowStringDelegate ppMesShowDel, bool NeedEnotherExt)
+        public static void WriteCurveToFile(string filename, List<int> pWls, List<double> pExps, double ppGain, double ppFPS, ref ICSpec.Form1.ShowStringDelegate ppMesShowDel, bool NeedEnotherExt)
         {
             try
             {
@@ -477,8 +477,6 @@ namespace ICSpec
             for (int i = 0; i < NumberOfParamsInString; i++) { pPars[i] = datavalues[i]; }
         }
     }
-
-
 
     public class ServiceFunctions
     {
