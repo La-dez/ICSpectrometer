@@ -360,7 +360,7 @@ namespace ICSpec
             f2.Owner = this;
             f2.ShowDialog(type);
         }
-        private void InitSliders() //функция инициализации ползунка для регулировки отдельных свойст камеры
+        private void Init_Gain_Exposure_Sliders() //функция инициализации ползунка для регулировки отдельных свойст камеры
         {
             string ChangeVCDID = VCDIDs.VCDID_Exposure;
             string ChangeVCDID2 = VCDIDs.VCDID_Gain;
@@ -910,8 +910,15 @@ namespace ICSpec
         {
 
         }
-        private void Load_properties_for_3WL_ctrls(int WL_MAX,int WL_MIN,int TIME_MAX,int TIME_MIN)
+        private void Load_properties_for_3WL_ctrls(decimal WL_MAX, decimal WL_MIN,decimal TIME_MAX, decimal TIME_MIN)
         {
+            NUD_Multi_WL1.Maximum = NUD_Multi_WL2.Maximum = NUD_Multi_WL3.Maximum = WL_MAX;
+            NUD_Multi_WL1.Minimum = NUD_Multi_WL2.Minimum = NUD_Multi_WL3.Minimum = WL_MIN;
+            NUD_Multi_WL1.Value = NUD_Multi_WL2.Value = NUD_Multi_WL3.Value = (WL_MAX+ WL_MIN)/2;
+
+            NUD_Multi_ex_time1.Maximum = NUD_Multi_ex_time2.Maximum = NUD_Multi_ex_time3.Maximum = TIME_MAX;
+            NUD_Multi_ex_time1.Minimum = NUD_Multi_ex_time2.Minimum = NUD_Multi_ex_time3.Minimum = TIME_MIN;
+            NUD_Multi_ex_time1.Minimum = NUD_Multi_ex_time2.Minimum = NUD_Multi_ex_time3.Minimum = (TIME_MAX+ TIME_MIN)/2;
 
         }
         private void NewWrite16Bit(ref ImageBuffer buf,string name)

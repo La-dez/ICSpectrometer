@@ -120,7 +120,6 @@
             this.NUD_StartL = new System.Windows.Forms.NumericUpDown();
             this.NUD_FinishL = new System.Windows.Forms.NumericUpDown();
             this.NUD_StepL = new System.Windows.Forms.NumericUpDown();
-            this.label22 = new System.Windows.Forms.Label();
             this.TLP_Sweep_EasyMode = new System.Windows.Forms.TableLayoutPanel();
             this.label28 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
@@ -130,6 +129,19 @@
             this.label32 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.ChB_SweepEnabled = new System.Windows.Forms.CheckBox();
+            this.NUD_Multi_WL1 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Multi_WL2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Multi_WL3 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Multi_ex_time1 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Multi_ex_time2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Multi_ex_time3 = new System.Windows.Forms.NumericUpDown();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.B_Get_HyperSpectral_Image = new System.Windows.Forms.Button();
             this.GrBImageSettings = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label19 = new System.Windows.Forms.Label();
@@ -156,18 +168,6 @@
             this.TSMI_CurveCreating_ExposureWL = new System.Windows.Forms.ToolStripMenuItem();
             this.SessionTiming = new System.Windows.Forms.Timer(this.components);
             this.Timer_Sweep = new System.Windows.Forms.Timer(this.components);
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
-            this.B_Get_HyperSpectral_Image = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.icImagingControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrBZoomOfImage)).BeginInit();
             this.GPCamFeat.SuspendLayout();
@@ -188,18 +188,18 @@
             this.TLP_Sweep_EasyMode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FreqDeviation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Multi_WL1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Multi_WL2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Multi_WL3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Multi_ex_time1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Multi_ex_time2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Multi_ex_time3)).BeginInit();
             this.GrBImageSettings.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.Pan_FPS.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             this.SuspendLayout();
             // 
             // icImagingControl1
@@ -1232,12 +1232,12 @@
             this.tableLayoutPanel5.Controls.Add(this.TLP_Sweep_EasyMode, 0, 11);
             this.tableLayoutPanel5.Controls.Add(this.ChB_SweepEnabled, 0, 10);
             this.tableLayoutPanel5.Controls.Add(this.B_StartS, 0, 13);
-            this.tableLayoutPanel5.Controls.Add(this.numericUpDown1, 0, 15);
-            this.tableLayoutPanel5.Controls.Add(this.numericUpDown2, 2, 15);
-            this.tableLayoutPanel5.Controls.Add(this.numericUpDown3, 4, 15);
-            this.tableLayoutPanel5.Controls.Add(this.numericUpDown4, 0, 16);
-            this.tableLayoutPanel5.Controls.Add(this.numericUpDown5, 2, 16);
-            this.tableLayoutPanel5.Controls.Add(this.numericUpDown6, 4, 16);
+            this.tableLayoutPanel5.Controls.Add(this.NUD_Multi_WL1, 0, 15);
+            this.tableLayoutPanel5.Controls.Add(this.NUD_Multi_WL2, 2, 15);
+            this.tableLayoutPanel5.Controls.Add(this.NUD_Multi_WL3, 4, 15);
+            this.tableLayoutPanel5.Controls.Add(this.NUD_Multi_ex_time1, 0, 16);
+            this.tableLayoutPanel5.Controls.Add(this.NUD_Multi_ex_time2, 2, 16);
+            this.tableLayoutPanel5.Controls.Add(this.NUD_Multi_ex_time3, 4, 16);
             this.tableLayoutPanel5.Controls.Add(this.label22, 6, 15);
             this.tableLayoutPanel5.Controls.Add(this.label34, 6, 7);
             this.tableLayoutPanel5.Controls.Add(this.label35, 6, 16);
@@ -1390,16 +1390,6 @@
             this.NUD_StepL.TabIndex = 90;
             this.NUD_StepL.ValueChanged += new System.EventHandler(this.NUD_StepL_ValueChanged);
             // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(249, 409);
-            this.label22.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(21, 13);
-            this.label22.TabIndex = 50;
-            this.label22.Text = "nm";
-            // 
             // TLP_Sweep_EasyMode
             // 
             this.TLP_Sweep_EasyMode.ColumnCount = 4;
@@ -1542,6 +1532,129 @@
             this.ChB_SweepEnabled.Text = "Sweep mode";
             this.ChB_SweepEnabled.UseVisualStyleBackColor = true;
             this.ChB_SweepEnabled.CheckedChanged += new System.EventHandler(this.ChB_SweepEnabled_CheckedChanged);
+            // 
+            // NUD_Multi_WL1
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.NUD_Multi_WL1, 2);
+            this.NUD_Multi_WL1.Location = new System.Drawing.Point(3, 407);
+            this.NUD_Multi_WL1.Name = "NUD_Multi_WL1";
+            this.NUD_Multi_WL1.Size = new System.Drawing.Size(76, 20);
+            this.NUD_Multi_WL1.TabIndex = 95;
+            // 
+            // NUD_Multi_WL2
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.NUD_Multi_WL2, 2);
+            this.NUD_Multi_WL2.Location = new System.Drawing.Point(85, 407);
+            this.NUD_Multi_WL2.Name = "NUD_Multi_WL2";
+            this.NUD_Multi_WL2.Size = new System.Drawing.Size(76, 20);
+            this.NUD_Multi_WL2.TabIndex = 96;
+            // 
+            // NUD_Multi_WL3
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.NUD_Multi_WL3, 2);
+            this.NUD_Multi_WL3.Location = new System.Drawing.Point(167, 407);
+            this.NUD_Multi_WL3.Name = "NUD_Multi_WL3";
+            this.NUD_Multi_WL3.Size = new System.Drawing.Size(76, 20);
+            this.NUD_Multi_WL3.TabIndex = 97;
+            // 
+            // NUD_Multi_ex_time1
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.NUD_Multi_ex_time1, 2);
+            this.NUD_Multi_ex_time1.DecimalPlaces = 3;
+            this.NUD_Multi_ex_time1.Location = new System.Drawing.Point(3, 436);
+            this.NUD_Multi_ex_time1.Name = "NUD_Multi_ex_time1";
+            this.NUD_Multi_ex_time1.Size = new System.Drawing.Size(76, 20);
+            this.NUD_Multi_ex_time1.TabIndex = 98;
+            // 
+            // NUD_Multi_ex_time2
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.NUD_Multi_ex_time2, 2);
+            this.NUD_Multi_ex_time2.DecimalPlaces = 3;
+            this.NUD_Multi_ex_time2.Location = new System.Drawing.Point(85, 436);
+            this.NUD_Multi_ex_time2.Name = "NUD_Multi_ex_time2";
+            this.NUD_Multi_ex_time2.Size = new System.Drawing.Size(76, 20);
+            this.NUD_Multi_ex_time2.TabIndex = 99;
+            // 
+            // NUD_Multi_ex_time3
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.NUD_Multi_ex_time3, 2);
+            this.NUD_Multi_ex_time3.DecimalPlaces = 3;
+            this.NUD_Multi_ex_time3.Location = new System.Drawing.Point(167, 436);
+            this.NUD_Multi_ex_time3.Name = "NUD_Multi_ex_time3";
+            this.NUD_Multi_ex_time3.Size = new System.Drawing.Size(76, 20);
+            this.NUD_Multi_ex_time3.TabIndex = 100;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(249, 409);
+            this.label22.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(21, 13);
+            this.label22.TabIndex = 50;
+            this.label22.Text = "nm";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(249, 195);
+            this.label34.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(21, 13);
+            this.label34.TabIndex = 101;
+            this.label34.Text = "nm";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(249, 438);
+            this.label35.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(20, 13);
+            this.label35.TabIndex = 102;
+            this.label35.Text = "ms";
+            // 
+            // label36
+            // 
+            this.label36.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(4, 383);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(33, 13);
+            this.label36.TabIndex = 103;
+            this.label36.Text = "WL 1";
+            // 
+            // label37
+            // 
+            this.label37.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(86, 383);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(33, 13);
+            this.label37.TabIndex = 104;
+            this.label37.Text = "WL 2";
+            // 
+            // label38
+            // 
+            this.label38.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(168, 383);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(33, 13);
+            this.label38.TabIndex = 105;
+            this.label38.Text = "WL 3";
+            // 
+            // B_Get_HyperSpectral_Image
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.B_Get_HyperSpectral_Image, 7);
+            this.B_Get_HyperSpectral_Image.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_Get_HyperSpectral_Image.Location = new System.Drawing.Point(3, 465);
+            this.B_Get_HyperSpectral_Image.Name = "B_Get_HyperSpectral_Image";
+            this.B_Get_HyperSpectral_Image.Size = new System.Drawing.Size(282, 36);
+            this.B_Get_HyperSpectral_Image.TabIndex = 106;
+            this.B_Get_HyperSpectral_Image.Text = "Aquire Spectral Image";
+            this.B_Get_HyperSpectral_Image.UseVisualStyleBackColor = true;
+            this.B_Get_HyperSpectral_Image.Click += new System.EventHandler(this.B_Get_HyperSpectral_Image_Click);
             // 
             // GrBImageSettings
             // 
@@ -1812,114 +1925,6 @@
             this.Timer_Sweep.Interval = 50;
             this.Timer_Sweep.Tick += new System.EventHandler(this.Timer_Sweep_Tick);
             // 
-            // numericUpDown1
-            // 
-            this.tableLayoutPanel5.SetColumnSpan(this.numericUpDown1, 2);
-            this.numericUpDown1.Location = new System.Drawing.Point(3, 407);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(76, 20);
-            this.numericUpDown1.TabIndex = 95;
-            // 
-            // numericUpDown2
-            // 
-            this.tableLayoutPanel5.SetColumnSpan(this.numericUpDown2, 2);
-            this.numericUpDown2.Location = new System.Drawing.Point(85, 407);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(76, 20);
-            this.numericUpDown2.TabIndex = 96;
-            // 
-            // numericUpDown3
-            // 
-            this.tableLayoutPanel5.SetColumnSpan(this.numericUpDown3, 2);
-            this.numericUpDown3.Location = new System.Drawing.Point(167, 407);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(76, 20);
-            this.numericUpDown3.TabIndex = 97;
-            // 
-            // numericUpDown4
-            // 
-            this.tableLayoutPanel5.SetColumnSpan(this.numericUpDown4, 2);
-            this.numericUpDown4.Location = new System.Drawing.Point(3, 436);
-            this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(76, 20);
-            this.numericUpDown4.TabIndex = 98;
-            // 
-            // numericUpDown5
-            // 
-            this.tableLayoutPanel5.SetColumnSpan(this.numericUpDown5, 2);
-            this.numericUpDown5.Location = new System.Drawing.Point(85, 436);
-            this.numericUpDown5.Name = "numericUpDown5";
-            this.numericUpDown5.Size = new System.Drawing.Size(76, 20);
-            this.numericUpDown5.TabIndex = 99;
-            // 
-            // numericUpDown6
-            // 
-            this.tableLayoutPanel5.SetColumnSpan(this.numericUpDown6, 2);
-            this.numericUpDown6.Location = new System.Drawing.Point(167, 436);
-            this.numericUpDown6.Name = "numericUpDown6";
-            this.numericUpDown6.Size = new System.Drawing.Size(76, 20);
-            this.numericUpDown6.TabIndex = 100;
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(249, 195);
-            this.label34.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(21, 13);
-            this.label34.TabIndex = 101;
-            this.label34.Text = "nm";
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(249, 438);
-            this.label35.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(20, 13);
-            this.label35.TabIndex = 102;
-            this.label35.Text = "ms";
-            // 
-            // label36
-            // 
-            this.label36.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(4, 383);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(33, 13);
-            this.label36.TabIndex = 103;
-            this.label36.Text = "WL 1";
-            // 
-            // label37
-            // 
-            this.label37.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(86, 383);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(33, 13);
-            this.label37.TabIndex = 104;
-            this.label37.Text = "WL 2";
-            // 
-            // label38
-            // 
-            this.label38.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(168, 383);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(33, 13);
-            this.label38.TabIndex = 105;
-            this.label38.Text = "WL 3";
-            // 
-            // B_Get_HyperSpectral_Image
-            // 
-            this.tableLayoutPanel5.SetColumnSpan(this.B_Get_HyperSpectral_Image, 7);
-            this.B_Get_HyperSpectral_Image.Location = new System.Drawing.Point(3, 465);
-            this.B_Get_HyperSpectral_Image.Name = "B_Get_HyperSpectral_Image";
-            this.B_Get_HyperSpectral_Image.Size = new System.Drawing.Size(278, 26);
-            this.B_Get_HyperSpectral_Image.TabIndex = 106;
-            this.B_Get_HyperSpectral_Image.Text = "Aquire Spectral Image";
-            this.B_Get_HyperSpectral_Image.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1961,6 +1966,12 @@
             this.TLP_Sweep_EasyMode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FreqDeviation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_TimeFdev)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Multi_WL1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Multi_WL2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Multi_WL3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Multi_ex_time1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Multi_ex_time2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Multi_ex_time3)).EndInit();
             this.GrBImageSettings.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
@@ -1971,12 +1982,6 @@
             this.Pan_FPS.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2110,12 +2115,12 @@
         private System.Windows.Forms.ToolStripMenuItem TSMI_Start_UDWL_tune;
         private System.Windows.Forms.ToolStripMenuItem TSMI_Load_EXWL_C;
         private System.Windows.Forms.ToolStripMenuItem startTuningToolStripMenuItem;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
-        private System.Windows.Forms.NumericUpDown numericUpDown4;
-        private System.Windows.Forms.NumericUpDown numericUpDown5;
-        private System.Windows.Forms.NumericUpDown numericUpDown6;
+        private System.Windows.Forms.NumericUpDown NUD_Multi_WL1;
+        private System.Windows.Forms.NumericUpDown NUD_Multi_WL2;
+        private System.Windows.Forms.NumericUpDown NUD_Multi_WL3;
+        private System.Windows.Forms.NumericUpDown NUD_Multi_ex_time1;
+        private System.Windows.Forms.NumericUpDown NUD_Multi_ex_time2;
+        private System.Windows.Forms.NumericUpDown NUD_Multi_ex_time3;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label36;

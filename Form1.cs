@@ -21,7 +21,7 @@ namespace ICSpec
     {
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
-        private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования
+        private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
         bool ChangingActivatedTextBoxExp = true;
         bool ChangingActivatedTextBoxGain = true;
         ImageStyle SnapImageStyle = new ImageStyle();
@@ -126,7 +126,7 @@ namespace ICSpec
                     else
                     {
                         CreateAttachmentFactor(ref AttachmentFactor, LBConsole);
-                        this.Text = "IC Spectrometer v2.0.7 Beta";
+                        this.Text = "IC Spectrometer v2.2 Beta";
                         fileName = Application.StartupPath + @"\SettingsOfWriting.txt";
                         TrBZoomOfImage.Value = (int)(icImagingControl1.LiveDisplayZoomFactor * 100.00f);
                         vcdProp = new VCDSimpleProperty(icImagingControl1.VCDPropertyItems);
@@ -142,7 +142,7 @@ namespace ICSpec
 
                     CreateAttachmentFactor(ref AttachmentFactor, LBConsole);
                     TestAvailability(false);
-                    InitSliders();
+                    Init_Gain_Exposure_Sliders();
                     bool liverun = icImagingControl1.LiveVideoRunning;
 
                     try
@@ -179,7 +179,7 @@ namespace ICSpec
                     FormatAdaptation();
 
                     m_oldSink = New_SetSelectedCamera_SignalStream_Format();
-                    Load_properties_for_3WL_ctrls(800,600,1000,10);
+                    Load_properties_for_3WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.RangeMax, (decimal)AbsValExp.RangeMin);
                     //создание контекстного меню
 
                     /*  System.Windows.Forms.ContextMenu MyContextMenu=new System.Windows.Forms.ContextMenu();                 
@@ -1323,6 +1323,12 @@ namespace ICSpec
             if (!TSMI_Load_UDWL_Curve.Checked) { WLs_toTune = null; }
             New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, null);
             EnableFlipButtons();
+        }
+
+        private void B_Get_HyperSpectral_Image_Click(object sender, EventArgs e)
+        {
+            double finalExposure =((double)(NUD_Multi_ex_time1.Value + NUD_Multi_ex_time2.Value+ NUD_Multi_ex_time2.Value)*1000.0);
+            icImagingControl1.LiveStop();
         }
 
         private void tests()
