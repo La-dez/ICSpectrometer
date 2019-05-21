@@ -658,7 +658,7 @@ namespace ICSpec
             TIS.Imaging.ImageBuffer[] rval = new TIS.Imaging.ImageBuffer[pSteps + 1];
             ReadAllSettingsFromFile(false);
             int codeerr = 0;
-            bool IsNeeded_ExpCurve = ChkBLoadedExpCurve.Checked;
+            bool IsNeeded_ExpCurve = TSMI_Load_EXWL_C.Checked;
             double Gain = 0, FPS = 0;
             List<int> wls = new List<int>();
             List<double> exps = new List<double>();
@@ -865,40 +865,7 @@ namespace ICSpec
             NUD_CurrentWL.Text = AO_CurrentWL.ToString();
             SetInactiveDependence(0);
         }
-        private void SnapSequence2img()
-        {
-          /*  ReadAllSettingsFromFile(false);
-            if (WarningofImage)
-            {
-                MessageBox.Show(WarningofImgMessage, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            float MinEx = (float)(TrBExposureVal.Minimum)/1000000.0f;
-            float MaxEx = (float)(TrBExposureVal.Maximum)/1000000.0f;
-            double PrexEx = AbsValExp.Value;
-            if ((Ex1 <= MinEx) || (Ex1 >= MaxEx)) { LogError(String.Format("Введите допустимое время экспонирования.Min: {0} ; Max: {1}", MinEx, MaxEx)); return; }
-            if ((Ex2 <= MinEx) || (Ex2 >= MaxEx)) { LogError(String.Format("Введите допустимое время экспонирования.Min: {0} ; Max: {1}", MinEx, MaxEx)); return; }
-          
-            filedatename = DateTime.Now.ToString();
-            filedatename = filedatename.Replace(' ', '_');
-            filedatename = filedatename.Replace(':', '_');
-            filedatename = filedatename.Replace('.', '_');
-            AbsValExp.Value = Ex1;
-            Thread.Sleep((int)PerfectRounding(Ex1 * 1000,0));           
-            TIS.Imaging.ImageBuffer buf = GrabImage(TIS.Imaging.MediaSubtypes.Y16);
-            NewWrite16Bit(ref buf, SnapImageStyle.Directory + "3_1st_" + filedatename);
-           
-            filedatename = DateTime.Now.ToString();
-            filedatename = filedatename.Replace(' ', '_');
-            filedatename = filedatename.Replace(':', '_');
-            filedatename = filedatename.Replace('.', '_');
-            AbsValExp.Value = Ex2;
-            Thread.Sleep((int)PerfectRounding(Ex2 * 1000,0));
-            buf = GrabImage(TIS.Imaging.MediaSubtypes.Y16);
-            NewWrite16Bit(ref buf, SnapImageStyle.Directory + "3_2st_" + filedatename);
-           AbsValExp.Value = PrexEx;*/
-    
-        }
+        
         private TIS.Imaging.ImageBuffer GrabImage(Guid colorFormat)
         {
             bool wasLive = icImagingControl1.LiveVideoRunning;
@@ -937,6 +904,15 @@ namespace ICSpec
             if (wasLive) icImagingControl1.LiveStart();
 
             return rval;
+        }
+
+        private void Save_3WL_image()
+        {
+
+        }
+        private void Load_properties_for_3WL_ctrls(int WL_MAX,int WL_MIN,int TIME_MAX,int TIME_MIN)
+        {
+
         }
         private void NewWrite16Bit(ref ImageBuffer buf,string name)
         {
@@ -1024,11 +1000,7 @@ namespace ICSpec
             else return ((int)val / mnoj);
         }
         
-        private static void IC_DigitalIO(ICImagingControl ctrl,bool SetActive)
-        {
-            if(SetActive) { }
-            else { }
-        }
+
         private void TrBWL_OnScroll()
         {
             int codeerr = 0;

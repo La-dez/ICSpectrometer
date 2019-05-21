@@ -94,7 +94,7 @@
             this.FPSTimer = new System.Windows.Forms.Timer(this.components);
             this.ICInvalidateTimer = new System.Windows.Forms.Timer(this.components);
             this.TrB_CurrentWL = new System.Windows.Forms.TrackBar();
-            this.BStartS = new System.Windows.Forms.Button();
+            this.B_StartS = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -117,8 +117,6 @@
             this.ChB_AutoSetWL = new System.Windows.Forms.CheckBox();
             this.label20 = new System.Windows.Forms.Label();
             this.NUD_CurrentWL = new System.Windows.Forms.NumericUpDown();
-            this.ChB_LoadWLCurve = new System.Windows.Forms.CheckBox();
-            this.ChkBLoadedExpCurve = new System.Windows.Forms.CheckBox();
             this.NUD_StartL = new System.Windows.Forms.NumericUpDown();
             this.NUD_FinishL = new System.Windows.Forms.NumericUpDown();
             this.NUD_StepL = new System.Windows.Forms.NumericUpDown();
@@ -145,15 +143,31 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_TuneSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.specialSeriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_Tuning_Exposure = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Load_EXWL_C = new System.Windows.Forms.ToolStripMenuItem();
+            this.startTuningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_Tuning_Irregular = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Load_UDWL_Curve = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Start_UDWL_tune = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_Tuning_Pereodical = new System.Windows.Forms.ToolStripMenuItem();
             this.curvesCreatingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_CurveCreating_ExposureWL = new System.Windows.Forms.ToolStripMenuItem();
             this.SessionTiming = new System.Windows.Forms.Timer(this.components);
             this.Timer_Sweep = new System.Windows.Forms.Timer(this.components);
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.B_Get_HyperSpectral_Image = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.icImagingControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrBZoomOfImage)).BeginInit();
             this.GPCamFeat.SuspendLayout();
@@ -180,6 +194,12 @@
             this.tableLayoutPanel2.SuspendLayout();
             this.Pan_FPS.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             this.SuspendLayout();
             // 
             // icImagingControl1
@@ -243,7 +263,7 @@
             // 
             this.tableLayoutPanel5.SetColumnSpan(this.SnapshotBut, 2);
             this.SnapshotBut.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SnapshotBut.Location = new System.Drawing.Point(3, 146);
+            this.SnapshotBut.Location = new System.Drawing.Point(3, 147);
             this.SnapshotBut.Margin = new System.Windows.Forms.Padding(3, 1, 1, 1);
             this.SnapshotBut.Name = "SnapshotBut";
             this.SnapshotBut.Size = new System.Drawing.Size(78, 27);
@@ -296,7 +316,7 @@
             // 
             this.tableLayoutPanel5.SetColumnSpan(this.ContTransAfterSnapshot, 3);
             this.ContTransAfterSnapshot.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ContTransAfterSnapshot.Location = new System.Drawing.Point(165, 146);
+            this.ContTransAfterSnapshot.Location = new System.Drawing.Point(165, 147);
             this.ContTransAfterSnapshot.Margin = new System.Windows.Forms.Padding(1, 1, 3, 1);
             this.ContTransAfterSnapshot.Name = "ContTransAfterSnapshot";
             this.ContTransAfterSnapshot.Size = new System.Drawing.Size(120, 27);
@@ -313,7 +333,7 @@
             // 
             this.tableLayoutPanel5.SetColumnSpan(this.SaveImageBut, 2);
             this.SaveImageBut.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SaveImageBut.Location = new System.Drawing.Point(83, 146);
+            this.SaveImageBut.Location = new System.Drawing.Point(83, 147);
             this.SaveImageBut.Margin = new System.Windows.Forms.Padding(1);
             this.SaveImageBut.Name = "SaveImageBut";
             this.SaveImageBut.Size = new System.Drawing.Size(80, 27);
@@ -391,7 +411,6 @@
             this.tableLayoutPanel6.Controls.Add(this.ChBExposureAuto, 5, 0);
             this.tableLayoutPanel6.Controls.Add(this.CbBinning, 5, 9);
             this.tableLayoutPanel6.Controls.Add(this.LBinning, 3, 9);
-            this.tableLayoutPanel6.Controls.Add(this.BTestAll, 0, 15);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
@@ -803,13 +822,11 @@
             // 
             // BTestAll
             // 
-            this.tableLayoutPanel6.SetColumnSpan(this.BTestAll, 2);
-            this.BTestAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BTestAll.Location = new System.Drawing.Point(3, 471);
+            this.BTestAll.Location = new System.Drawing.Point(3, 62);
             this.BTestAll.Name = "BTestAll";
-            this.BTestAll.Size = new System.Drawing.Size(90, 30);
+            this.BTestAll.Size = new System.Drawing.Size(54, 30);
             this.BTestAll.TabIndex = 77;
-            this.BTestAll.Text = "Tests...";
+            this.BTestAll.Text = "Tests";
             this.BTestAll.UseVisualStyleBackColor = true;
             this.BTestAll.Click += new System.EventHandler(this.BTestAll_Click);
             // 
@@ -860,7 +877,7 @@
             this.ChB_Power.Name = "ChB_Power";
             this.ChB_Power.Size = new System.Drawing.Size(284, 28);
             this.ChB_Power.TabIndex = 84;
-            this.ChB_Power.Text = "Питание";
+            this.ChB_Power.Text = "Power";
             this.ChB_Power.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.ChB_Power.UseVisualStyleBackColor = true;
             this.ChB_Power.CheckedChanged += new System.EventHandler(this.ChB_Power_CheckedChanged);
@@ -977,7 +994,7 @@
             // 
             this.TrB_CurrentWL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.TrB_CurrentWL, 6);
-            this.TrB_CurrentWL.Location = new System.Drawing.Point(3, 90);
+            this.TrB_CurrentWL.Location = new System.Drawing.Point(3, 91);
             this.TrB_CurrentWL.Maximum = 150000;
             this.TrB_CurrentWL.Minimum = 1;
             this.TrB_CurrentWL.Name = "TrB_CurrentWL";
@@ -987,24 +1004,24 @@
             this.TrB_CurrentWL.Value = 1;
             this.TrB_CurrentWL.Scroll += new System.EventHandler(this.TBCurrentWL_Scroll);
             // 
-            // BStartS
+            // B_StartS
             // 
-            this.tableLayoutPanel5.SetColumnSpan(this.BStartS, 7);
-            this.BStartS.Location = new System.Drawing.Point(3, 465);
-            this.BStartS.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
-            this.BStartS.Name = "BStartS";
-            this.BStartS.Size = new System.Drawing.Size(282, 27);
-            this.BStartS.TabIndex = 1;
-            this.BStartS.Text = "Tuning (simple)";
-            this.BStartS.UseVisualStyleBackColor = true;
-            this.BStartS.Click += new System.EventHandler(this.BStartS_Click);
+            this.tableLayoutPanel5.SetColumnSpan(this.B_StartS, 7);
+            this.B_StartS.Location = new System.Drawing.Point(3, 347);
+            this.B_StartS.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.B_StartS.Name = "B_StartS";
+            this.B_StartS.Size = new System.Drawing.Size(282, 27);
+            this.B_StartS.TabIndex = 1;
+            this.B_StartS.Text = "Tuning (simple)";
+            this.B_StartS.UseVisualStyleBackColor = true;
+            this.B_StartS.Click += new System.EventHandler(this.BStartS_Click);
             // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label3, 2);
-            this.label3.Location = new System.Drawing.Point(3, 190);
+            this.label3.Location = new System.Drawing.Point(3, 177);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(52, 13);
             this.label3.TabIndex = 10;
@@ -1015,7 +1032,7 @@
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label4, 2);
-            this.label4.Location = new System.Drawing.Point(167, 190);
+            this.label4.Location = new System.Drawing.Point(167, 177);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(32, 13);
             this.label4.TabIndex = 11;
@@ -1026,7 +1043,7 @@
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label5, 2);
-            this.label5.Location = new System.Drawing.Point(85, 190);
+            this.label5.Location = new System.Drawing.Point(85, 177);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 13);
             this.label5.TabIndex = 12;
@@ -1039,7 +1056,7 @@
             this.BSetWL.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.BSetWL.Name = "BSetWL";
             this.tableLayoutPanel5.SetRowSpan(this.BSetWL, 2);
-            this.BSetWL.Size = new System.Drawing.Size(42, 66);
+            this.BSetWL.Size = new System.Drawing.Size(42, 67);
             this.BSetWL.TabIndex = 5;
             this.BSetWL.Text = "Set WL";
             this.BSetWL.UseVisualStyleBackColor = true;
@@ -1070,7 +1087,7 @@
             // 
             this.TrB_CurrentWN.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.TrB_CurrentWN, 6);
-            this.TrB_CurrentWN.Location = new System.Drawing.Point(3, 119);
+            this.TrB_CurrentWN.Location = new System.Drawing.Point(3, 120);
             this.TrB_CurrentWN.Maximum = 10000000;
             this.TrB_CurrentWN.Minimum = 6666;
             this.TrB_CurrentWN.Name = "TrB_CurrentWN";
@@ -1085,7 +1102,7 @@
             this.TBStartN.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.TBStartN, 2);
-            this.TBStartN.Location = new System.Drawing.Point(3, 264);
+            this.TBStartN.Location = new System.Drawing.Point(3, 237);
             this.TBStartN.Name = "TBStartN";
             this.TBStartN.Size = new System.Drawing.Size(76, 20);
             this.TBStartN.TabIndex = 19;
@@ -1095,7 +1112,7 @@
             this.TBFinishN.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.TBFinishN, 2);
-            this.TBFinishN.Location = new System.Drawing.Point(85, 264);
+            this.TBFinishN.Location = new System.Drawing.Point(85, 237);
             this.TBFinishN.Name = "TBFinishN";
             this.TBFinishN.Size = new System.Drawing.Size(76, 20);
             this.TBFinishN.TabIndex = 20;
@@ -1105,7 +1122,7 @@
             this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.textBox3, 2);
-            this.textBox3.Location = new System.Drawing.Point(167, 264);
+            this.textBox3.Location = new System.Drawing.Point(167, 237);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(76, 20);
             this.textBox3.TabIndex = 21;
@@ -1115,7 +1132,7 @@
             this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label23.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label23, 2);
-            this.label23.Location = new System.Drawing.Point(3, 248);
+            this.label23.Location = new System.Drawing.Point(3, 221);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(54, 13);
             this.label23.TabIndex = 24;
@@ -1126,7 +1143,7 @@
             this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label24.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label24, 2);
-            this.label24.Location = new System.Drawing.Point(85, 248);
+            this.label24.Location = new System.Drawing.Point(85, 221);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(51, 13);
             this.label24.TabIndex = 25;
@@ -1137,7 +1154,7 @@
             this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label25.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.label25, 2);
-            this.label25.Location = new System.Drawing.Point(167, 248);
+            this.label25.Location = new System.Drawing.Point(167, 221);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(32, 13);
             this.label25.TabIndex = 26;
@@ -1147,7 +1164,7 @@
             // 
             this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(249, 95);
+            this.label13.Location = new System.Drawing.Point(249, 96);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(36, 13);
             this.label13.TabIndex = 33;
@@ -1156,7 +1173,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(249, 266);
+            this.label14.Location = new System.Drawing.Point(249, 239);
             this.label14.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(32, 13);
@@ -1199,9 +1216,6 @@
             this.tableLayoutPanel5.Controls.Add(this.label13, 6, 3);
             this.tableLayoutPanel5.Controls.Add(this.TrB_CurrentWL, 0, 3);
             this.tableLayoutPanel5.Controls.Add(this.NUD_CurrentWL, 3, 0);
-            this.tableLayoutPanel5.Controls.Add(this.BStartS, 0, 16);
-            this.tableLayoutPanel5.Controls.Add(this.ChB_LoadWLCurve, 0, 15);
-            this.tableLayoutPanel5.Controls.Add(this.ChkBLoadedExpCurve, 0, 14);
             this.tableLayoutPanel5.Controls.Add(this.label3, 0, 6);
             this.tableLayoutPanel5.Controls.Add(this.NUD_StartL, 0, 7);
             this.tableLayoutPanel5.Controls.Add(this.label5, 2, 6);
@@ -1212,37 +1226,48 @@
             this.tableLayoutPanel5.Controls.Add(this.label24, 2, 8);
             this.tableLayoutPanel5.Controls.Add(this.label25, 4, 8);
             this.tableLayoutPanel5.Controls.Add(this.label14, 6, 9);
-            this.tableLayoutPanel5.Controls.Add(this.label22, 6, 7);
             this.tableLayoutPanel5.Controls.Add(this.TBStartN, 0, 9);
             this.tableLayoutPanel5.Controls.Add(this.TBFinishN, 2, 9);
             this.tableLayoutPanel5.Controls.Add(this.textBox3, 4, 9);
             this.tableLayoutPanel5.Controls.Add(this.TLP_Sweep_EasyMode, 0, 11);
             this.tableLayoutPanel5.Controls.Add(this.ChB_SweepEnabled, 0, 10);
+            this.tableLayoutPanel5.Controls.Add(this.B_StartS, 0, 13);
+            this.tableLayoutPanel5.Controls.Add(this.numericUpDown1, 0, 15);
+            this.tableLayoutPanel5.Controls.Add(this.numericUpDown2, 2, 15);
+            this.tableLayoutPanel5.Controls.Add(this.numericUpDown3, 4, 15);
+            this.tableLayoutPanel5.Controls.Add(this.numericUpDown4, 0, 16);
+            this.tableLayoutPanel5.Controls.Add(this.numericUpDown5, 2, 16);
+            this.tableLayoutPanel5.Controls.Add(this.numericUpDown6, 4, 16);
+            this.tableLayoutPanel5.Controls.Add(this.label22, 6, 15);
+            this.tableLayoutPanel5.Controls.Add(this.label34, 6, 7);
+            this.tableLayoutPanel5.Controls.Add(this.label35, 6, 16);
+            this.tableLayoutPanel5.Controls.Add(this.label36, 0, 14);
+            this.tableLayoutPanel5.Controls.Add(this.label37, 2, 14);
+            this.tableLayoutPanel5.Controls.Add(this.label38, 4, 14);
+            this.tableLayoutPanel5.Controls.Add(this.B_Get_HyperSpectral_Image, 0, 17);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 17;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.882303F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.705923F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.058838F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.882891F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.882891F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.882891F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.881037F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.882891F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.882891F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.882891F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.882891F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.882891F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.882891F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.882891F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.880321F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.882354F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.880321F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel5.RowCount = 18;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.666769F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.866948F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.466765F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.667435F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.667435F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.667435F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.667435F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.667435F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.667435F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.667435F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.667435F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.664522F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.666826F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.664522F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.664177F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(288, 504);
             this.tableLayoutPanel5.TabIndex = 75;
             // 
@@ -1251,7 +1276,7 @@
             this.NUD_CurrentWN.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel5.SetColumnSpan(this.NUD_CurrentWN, 2);
             this.NUD_CurrentWN.DecimalPlaces = 2;
-            this.NUD_CurrentWN.Location = new System.Drawing.Point(123, 40);
+            this.NUD_CurrentWN.Location = new System.Drawing.Point(123, 41);
             this.NUD_CurrentWN.Margin = new System.Windows.Forms.Padding(0);
             this.NUD_CurrentWN.Maximum = new decimal(new int[] {
             1000,
@@ -1280,7 +1305,7 @@
             this.tableLayoutPanel5.SetColumnSpan(this.ChB_AutoSetWL, 3);
             this.ChB_AutoSetWL.Location = new System.Drawing.Point(16, 32);
             this.ChB_AutoSetWL.Name = "ChB_AutoSetWL";
-            this.ChB_AutoSetWL.Size = new System.Drawing.Size(90, 37);
+            this.ChB_AutoSetWL.Size = new System.Drawing.Size(90, 38);
             this.ChB_AutoSetWL.TabIndex = 35;
             this.ChB_AutoSetWL.Text = "Slider autoset";
             this.ChB_AutoSetWL.UseVisualStyleBackColor = true;
@@ -1290,7 +1315,7 @@
             // 
             this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(249, 124);
+            this.label20.Location = new System.Drawing.Point(249, 125);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(36, 13);
             this.label20.TabIndex = 49;
@@ -1323,39 +1348,10 @@
             0});
             this.NUD_CurrentWL.ValueChanged += new System.EventHandler(this.NUD_CurWL_ValueChanged);
             // 
-            // ChB_LoadWLCurve
-            // 
-            this.ChB_LoadWLCurve.Appearance = System.Windows.Forms.Appearance.Button;
-            this.ChB_LoadWLCurve.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.tableLayoutPanel5.SetColumnSpan(this.ChB_LoadWLCurve, 7);
-            this.ChB_LoadWLCurve.Location = new System.Drawing.Point(3, 436);
-            this.ChB_LoadWLCurve.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
-            this.ChB_LoadWLCurve.Name = "ChB_LoadWLCurve";
-            this.ChB_LoadWLCurve.Size = new System.Drawing.Size(282, 27);
-            this.ChB_LoadWLCurve.TabIndex = 58;
-            this.ChB_LoadWLCurve.Text = "Tuning (via userdefined WLs)";
-            this.ChB_LoadWLCurve.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.ChB_LoadWLCurve.UseVisualStyleBackColor = true;
-            this.ChB_LoadWLCurve.CheckedChanged += new System.EventHandler(this.ChB_LoadWLCurve_CheckedChanged);
-            // 
-            // ChkBLoadedExpCurve
-            // 
-            this.ChkBLoadedExpCurve.Appearance = System.Windows.Forms.Appearance.Button;
-            this.tableLayoutPanel5.SetColumnSpan(this.ChkBLoadedExpCurve, 7);
-            this.ChkBLoadedExpCurve.Location = new System.Drawing.Point(3, 407);
-            this.ChkBLoadedExpCurve.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
-            this.ChkBLoadedExpCurve.Name = "ChkBLoadedExpCurve";
-            this.ChkBLoadedExpCurve.Size = new System.Drawing.Size(282, 27);
-            this.ChkBLoadedExpCurve.TabIndex = 54;
-            this.ChkBLoadedExpCurve.Text = "Tuning (via exp.- WL curve)";
-            this.ChkBLoadedExpCurve.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.ChkBLoadedExpCurve.UseVisualStyleBackColor = true;
-            this.ChkBLoadedExpCurve.CheckedChanged += new System.EventHandler(this.ChkBLoadedExpCurve_CheckedChanged);
-            // 
             // NUD_StartL
             // 
             this.tableLayoutPanel5.SetColumnSpan(this.NUD_StartL, 2);
-            this.NUD_StartL.Location = new System.Drawing.Point(3, 206);
+            this.NUD_StartL.Location = new System.Drawing.Point(3, 193);
             this.NUD_StartL.Maximum = new decimal(new int[] {
             1500,
             0,
@@ -1369,7 +1365,7 @@
             // NUD_FinishL
             // 
             this.tableLayoutPanel5.SetColumnSpan(this.NUD_FinishL, 2);
-            this.NUD_FinishL.Location = new System.Drawing.Point(85, 206);
+            this.NUD_FinishL.Location = new System.Drawing.Point(85, 193);
             this.NUD_FinishL.Maximum = new decimal(new int[] {
             1500,
             0,
@@ -1383,7 +1379,7 @@
             // NUD_StepL
             // 
             this.tableLayoutPanel5.SetColumnSpan(this.NUD_StepL, 2);
-            this.NUD_StepL.Location = new System.Drawing.Point(167, 206);
+            this.NUD_StepL.Location = new System.Drawing.Point(167, 193);
             this.NUD_StepL.Maximum = new decimal(new int[] {
             1500,
             0,
@@ -1397,7 +1393,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(249, 208);
+            this.label22.Location = new System.Drawing.Point(249, 409);
             this.label22.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(21, 13);
@@ -1419,23 +1415,23 @@
             this.TLP_Sweep_EasyMode.Controls.Add(this.label31, 1, 0);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label32, 0, 1);
             this.TLP_Sweep_EasyMode.Controls.Add(this.label33, 0, 0);
+            this.TLP_Sweep_EasyMode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_Sweep_EasyMode.Enabled = false;
-            this.TLP_Sweep_EasyMode.Location = new System.Drawing.Point(0, 319);
+            this.TLP_Sweep_EasyMode.Location = new System.Drawing.Point(0, 288);
             this.TLP_Sweep_EasyMode.Margin = new System.Windows.Forms.Padding(0);
             this.TLP_Sweep_EasyMode.Name = "TLP_Sweep_EasyMode";
-            this.TLP_Sweep_EasyMode.RowCount = 3;
-            this.tableLayoutPanel5.SetRowSpan(this.TLP_Sweep_EasyMode, 3);
-            this.TLP_Sweep_EasyMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.TLP_Sweep_EasyMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.TLP_Sweep_EasyMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLP_Sweep_EasyMode.Size = new System.Drawing.Size(288, 87);
+            this.TLP_Sweep_EasyMode.RowCount = 2;
+            this.tableLayoutPanel5.SetRowSpan(this.TLP_Sweep_EasyMode, 2);
+            this.TLP_Sweep_EasyMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_Sweep_EasyMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_Sweep_EasyMode.Size = new System.Drawing.Size(288, 58);
             this.TLP_Sweep_EasyMode.TabIndex = 93;
             // 
             // label28
             // 
             this.label28.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(249, 13);
+            this.label28.Location = new System.Drawing.Point(249, 8);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(36, 13);
             this.label28.TabIndex = 1;
@@ -1446,7 +1442,7 @@
             // 
             this.label30.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(250, 53);
+            this.label30.Location = new System.Drawing.Point(250, 37);
             this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 3, 0);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(35, 13);
@@ -1458,7 +1454,7 @@
             // 
             this.NUD_FreqDeviation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_FreqDeviation.DecimalPlaces = 3;
-            this.NUD_FreqDeviation.Location = new System.Drawing.Point(167, 10);
+            this.NUD_FreqDeviation.Location = new System.Drawing.Point(167, 4);
             this.NUD_FreqDeviation.Maximum = new decimal(new int[] {
             5,
             0,
@@ -1483,7 +1479,7 @@
             // 
             this.NUD_TimeFdev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_TimeFdev.DecimalPlaces = 3;
-            this.NUD_TimeFdev.Location = new System.Drawing.Point(167, 50);
+            this.NUD_TimeFdev.Location = new System.Drawing.Point(167, 33);
             this.NUD_TimeFdev.Maximum = new decimal(new int[] {
             40,
             0,
@@ -1508,7 +1504,7 @@
             // 
             this.label31.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(147, 13);
+            this.label31.Location = new System.Drawing.Point(147, 8);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(14, 13);
             this.label31.TabIndex = 1;
@@ -1519,7 +1515,7 @@
             // 
             this.label32.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(3, 53);
+            this.label32.Location = new System.Drawing.Point(3, 37);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(122, 13);
             this.label32.TabIndex = 2;
@@ -1529,7 +1525,7 @@
             // 
             this.label33.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(3, 13);
+            this.label33.Location = new System.Drawing.Point(3, 8);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(138, 13);
             this.label33.TabIndex = 1;
@@ -1539,7 +1535,7 @@
             // 
             this.ChB_SweepEnabled.AutoSize = true;
             this.tableLayoutPanel5.SetColumnSpan(this.ChB_SweepEnabled, 7);
-            this.ChB_SweepEnabled.Location = new System.Drawing.Point(3, 293);
+            this.ChB_SweepEnabled.Location = new System.Drawing.Point(3, 266);
             this.ChB_SweepEnabled.Name = "ChB_SweepEnabled";
             this.ChB_SweepEnabled.Size = new System.Drawing.Size(88, 17);
             this.ChB_SweepEnabled.TabIndex = 94;
@@ -1682,6 +1678,7 @@
             // 
             this.Pan_FPS.Controls.Add(this.LLiveFpsLab);
             this.Pan_FPS.Controls.Add(this.LFPSCurrent);
+            this.Pan_FPS.Controls.Add(this.BTestAll);
             this.Pan_FPS.Location = new System.Drawing.Point(559, 581);
             this.Pan_FPS.Margin = new System.Windows.Forms.Padding(0);
             this.Pan_FPS.Name = "Pan_FPS";
@@ -1693,7 +1690,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.settingsToolStripMenuItem});
+            this.TSMI_TuneSettings});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 1, 0, 1);
@@ -1716,14 +1713,14 @@
             this.quitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.quitToolStripMenuItem.Text = "Exit";
             // 
-            // settingsToolStripMenuItem
+            // TSMI_TuneSettings
             // 
-            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMI_TuneSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.specialSeriesToolStripMenuItem,
             this.curvesCreatingToolStripMenuItem});
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
+            this.TSMI_TuneSettings.Name = "TSMI_TuneSettings";
+            this.TSMI_TuneSettings.Size = new System.Drawing.Size(90, 22);
+            this.TSMI_TuneSettings.Text = "Tune settings";
             // 
             // specialSeriesToolStripMenuItem
             // 
@@ -1737,16 +1734,49 @@
             // 
             // TSMI_Tuning_Exposure
             // 
+            this.TSMI_Tuning_Exposure.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMI_Load_EXWL_C,
+            this.startTuningToolStripMenuItem});
             this.TSMI_Tuning_Exposure.Name = "TSMI_Tuning_Exposure";
             this.TSMI_Tuning_Exposure.Size = new System.Drawing.Size(232, 22);
             this.TSMI_Tuning_Exposure.Text = "Via Exposure - WL curve";
             // 
+            // TSMI_Load_EXWL_C
+            // 
+            this.TSMI_Load_EXWL_C.Name = "TSMI_Load_EXWL_C";
+            this.TSMI_Load_EXWL_C.Size = new System.Drawing.Size(210, 22);
+            this.TSMI_Load_EXWL_C.Text = "Load Exposure - WL curve";
+            this.TSMI_Load_EXWL_C.Click += new System.EventHandler(this.TSMI_Load_EXWL_C_Click);
+            // 
+            // startTuningToolStripMenuItem
+            // 
+            this.startTuningToolStripMenuItem.Name = "startTuningToolStripMenuItem";
+            this.startTuningToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.startTuningToolStripMenuItem.Text = "Start tuning";
+            this.startTuningToolStripMenuItem.Click += new System.EventHandler(this.startTuningToolStripMenuItem_Click_1);
+            // 
             // TSMI_Tuning_Irregular
             // 
+            this.TSMI_Tuning_Irregular.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMI_Load_UDWL_Curve,
+            this.TSMI_Start_UDWL_tune});
             this.TSMI_Tuning_Irregular.Name = "TSMI_Tuning_Irregular";
             this.TSMI_Tuning_Irregular.Size = new System.Drawing.Size(232, 22);
             this.TSMI_Tuning_Irregular.Text = "Via user-defined irregular WLs";
-            this.TSMI_Tuning_Irregular.Click += new System.EventHandler(this.viaUserdefinedWLsToolStripMenuItem_Click);
+            // 
+            // TSMI_Load_UDWL_Curve
+            // 
+            this.TSMI_Load_UDWL_Curve.Name = "TSMI_Load_UDWL_Curve";
+            this.TSMI_Load_UDWL_Curve.Size = new System.Drawing.Size(202, 22);
+            this.TSMI_Load_UDWL_Curve.Text = "Load user-defined curve";
+            this.TSMI_Load_UDWL_Curve.Click += new System.EventHandler(this.TSMI_Load_UD_Curve_Click);
+            // 
+            // TSMI_Start_UDWL_tune
+            // 
+            this.TSMI_Start_UDWL_tune.Name = "TSMI_Start_UDWL_tune";
+            this.TSMI_Start_UDWL_tune.Size = new System.Drawing.Size(202, 22);
+            this.TSMI_Start_UDWL_tune.Text = "Start tuning";
+            this.TSMI_Start_UDWL_tune.Click += new System.EventHandler(this.TSMI_Start_UDWL_tune_Click);
             // 
             // TSMI_Tuning_Pereodical
             // 
@@ -1781,6 +1811,114 @@
             this.Timer_Sweep.Enabled = true;
             this.Timer_Sweep.Interval = 50;
             this.Timer_Sweep.Tick += new System.EventHandler(this.Timer_Sweep_Tick);
+            // 
+            // numericUpDown1
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.numericUpDown1, 2);
+            this.numericUpDown1.Location = new System.Drawing.Point(3, 407);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(76, 20);
+            this.numericUpDown1.TabIndex = 95;
+            // 
+            // numericUpDown2
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.numericUpDown2, 2);
+            this.numericUpDown2.Location = new System.Drawing.Point(85, 407);
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(76, 20);
+            this.numericUpDown2.TabIndex = 96;
+            // 
+            // numericUpDown3
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.numericUpDown3, 2);
+            this.numericUpDown3.Location = new System.Drawing.Point(167, 407);
+            this.numericUpDown3.Name = "numericUpDown3";
+            this.numericUpDown3.Size = new System.Drawing.Size(76, 20);
+            this.numericUpDown3.TabIndex = 97;
+            // 
+            // numericUpDown4
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.numericUpDown4, 2);
+            this.numericUpDown4.Location = new System.Drawing.Point(3, 436);
+            this.numericUpDown4.Name = "numericUpDown4";
+            this.numericUpDown4.Size = new System.Drawing.Size(76, 20);
+            this.numericUpDown4.TabIndex = 98;
+            // 
+            // numericUpDown5
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.numericUpDown5, 2);
+            this.numericUpDown5.Location = new System.Drawing.Point(85, 436);
+            this.numericUpDown5.Name = "numericUpDown5";
+            this.numericUpDown5.Size = new System.Drawing.Size(76, 20);
+            this.numericUpDown5.TabIndex = 99;
+            // 
+            // numericUpDown6
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.numericUpDown6, 2);
+            this.numericUpDown6.Location = new System.Drawing.Point(167, 436);
+            this.numericUpDown6.Name = "numericUpDown6";
+            this.numericUpDown6.Size = new System.Drawing.Size(76, 20);
+            this.numericUpDown6.TabIndex = 100;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(249, 195);
+            this.label34.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(21, 13);
+            this.label34.TabIndex = 101;
+            this.label34.Text = "nm";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(249, 438);
+            this.label35.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(20, 13);
+            this.label35.TabIndex = 102;
+            this.label35.Text = "ms";
+            // 
+            // label36
+            // 
+            this.label36.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(4, 383);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(33, 13);
+            this.label36.TabIndex = 103;
+            this.label36.Text = "WL 1";
+            // 
+            // label37
+            // 
+            this.label37.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(86, 383);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(33, 13);
+            this.label37.TabIndex = 104;
+            this.label37.Text = "WL 2";
+            // 
+            // label38
+            // 
+            this.label38.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(168, 383);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(33, 13);
+            this.label38.TabIndex = 105;
+            this.label38.Text = "WL 3";
+            // 
+            // B_Get_HyperSpectral_Image
+            // 
+            this.tableLayoutPanel5.SetColumnSpan(this.B_Get_HyperSpectral_Image, 7);
+            this.B_Get_HyperSpectral_Image.Location = new System.Drawing.Point(3, 465);
+            this.B_Get_HyperSpectral_Image.Name = "B_Get_HyperSpectral_Image";
+            this.B_Get_HyperSpectral_Image.Size = new System.Drawing.Size(278, 26);
+            this.B_Get_HyperSpectral_Image.TabIndex = 106;
+            this.B_Get_HyperSpectral_Image.Text = "Aquire Spectral Image";
+            this.B_Get_HyperSpectral_Image.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1833,6 +1971,12 @@
             this.Pan_FPS.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1897,7 +2041,7 @@
         private System.Windows.Forms.Timer ICInvalidateTimer;
         private System.Windows.Forms.Button BTestAll;
         private System.Windows.Forms.TrackBar TrB_CurrentWL;
-        private System.Windows.Forms.Button BStartS;
+        private System.Windows.Forms.Button B_StartS;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -1927,7 +2071,6 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Button FlipUpDownBut;
         private System.Windows.Forms.Button FlipRightLeftBut;
-        private System.Windows.Forms.CheckBox ChkBLoadedExpCurve;
         private System.ComponentModel.BackgroundWorker BkGrWorker_forExpCurveBuilding;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -1939,9 +2082,8 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_TuneSettings;
         private System.Windows.Forms.ToolStripMenuItem specialSeriesToolStripMenuItem;
-        private System.Windows.Forms.CheckBox ChB_LoadWLCurve;
         private System.Windows.Forms.CheckBox ChB_Power;
         private System.Windows.Forms.NumericUpDown NUD_CurrentWL;
         private System.Windows.Forms.NumericUpDown NUD_CurrentWN;
@@ -1964,6 +2106,22 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.CheckBox ChB_SweepEnabled;
         private System.Windows.Forms.Timer Timer_Sweep;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_Load_UDWL_Curve;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_Start_UDWL_tune;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_Load_EXWL_C;
+        private System.Windows.Forms.ToolStripMenuItem startTuningToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown numericUpDown4;
+        private System.Windows.Forms.NumericUpDown numericUpDown5;
+        private System.Windows.Forms.NumericUpDown numericUpDown6;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Button B_Get_HyperSpectral_Image;
     }
 }
 

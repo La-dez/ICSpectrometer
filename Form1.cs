@@ -179,7 +179,7 @@ namespace ICSpec
                     FormatAdaptation();
 
                     m_oldSink = New_SetSelectedCamera_SignalStream_Format();
-
+                    Load_properties_for_3WL_ctrls(800,600,1000,10);
                     //создание контекстного меню
 
                     /*  System.Windows.Forms.ContextMenu MyContextMenu=new System.Windows.Forms.ContextMenu();                 
@@ -348,10 +348,8 @@ namespace ICSpec
         private void BStartS_Click(object sender, EventArgs e)
         {
             int stepss = CalculateSteps();
-            //   Bitmap[] Massive = StartSession(stepss); 
-            // SaveMassive(Massive);
             DisableFlipButtons();
-            if (!ChB_LoadWLCurve.Checked)
+            if (!TSMI_Load_UDWL_Curve.Checked)
             {
                 WLs_toTune = null;
             }
@@ -809,33 +807,10 @@ namespace ICSpec
         }
 
 
-        private void ChkBLoadedExpCurve_CheckedChanged(object sender, EventArgs e)
+        private void ChkB_LoadedExpCurve_CheckedChanged(object sender, EventArgs e)
         {
+             
 
-            if (ChkBLoadedExpCurve.Checked)
-            {
-                WayToCurv_exp = OpenExpcfgSearcher();
-                if (WayToCurv_exp == "") { ChkBLoadedExpCurve.Text = "Перестройка по кривой"; }
-                else
-                {
-                    ChkBLoadedExpCurve.Text = "Кривая: " + WayToCurv_exp;
-
-                    List<int> wls = new List<int>();
-                    List<double> exps = new List<double>();
-                    AO_MinimumWL = Convert.ToInt32(NUD_StartL.Text);
-                    AO_MaximumWL = Convert.ToInt32(NUD_FinishL.Text);
-                    double Gain = 0, FPS = 0;
-                    ExpCurve.Get_andWrite_NiceCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL, (int)AO_MinimumWL, (int)AO_MaximumWL, (int)AO_StepWL, ref wls, ref exps, ref Gain, ref FPS);
-
-                    LogMessage("Перестройка по кривой включена.");
-                }
-            }
-            else
-            {
-                ChkBLoadedExpCurve.Text = "Перестройка по кривой";
-                WayToCurv_exp = "";
-                LogMessage("Перестройка по кривой отключена.");
-            }
 
 
         }
@@ -934,40 +909,7 @@ namespace ICSpec
         private void ChB_LoadWLCurve_CheckedChanged(object sender, EventArgs e)
         {
 
-            if (ChB_LoadWLCurve.Checked)
-            {
-                WayToCurv_wl = LDZ_Code.Files.OpenFiles("Choose your tune file", true, false, ".txt")[0];
-                if (WayToCurv_wl == "") { ChB_LoadWLCurve.Text = "Перестройка по кривой"; }
-                else
-                {
-                    ChB_LoadWLCurve.Text = "Кривая: " + Path.GetFileName(WayToCurv_wl);
-                    var allstrings = LDZ_Code.Files.Read_txt(WayToCurv_wl);
-                    float[] mass = null, mass2 = null;
-                    LDZ_Code.Files.Get_WLData_byKnownCountofNumbers(1, allstrings.ToArray(), out mass, out WLs_toTune, out mass2);
-                    List<float> data = new List<float>(WLs_toTune);
-                    data.Reverse();
-                    for (int i = 0; i < data.Count(); i++)
-                    {
-
-
-                        if ((data[i] < MinimumWL) || (data[i] > MaximumWL))
-                        {
-                            LogMessage(String.Format("Обнаруженная в списке длина волны {0} не принадлежит диапазону {1}-{2}. Съемка на этой длине волны производиться не будет.",
-                              data[i], MinimumWL, MaximumWL));
-                            data.RemoveAt(i);
-                            i--;
-                        }
-                    }
-                    WLs_toTune = data.ToArray();
-                    LogMessage("Перестройка по кривой длин волн включена.");
-                }
-            }
-            else
-            {
-                ChB_LoadWLCurve.Text = "Перестройка по кривой ДВ";
-                WayToCurv_wl = "";
-                LogMessage("Перестройка по кривой длин волн отключена.");
-            }
+       
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -1118,7 +1060,7 @@ namespace ICSpec
 
         private void B_Start_TimedSession_Click(object sender, EventArgs e)
         {
-            if (BStartS.Text != "Break session")
+            if (B_StartS.Text != "Break session")
             {
                 ReadAllSettingsFromFile(false);
                 if (WarningofImage)
@@ -1167,89 +1109,40 @@ namespace ICSpec
             {
                 try
                 {
-
-                    // int Shots = BasicDataSession.Times[Steps_InSession] / (int)BasicDataSession.Intervals[Steps_InSession];
                     string NOW = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
                     // int dd_elapsed = Convert.ToInt32(NOW.Substring(8, 2)) - Convert.ToInt32(data_of_Start.Substring(8, 2));
-
                     int hh_elapsed = Convert.ToInt32(NOW.Substring(11, 2)) - Convert.ToInt32(data_of_start.Substring(11, 2));
                     int mm_elapsed = Convert.ToInt32(NOW.Substring(14, 2)) - Convert.ToInt32(data_of_start.Substring(14, 2));
                     int ss_elapsed = Convert.ToInt32(NOW.Substring(17, 2)) - Convert.ToInt32(data_of_start.Substring(17, 2));
 
-                    int Secs_total_elapsed =/* dd_elapsed * 86400 +*/hh_elapsed * 3600 + mm_elapsed * 60 + ss_elapsed; /*- Session_CalculateTime(Steps_InSession);*/
+                    int Secs_total_elapsed =/* dd_elapsed * 86400 +*/hh_elapsed * 3600 + mm_elapsed * 60 + ss_elapsed; 
                     if (Secs_total_elapsed >= 60)
                     {
                         data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
                         int stepss = CalculateSteps();
-                        //   Bitmap[] Massive = StartSession(stepss); 
-                        // SaveMassive(Massive);
                         DisableFlipButtons();
-                        if (!ChB_LoadWLCurve.Checked) { WLs_toTune = null; }
+                        if (!TSMI_Load_EXWL_C.Checked) { WLs_toTune = null; }
                         New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
                         EnableFlipButtons();
-
                     }
                 }
                 catch (Exception exc)
                 {
-                    Log.Error("Непредвиеденная ошибка во время съемки.");
+                    Log.Error("Непредвиденная ошибка во время съемки.");
                     Log.Error("ORIGINAL:" + exc.Message);
                 }
             }
-           /* int Secs_total_elapsed = dd_elapsed * 86400 + hh_elapsed * 3600 + mm_elapsed * 60 + ss_elapsed - Session_CalculateTime(Steps_InSession);
-            stw.Start();
-            if (Sec_screened != Secs_total_elapsed)
-            {
-                if (Secs_total_elapsed % (int)BasicDataSession.Intervals[Steps_InSession] == 0)
-                {
-                    SnapShot_New(Secs_total_elapsed, Steps_InSession); Sec_screened = Secs_total_elapsed; stw.Stop();
-                    LogMessage("Время сохранения (мс): " + stw.Elapsed.TotalMilliseconds.ToString());
-                }
-                if (Secs_total_elapsed >= (int)BasicDataSession.Times[Steps_InSession]) //Случай, когда начинается очередной фрагмент
-                {
-                    SnapShot_New(Secs_total_elapsed, Steps_InSession); Sec_screened = Secs_total_elapsed; stw.Stop();
-                    LogMessage("Время сохранения (мс): " + stw.Elapsed.TotalMilliseconds.ToString());
-                    Steps_InSession++;
-                }
-            }
-            if (Steps_InSession == Steps_InSession_MAX) //Случай, когда сессия заканчивается
-            {
-                SnapShot_New(Secs_total_elapsed, Steps_InSession); Sec_screened = Secs_total_elapsed;
-                Stop_NoAOFSession();
-                stw.Stop();
-                LogMessage("Время сохранения (мс): " + stw.Elapsed.TotalMilliseconds.ToString());
-                LogMessage("Сессия завершена! Заданное время съемки: " +
-                    Session_CalculateTime(BasicDataSession.Intervals.Count()).ToString() +
-                    ". Реальное: " + AllTheSession.Elapsed.TotalSeconds.ToString());
-                AllTheSession.Reset();
-            }
-
-            stw.Reset();*/
-        }
-
-    
-
-        private void ChB_CircleTune_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void viaUserdefinedWLsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void TSMI_Tuning_Pereodical_Click(object sender, EventArgs e)
         {
-            if(TSMI_Tuning_Pereodical.Checked)
+            if (!TSMI_Tuning_Pereodical.Checked)
             {
                 isTimeSesNeeded = true;
                 data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
                 int stepss = CalculateSteps();
-                //   Bitmap[] Massive = StartSession(stepss); 
-                // SaveMassive(Massive);
                 DisableFlipButtons();
-                if (!ChB_LoadWLCurve.Checked) { WLs_toTune = null; }
+                if (!TSMI_Load_UDWL_Curve.Checked) { WLs_toTune = null; }
                 New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
                 EnableFlipButtons();
             }
@@ -1319,6 +1212,117 @@ namespace ICSpec
                     }
                 }
             }
+        }
+
+        private void TSMI_Tuning_Exposure_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void TSMI_Tuning_Irregular_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void TSMI_Load_UD_Curve_Click(object sender, EventArgs e)
+        {
+            if (TSMI_Load_UDWL_Curve.Checked)
+            {
+                WayToCurv_wl = LDZ_Code.Files.OpenFiles("Choose your tune file", true, false, ".txt")[0];
+                if (WayToCurv_wl == "")
+                {
+                    TSMI_Load_UDWL_Curve.Text = "Load user-defined curve";
+                    TSMI_Load_UDWL_Curve.Checked = !TSMI_Load_UDWL_Curve.Checked;
+                }
+                else
+                {
+                    TSMI_Load_UDWL_Curve.Text = "Curve: " + Path.GetFileName(WayToCurv_wl);
+                    var allstrings = LDZ_Code.Files.Read_txt(WayToCurv_wl);
+                    float[] mass = null, mass2 = null;
+                    LDZ_Code.Files.Get_WLData_byKnownCountofNumbers(1, allstrings.ToArray(), out mass, out WLs_toTune, out mass2);
+                    List<float> data = new List<float>(WLs_toTune);
+                    data.Reverse();
+                    for (int i = 0; i < data.Count(); i++)
+                    {
+
+
+                        if ((data[i] < MinimumWL) || (data[i] > MaximumWL))
+                        {
+                            LogMessage(String.Format("Обнаруженная в списке длина волны {0} не принадлежит диапазону {1}-{2}. Съемка на этой длине волны производиться не будет.",
+                              data[i], MinimumWL, MaximumWL));
+                            data.RemoveAt(i);
+                            i--;
+                        }
+                    }
+                    WLs_toTune = data.ToArray();
+                    LogMessage("Перестройка по кривой длин волн включена.");
+                }
+            }
+            else
+            {
+                TSMI_Load_UDWL_Curve.Text = "Load user-defined curve";
+                WayToCurv_wl = "";
+                LogMessage("Перестройка по кривой длин волн отключена.");
+            }
+            TSMI_Load_UDWL_Curve.Checked = !TSMI_Load_UDWL_Curve.Checked;
+        }
+
+        private void startTuningToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TSMI_Start_UDWL_tune_Click(object sender, EventArgs e)
+        {
+            data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
+            int stepss = CalculateSteps();
+            DisableFlipButtons();
+            if (!TSMI_Load_UDWL_Curve.Checked) { WLs_toTune = null; }
+            New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
+            EnableFlipButtons();
+        }
+
+        private void TSMI_Load_EXWL_C_Click(object sender, EventArgs e)
+        {
+            if (!TSMI_Load_EXWL_C.Checked)
+            {
+                WayToCurv_exp = OpenExpcfgSearcher();
+                if (WayToCurv_exp == "")
+                {
+                    TSMI_Load_EXWL_C.Text = "Load Exposure - WL curve";
+                    TSMI_Tuning_Exposure.Checked = !TSMI_Tuning_Exposure.Checked;
+                }
+                else
+                {
+                    TSMI_Load_EXWL_C.Text = "Curve: " + WayToCurv_exp;
+
+                    List<int> wls = new List<int>();
+                    List<double> exps = new List<double>();
+                    AO_MinimumWL = Convert.ToInt32(NUD_StartL.Text);
+                    AO_MaximumWL = Convert.ToInt32(NUD_FinishL.Text);
+                    double Gain = 0, FPS = 0;
+                    ExpCurve.Get_andWrite_NiceCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL, (int)AO_MinimumWL, (int)AO_MaximumWL, (int)AO_StepWL, ref wls, ref exps, ref Gain, ref FPS);
+
+                    LogMessage("Перестройка по кривой включена.");
+                }
+            }
+            else
+            {
+                TSMI_Load_EXWL_C.Text = "Load Exposure - WL curve";
+                WayToCurv_exp = "";
+                LogMessage("Перестройка по кривой отключена.");
+            }
+            TSMI_Tuning_Exposure.Checked = !TSMI_Tuning_Exposure.Checked;
+        }
+
+        private void startTuningToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
+            int stepss = CalculateSteps();
+            DisableFlipButtons();
+            if (!TSMI_Load_UDWL_Curve.Checked) { WLs_toTune = null; }
+            New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, null);
+            EnableFlipButtons();
         }
 
         private void tests()
