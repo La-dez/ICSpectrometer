@@ -1401,7 +1401,7 @@ namespace ICSpec
                 //IMG Save here
 
                 string SCRName = CheckScreenShotBasicName();
-                string date = GetDateString();
+                string date = GetFullDateString();
                 icImagingControl1.MemorySaveImage(SnapImageStyle.Directory + SCRName + "_" + date + "_"
                     + NUD_Multi_WL1.Value.ToString() + "_" + NUD_Multi_WL2.Value.ToString() + "_" + NUD_Multi_WL3.Value.ToString() + SnapImageStyle.Extension);
                 icImagingControl1.LiveStart();

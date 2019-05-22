@@ -525,7 +525,8 @@ namespace LDZ_Code
             private byte[] Own_ProgrammBuf;
             private UInt32 Own_dwListDescFlags = 0;
             private UInt32 Own_m_hPort = 0;
-            
+            private double Reference_frequency = 350e6;
+
             public STC_Filter(string Descriptor,uint number,FT_HANDLE ListFlag)
             {
                 Own_dwListDescFlags = ListFlag;
@@ -738,8 +739,8 @@ namespace LDZ_Code
                 {
                     
                     freq = (float)(((pMHz_start) * 1e6f + i * Step_HZs)/*/ 1.17f*/);//1.17 коррекция частоты
-                                                                                 //fvspom=freq/300e6;
-                    lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / 300e6)); //расчет управляющего слова для частоты
+                                                                                    //fvspom=freq/Reference_frequency;
+                    lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / Reference_frequency)); //расчет управляющего слова для частоты
                     MSB = (short)(0x0000ffFF & (lvspom >> 16));
                     LSB = (short)lvspom;
                     data_Own_UsbBuf[pcount + 1] = (byte)(0x00ff & (MSB >> 8));
@@ -804,7 +805,7 @@ namespace LDZ_Code
                         freq = (float)(((pfreq) * 1e6f)/* / 1.17f*/);//1.17 коррекция частоты
                                                                      
 
-                    lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / 300e6)); //расчет управляющего слова для частоты
+                    lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / Reference_frequency)); //расчет управляющего слова для частоты
                     MSB = (short)(0x0000ffFF & (lvspom >> 16));
                     LSB = (short)lvspom;
                     data_Own_UsbBuf[pcount + 1] = (byte)(0x00ff & (MSB >> 8));
@@ -866,8 +867,8 @@ namespace LDZ_Code
                 {
 
                     freq = (float)(((pMHz_start) * 1e6f + i * Step_HZs) /*/ 1.17f*/);//1.17 коррекция частоты
-                                                                                     //fvspom=freq/300e6;
-                    lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / 300e6)); //расчет управляющего слова для частоты
+                                                                                     //fvspom=freq/Reference_frequency;
+                    lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / Reference_frequency)); //расчет управляющего слова для частоты
                     MSB = (short)(0x0000ffFF & (lvspom >> 16));
                     LSB = (short)lvspom;
                     data_Own_UsbBuf[pcount + 1] = (byte)(0x00ff & (MSB >> 8));
@@ -935,8 +936,8 @@ namespace LDZ_Code
                 {
 
                     freq = (float)(((pMHz_start) * 1e6f + i * Step_HZs)/*/ 1.17f*/);//1.17 коррекция частоты
-                                                                                    //fvspom=freq/300e6;
-                    lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / 300e6)); //расчет управляющего слова для частоты
+                                                                                    //fvspom=freq/Reference_frequency;
+                    lvspom = (ulong)((freq) * (Math.Pow(2.0, 32.0) / Reference_frequency)); //расчет управляющего слова для частоты
                     MSB = (short)(0x0000ffFF & (lvspom >> 16));
                     LSB = (short)lvspom;
                     data_Own_UsbBuf[pcount + 1] = (byte)(0x00ff & (MSB >> 8));
@@ -987,8 +988,8 @@ namespace LDZ_Code
                                                 //set init freq
                 pfreq = ((freq_was) * 1e6f) /*/ 1.17f*/; //in Hz
 
-                fvspom = pfreq / 300e6f;
-                lvspom = (ulong)((pfreq) * (Math.Pow(2.0, 32.0) / 300e6));
+                fvspom = pfreq / (float)Reference_frequency;
+                lvspom = (ulong)((pfreq) * (Math.Pow(2.0, 32.0) / Reference_frequency));
                 //fvspom*pow(2.0,32.0);
                 //lvspom=freq;
                 MSB = (short)(0x0000ffFF & (lvspom >> 16));
