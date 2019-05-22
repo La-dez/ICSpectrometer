@@ -92,16 +92,21 @@ E:\Работа Саша\Спектрометры\Codes\bin\x86\Release\IC Spect
 E:\Работа Саша\Спектрометры\Codes\bin\x86\Release\TIS.Imaging.ICImagingControl34.dll
 E:\Работа Саша\Спектрометры\Codes\obj\x86\Release\ICSpectrometer.csprojAssemblyReference.cache
 E:\Работа Саша\Спектрометры\Codes\obj\x86\Release\ICSpectrometer.csproj.CopyComplete
-E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csprojAssemblyReference.cache
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpec.Form1.resources
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpec.Properties.Resources.resources
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpec.SaveDialog.resources
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.GenerateResource.cache
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.CoreCompileInputs.cache
-E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v1.9 Beta.exe
-E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v1.9 Beta.pdb
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.1 Beta.exe.config
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.1 Beta.exe
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.1 Beta.pdb
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.1 Beta.exe
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.1 Beta.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.1 Beta.exe.config
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.1 Beta.exe
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.1 Beta.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\TIS.Imaging.ICImagingControl34.dll
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.CopyComplete
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.1 Beta.exe
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.1 Beta.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csprojAssemblyReference.cache

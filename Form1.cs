@@ -172,14 +172,15 @@ namespace ICSpec
 
                         icImagingControl1.LiveCaptureLastImage = false;
 
+                        icImagingControl1.LiveCaptureContinuous = true;
+
+
                         icImagingControl1.LiveStart();
                     }
                     catch { }
                     DisableAlltheShit();
                     FormatAdaptation();
-
                     m_oldSink = New_SetSelectedCamera_SignalStream_Format();
-                    Load_properties_for_3WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.RangeMax, (decimal)AbsValExp.RangeMin);
                     //создание контекстного меню
 
                     /*  System.Windows.Forms.ContextMenu MyContextMenu=new System.Windows.Forms.ContextMenu();                 
@@ -383,6 +384,7 @@ namespace ICSpec
 
             AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
             InitializeComponents_byVariables();
+            Load_properties_for_3WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.RangeMax*1000, (decimal)AbsValExp.RangeMin*1000);
         }
 
         private void BPower_Click(object sender, EventArgs e)
@@ -505,7 +507,7 @@ namespace ICSpec
             {
                 ChangingActivatedTextBoxExp = false;
                 double value = Exposure_Slide2real(TrBExposureVal.Value);
-                LoadExposure(ref AbsValExp, value);
+                LoadExposure_ToCam(ref AbsValExp, value);
                 int promval = ((int)(1.0 / Exposure_Slide2real(TrBExposureVal.Value)));
                 if (promval > 1) TBExposureVal.Text = "1/" + promval.ToString();
                 else TBExposureVal.Text = (AbsValExp.Value).ToString();
@@ -513,7 +515,7 @@ namespace ICSpec
             }
             catch (Exception ex) { LogError("ORIGINAL: " + ex.Message); }
         }
-        private static void LoadExposure(ref VCDAbsoluteValueProperty var, double pvalue)
+        private static void LoadExposure_ToCam(ref VCDAbsoluteValueProperty var, double pvalue)
         {
             if (pvalue < var.RangeMin) var.Value = var.RangeMin;
             else if (pvalue > var.RangeMax) var.Value = var.RangeMax;
@@ -795,7 +797,7 @@ namespace ICSpec
 
         private void BSnSq_Click(object sender, EventArgs e)
         {
-            SnapSequence2img();
+            //SnapSequence2img();
         }
 
         private void TBEx1_KeyPress(object sender, KeyPressEventArgs e)
@@ -994,8 +996,12 @@ namespace ICSpec
 
         }
 
+        //System.Diagnostics.Stopwatch SW1 = new System.Diagnostics.Stopwatch();
         private void icImagingControl1_OverlayUpdate(object sender, ICImagingControl.OverlayUpdateEventArgs e)
         {
+            /*Log.Message("Кадр получен!");
+            Log.Message("Время с последнего кадра:" + SW1.ElapsedMilliseconds.ToString() + ". Время экспонирования: " + (AbsValExp.Value*1000).ToString());
+             SW1.Restart();*/
             var arg = e.overlay;
             if (icImagingControl1.LiveVideoRunning) DBInvalidate(arg);
         }
@@ -1324,12 +1330,103 @@ namespace ICSpec
             New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, null);
             EnableFlipButtons();
         }
-
+        System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
         private void B_Get_HyperSpectral_Image_Click(object sender, EventArgs e)
         {
-            double finalExposure =((double)(NUD_Multi_ex_time1.Value + NUD_Multi_ex_time2.Value+ NUD_Multi_ex_time2.Value)*1000.0);
+            double finalExposure = ((double)(NUD_Multi_ex_time1.Value + NUD_Multi_ex_time2.Value + NUD_Multi_ex_time3.Value) / 1000.0);
+            double Exposure_was = AbsValExp.Value;
             icImagingControl1.LiveStop();
+            LoadExposure_ToCam(ref AbsValExp, finalExposure);
+
+            // icImagingControl1.LiveStart();
+
+
+            //  Filter.Set_Wl((float)NUD_Multi_WL1.Value); Log.Message("Перестройка на ДВ1: " + NUD_Multi_WL1.Value.ToString());
+            SW.Reset();
+            BGW_SpectralImageTuning.RunWorkerAsync();
+            SW.Restart();
+            BGW_SpectralImageGrabbing.RunWorkerAsync();
+            Log.Message("Image grabbing is started...");
+          //  Thread.Sleep((int)NUD_Multi_ex_time1.Value);
+          //  Filter.Set_Wl((float)NUD_Multi_WL2.Value); Log.Message("Перестройка на ДВ2: " + NUD_Multi_WL2.Value.ToString());
+           // Thread.Sleep((int)NUD_Multi_ex_time2.Value);
+          //  Filter.Set_Wl((float)NUD_Multi_WL3.Value); Log.Message("Перестройка на ДВ3: " + NUD_Multi_WL3.Value.ToString());
+           // Thread.Sleep((int)NUD_Multi_ex_time3.Value);
+
+            // icImagingControl1.LiveStop();
+
         }
+
+        private void BGW_SpectralImageGrabbing_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (icImagingControl1.InvokeRequired) icImagingControl1.BeginInvoke((Action)(() => {icImagingControl1.MemorySnapImage(); } ));
+        }
+        long time_of_WLset1 = 0;
+        long time_of_WLset2 = 0;
+        long time_of_WLset3 = 0;
+        private void BGW_SpectralImageTuning_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Filter.Set_Wl((float)NUD_Multi_WL1.Value); //Log.Message("Перестройка на ДВ1: " + NUD_Multi_WL1.Value.ToString() +". Прошло времени: "+SW.ElapsedMilliseconds);
+            time_of_WLset1 = SW.ElapsedMilliseconds;
+            Thread.Sleep((int)NUD_Multi_ex_time1.Value);
+            /*int time_to_sleep1 = (int)(NUD_Multi_ex_time1.Value - SW.ElapsedMilliseconds);
+            Thread.Sleep(time_to_sleep1);*/
+            Filter.Set_Wl((float)NUD_Multi_WL2.Value); //Log.Message("Перестройка на ДВ2: " + NUD_Multi_WL2.Value.ToString() + ". Прошло времени: " + SW.ElapsedMilliseconds);
+            time_of_WLset2 = SW.ElapsedMilliseconds;
+            Thread.Sleep((int)NUD_Multi_ex_time2.Value);
+           /* int time_to_sleep2 = (int)(NUD_Multi_ex_time2.Value + NUD_Multi_ex_time1.Value - SW.ElapsedMilliseconds);
+            Thread.Sleep(time_to_sleep2);*/
+            Filter.Set_Wl((float)NUD_Multi_WL3.Value);// Log.Message("Перестройка на ДВ3: " + NUD_Multi_WL3.Value.ToString() + ". Прошло времени: " + SW.ElapsedMilliseconds);
+            time_of_WLset3 = SW.ElapsedMilliseconds;
+            Thread.Sleep((int)NUD_Multi_ex_time3.Value);
+           /* int time_to_sleep3 = (int)(NUD_Multi_ex_time2.Value + NUD_Multi_ex_time1.Value + NUD_Multi_ex_time3.Value - SW.ElapsedMilliseconds);
+            Thread.Sleep(time_to_sleep3);*/
+        }
+        private void BGW_SpectralImageGrabbing_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled == true)
+            {
+                Log.Message("Canceled!");
+            }
+            else if (e.Error != null)
+            {
+                Log.Message("Error: " + e.Error.Message);
+            }
+            else
+            {
+                SW.Stop();
+                Log.Message("Image Grabbed! Time elapsed: " + SW.ElapsedMilliseconds.ToString());
+                LoadExposure_ToCam(ref AbsValExp, 0.033333);
+                //IMG Save here
+                icImagingControl1.LiveStart();
+            }
+        }
+        private void BGW_SpectralImageTuning_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled == true)
+            {
+                Log.Message("Canceled!");
+            }
+            else if (e.Error != null)
+            {
+                Log.Message("Error: " + e.Error.Message);
+            }
+            else
+            {
+                Log.Message(string.Format("Времена перестроек: {0} ::: {1} ::: {2}",time_of_WLset1.ToString(), time_of_WLset2.ToString(), time_of_WLset3.ToString()));
+            }
+        }
+        private void NUD_Multi_ex_time3_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void icImagingControl1_ImageAvailable(object sender, ICImagingControl.ImageAvailableEventArgs e)
+        {
+            
+        }
+
+       
 
         private void tests()
         {

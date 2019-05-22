@@ -701,7 +701,7 @@ namespace ICSpec
                     codeerr = Filter.Set_Wl(pStartWL);//, AOFSimulatorActivated);
                     if (IsNeeded_ExpCurve)
                     {
-                        LoadExposure(ref AbsValExp, exps[0]);
+                        LoadExposure_ToCam(ref AbsValExp, exps[0]);
                         LoadGain(ref vcdProp, Gain);
                     }
                     Thread.Sleep(500);
@@ -725,7 +725,7 @@ namespace ICSpec
                          LogError(ex.Message);
                      }*/
                     if (IsNeeded_ExpCurve)
-                        LoadExposure(ref AbsValExp, exps[i]);
+                        LoadExposure_ToCam(ref AbsValExp, exps[i]);
 
                     Stopwatch swl = new Stopwatch(); swl.Start();
                     //AOF.AOM_SetWL(allvalues[i], AOFSimulatorActivated);
@@ -918,7 +918,9 @@ namespace ICSpec
 
             NUD_Multi_ex_time1.Maximum = NUD_Multi_ex_time2.Maximum = NUD_Multi_ex_time3.Maximum = TIME_MAX;
             NUD_Multi_ex_time1.Minimum = NUD_Multi_ex_time2.Minimum = NUD_Multi_ex_time3.Minimum = TIME_MIN;
-            NUD_Multi_ex_time1.Minimum = NUD_Multi_ex_time2.Minimum = NUD_Multi_ex_time3.Minimum = (TIME_MAX+ TIME_MIN)/2;
+            NUD_Multi_ex_time1.Value = 1000;
+            NUD_Multi_ex_time2.Value = 1000;
+            NUD_Multi_ex_time3.Value = 1000;
 
         }
         private void NewWrite16Bit(ref ImageBuffer buf,string name)
