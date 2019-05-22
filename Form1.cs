@@ -1333,10 +1333,9 @@ namespace ICSpec
         System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
         private void B_Get_HyperSpectral_Image_Click(object sender, EventArgs e)
         {
-            double finalExposure = ((double)(NUD_Multi_ex_time1.Value + NUD_Multi_ex_time2.Value + NUD_Multi_ex_time3.Value) / 1000.0);
+            
             double Exposure_was = AbsValExp.Value;
             icImagingControl1.LiveStop();
-            LoadExposure_ToCam(ref AbsValExp, finalExposure);
 
             // icImagingControl1.LiveStart();
 
@@ -1359,6 +1358,8 @@ namespace ICSpec
 
         private void BGW_SpectralImageGrabbing_DoWork(object sender, DoWorkEventArgs e)
         {
+            double finalExposure = ((double)(NUD_Multi_ex_time1.Value + NUD_Multi_ex_time2.Value + NUD_Multi_ex_time3.Value) / 1000.0);
+            LoadExposure_ToCam(ref AbsValExp, finalExposure);
             if (icImagingControl1.InvokeRequired) icImagingControl1.BeginInvoke((Action)(() => {icImagingControl1.MemorySnapImage(); } ));
         }
         long time_of_WLset1 = 0;
@@ -1398,6 +1399,11 @@ namespace ICSpec
                 Log.Message("Image Grabbed! Time elapsed: " + SW.ElapsedMilliseconds.ToString());
                 LoadExposure_ToCam(ref AbsValExp, 0.033333);
                 //IMG Save here
+
+                string SCRName = CheckScreenShotBasicName();
+                string date = GetDateString();
+                icImagingControl1.MemorySaveImage(SnapImageStyle.Directory + SCRName + "_" + date + "_"
+                    + NUD_Multi_WL1.Value.ToString() + "_" + NUD_Multi_WL2.Value.ToString() + "_" + NUD_Multi_WL3.Value.ToString() + SnapImageStyle.Extension);
                 icImagingControl1.LiveStart();
             }
         }
