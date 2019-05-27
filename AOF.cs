@@ -313,7 +313,7 @@ namespace LDZ_Code
         }
         public class VNIIFTRI_Filter_v15 : AO_Filter //идея: сделать 2 класса чисто на импорт, а обвязку оставить общую
         {
-            public override FilterTypes FilterType { get { return FilterTypes.VNIIFTRI_Filter_v15; } }
+            public override FilterTypes FilterType { get { return FilterTypes.VNIIFTRI_Filter_v20; } }
 
             protected override string FilterDescriptor_or_name { set; get; }
             protected override string FilterCfgName { set; get; }
@@ -360,7 +360,7 @@ namespace LDZ_Code
             public override int Set_Sweep_on(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков]*/, bool OnRepeat)
             {
                 sAO_Sweep_On = false;
-                return (int)Status.AOM_OTHER_ERROR;
+                return (int)Status.AOM_FUNCTION_IS_NOT_SUPPORTED;
             }
             public override int Set_Sweep_off()
             {
@@ -440,7 +440,7 @@ namespace LDZ_Code
             }
 
             #region DllFunctions
-            public const string basepath = "aom_old.dll";
+            public const string basepath = "aom_new.dll";
             //Назначение: функция возвращает число подключенных акустооптических фильтров.
             [DllImport(basepath, CallingConvention = CallingConvention.Cdecl)]
             public static extern int AOM_GetNumDevices();
@@ -494,7 +494,8 @@ namespace LDZ_Code
                 AOM_WINUSB_INIT_FAIL,
                 AOM_NOT_LOADED,
                 AOM_RANGE_ERROR,
-                AOM_OTHER_ERROR
+                AOM_OTHER_ERROR,
+                AOM_FUNCTION_IS_NOT_SUPPORTED
             }            
             #endregion
         }
@@ -1468,7 +1469,7 @@ namespace LDZ_Code
         public enum FilterTypes
         {
             Emulator = 0,
-            VNIIFTRI_Filter_v15,
+            VNIIFTRI_Filter_v20,
             STC_Filter
         }
         //Функция пытается обнаружить хоть какой-то фильтр, который подключен к системе
