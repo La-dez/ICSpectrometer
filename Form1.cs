@@ -1373,7 +1373,7 @@ namespace ICSpec
             Log.Message("---------------------------------");
 
             LoadExposure_ToCam(ref AbsValExp, finalExposure);
-            Thread.Sleep((int)((Exposure_was+ finalExposure) * 1000));
+            Thread.Sleep((int)((Exposure_was/*+ finalExposure*/) * 1000));
             SW.Restart();
             BGW_SpectralImageTuning.RunWorkerAsync();
 
