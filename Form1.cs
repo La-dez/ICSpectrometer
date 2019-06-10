@@ -77,6 +77,7 @@ namespace ICSpec
         UI.Log.Logger Log;
         AO_Filter Filter = null;
         System.Diagnostics.Stopwatch timer_for_sweep = new System.Diagnostics.Stopwatch();
+        System.Diagnostics.Stopwatch timer_for_FPS = new System.Diagnostics.Stopwatch();
 
         string AO_ProgramSweepCFG_filename = "AOData.txt";
 
@@ -200,7 +201,7 @@ namespace ICSpec
             {
                 MessageBox.Show(ext.Message);
             }
-            finally { if (icImagingControl1.DeviceValid) icImagingControl1.LiveStart(); }
+            finally { if (icImagingControl1.DeviceValid) icImagingControl1.LiveStart(); timer_for_FPS.Start(); }
         }//функция предзагрузки окна для динамической инициализации некоторых элементов управления 
 
         private void ExitBut_Click(object sender, EventArgs e)//функция выхода из приложения
@@ -508,11 +509,12 @@ namespace ICSpec
                 ChangingActivatedTextBoxExp = false;
                 double value = Exposure_Slide2real(TrBExposureVal.Value);
                 LoadExposure_ToCam(ref AbsValExp, value);
-                int promval = ((int)(1.0 / Exposure_Slide2real(TrBExposureVal.Value)));
-                if (promval > 1) TBExposureVal.Text = "1/" + promval.ToString();
-                else TBExposureVal.Text = (AbsValExp.Value).ToString();
+                double promval = (Exposure_Slide2real(TrBExposureVal.Value));
+                if (promval > 1) TBExposureVal.Text = promval.ToString();
+                else TBExposureVal.Text = promval.ToString();
                 ChangingActivatedTextBoxExp = true;
                 NUD_Multi_ex_time1.Value = NUD_Multi_ex_time2.Value = NUD_Multi_ex_time3.Value = (decimal)(AbsValExp.Value / 3.0);
+               // frames_aquired = 0; timer_for_FPS.Restart();
             }
             catch (Exception ex) { LogError("ORIGINAL: " + ex.Message); }
         }
@@ -675,7 +677,13 @@ namespace ICSpec
                 if (icImagingControl1.DeviceValid)
                 {
                     try
-                    { LFPSCurrent.Text = icImagingControl1.DeviceFrameRate.ToString(); }
+                    {
+                        double FPS_toString = (icImagingControl1.DeviceFrameRate > (double)(1.0 / AbsValExp.Value) ? (double)(1.0 / AbsValExp.Value) : icImagingControl1.DeviceFrameRate);
+                        LFPSCurrent.Text = PerfectRounding(FPS_toString,2).ToString();
+                            // (((double)frames_aquired) / (timer_for_FPS.ElapsedMilliseconds / 1000.0)).ToString();
+                            //icImagingControl1.DeviceFrameRate.ToString();
+                    }
+
                     catch { }
                 }
             }
@@ -1343,10 +1351,12 @@ namespace ICSpec
         float WL_was = 500;
         private void B_Get_HyperSpectral_Image_Click(object sender, EventArgs e)
         {
-            
+           
             Exposure_was = AbsValExp.Value;
             icImagingControl1.LiveStop();
-
+          //  icImagingControl1.LiveCaptureContinuous = true;
+           // curfhs.SnapMode = true; //взаимоисключающие вещи с предыдущим
+            bool use_inCamera_invoke = false;
             // icImagingControl1.LiveStart();
 
 
@@ -1376,16 +1386,36 @@ namespace ICSpec
             Thread.Sleep((int)((Exposure_was/*+ finalExposure*/) * 1000));
             SW.Restart();
             BGW_SpectralImageTuning.RunWorkerAsync();
+            if (use_inCamera_invoke)
+            {
+                BGW_SpectralImageGrabbing.RunWorkerAsync();
+                Log.Message("Image grabbing is started...");
+            }
+            else
+            {
+                //long time1 = SW.ElapsedMilliseconds;
+                /* if (icImagingControl1.InvokeRequired) icImagingControl1.Invoke((Action)(() => { icImagingControl1.MemorySnapImage(); }));
+                 else*/
+                icImagingControl1.MemorySnapImage();
+               // curfhs.SnapImage();
+                //Log.Message("Image grabbing is started...");
+               // Log.Message("Время на захват изображения: " + (SW.ElapsedMilliseconds - time1).ToString() + " мс");
+                Log.Message("---------------------------------");
+                SW.Stop();
+               // Log.Message("Image Grabbed! Time elapsed: " + SW.ElapsedMilliseconds.ToString());
+                LoadExposure_ToCam(ref AbsValExp, Exposure_was);
+                //IMG Save here
 
-            BGW_SpectralImageGrabbing.RunWorkerAsync();
-            Log.Message("Image grabbing is started...");
-          //  Thread.Sleep((int)NUD_Multi_ex_time1.Value);
-          //  Filter.Set_Wl((float)NUD_Multi_WL2.Value); Log.Message("Перестройка на ДВ2: " + NUD_Multi_WL2.Value.ToString());
-           // Thread.Sleep((int)NUD_Multi_ex_time2.Value);
-          //  Filter.Set_Wl((float)NUD_Multi_WL3.Value); Log.Message("Перестройка на ДВ3: " + NUD_Multi_WL3.Value.ToString());
-           // Thread.Sleep((int)NUD_Multi_ex_time3.Value);
+                string SCRName = CheckScreenShotBasicName();
+                string date = GetFullDateString();
+                icImagingControl1.MemorySaveImage(SnapImageStyle.Directory + SCRName + "_" + date + "_"
+                    + NUD_Multi_WL1.Value.ToString() + "_" + NUD_Multi_WL2.Value.ToString() + "_" + NUD_Multi_WL3.Value.ToString() + SnapImageStyle.Extension);
+                icImagingControl1.LiveStart();
+                Filter.Set_Wl(WL_was);
+            }
 
-            // icImagingControl1.LiveStop();
+           // Log.Message("Image grabbing is started...");
+      
 
         }
 
@@ -1464,10 +1494,11 @@ namespace ICSpec
         {
 
         }
-
+        double frames_aquired = 0;
         private void icImagingControl1_ImageAvailable(object sender, ICImagingControl.ImageAvailableEventArgs e)
         {
-            
+            frames_aquired+=2.5;
+            //LogMessage("meow");
         }
 
        

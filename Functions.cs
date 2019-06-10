@@ -412,7 +412,7 @@ namespace ICSpec
                 }
                 TrBExposureVal.TickFrequency = (TrBExposureVal.Maximum - TrBExposureVal.Minimum) / 10;
                 ChangingActivatedTextBoxExp = false;
-                TBExposureVal.Text = "1/" + ((int)(1.0 / Exposure_Slide2real(TrBExposureVal.Value))).ToString();
+                TBExposureVal.Text = (PerfectRounding(Exposure_Slide2real(TrBExposureVal.Value),4)).ToString();
                 ChangingActivatedTextBoxExp = true;
             }
             if (!vcdProp.Available(ChangeVCDID2))
@@ -1684,6 +1684,7 @@ namespace ICSpec
             TIS.Imaging.BaseSink oldSink = ic.Sink;
 
             curfhs = new TIS.Imaging.FrameHandlerSink();
+           // curfhs.SnapMode = true;
             curfhs.FrameTypes.Add(new TIS.Imaging.FrameType(realGuid));
             LoadFlipFilter();
             try
