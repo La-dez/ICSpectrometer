@@ -1349,6 +1349,7 @@ namespace ICSpec
         float WL_2set_3 = 500;
         double Exposure_was = 0;
         float WL_was = 500;
+        int AODelay = 100; //мс, время на перестройку
         private void B_Get_HyperSpectral_Image_Click(object sender, EventArgs e)
         {
            
@@ -1380,6 +1381,8 @@ namespace ICSpec
             WL_2set_2 = (float)NUD_Multi_WL2.Value;
             WL_2set_3 = (float)NUD_Multi_WL3.Value;
             WL_was = Filter.WL_Current;
+            Filter.Set_Wl(WL_2set_1);
+            Thread.Sleep(time_to_sleep_1);
             Log.Message("---------------------------------");
 
             LoadExposure_ToCam(ref AbsValExp, finalExposure);
@@ -1435,12 +1438,12 @@ namespace ICSpec
         {
             Filter.Set_Wl(WL_2set_1); //Log.Message("Перестройка на ДВ1: " + NUD_Multi_WL1.Value.ToString() +". Прошло времени: "+SW.ElapsedMilliseconds);
             time_of_WLset1 = SW.ElapsedMilliseconds;
-            Thread.Sleep(time_to_sleep_1);
+            Thread.Sleep(time_to_sleep_1- AODelay);
             /*int time_to_sleep1 = (int)(NUD_Multi_ex_time1.Value - SW.ElapsedMilliseconds);
             Thread.Sleep(time_to_sleep1);*/
             Filter.Set_Wl(WL_2set_2); //Log.Message("Перестройка на ДВ2: " + NUD_Multi_WL2.Value.ToString() + ". Прошло времени: " + SW.ElapsedMilliseconds);
             time_of_WLset2 = SW.ElapsedMilliseconds;
-            Thread.Sleep(time_to_sleep_2);
+            Thread.Sleep(time_to_sleep_2 - AODelay);
            /* int time_to_sleep2 = (int)(NUD_Multi_ex_time2.Value + NUD_Multi_ex_time1.Value - SW.ElapsedMilliseconds);
             Thread.Sleep(time_to_sleep2);*/
             Filter.Set_Wl(WL_2set_3);// Log.Message("Перестройка на ДВ3: " + NUD_Multi_WL3.Value.ToString() + ". Прошло времени: " + SW.ElapsedMilliseconds);
