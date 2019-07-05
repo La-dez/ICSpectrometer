@@ -229,7 +229,7 @@ namespace LDZ_Code
             }
             public override string Ask_required_dev_file()
             {
-                return "(any *.dev file)";
+                return "(any *.dev file) | EMULATOR";
             }
             public override int Set_OutputPower(byte percentage)
             {

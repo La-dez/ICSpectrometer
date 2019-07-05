@@ -184,7 +184,8 @@ namespace ICSpec
                     FormatAdaptation();
                     m_oldSink = New_SetSelectedCamera_SignalStream_Format();
                     //создание контекстного меню
-
+                    this.WindowState = FormWindowState.Maximized;
+                    FormatAdaptation();
                     /*  System.Windows.Forms.ContextMenu MyContextMenu=new System.Windows.Forms.ContextMenu();                 
                       System.Windows.Forms.MenuItem menuItem1=new System.Windows.Forms.MenuItem();
                       System.Windows.Forms.MenuItem menuItem2 = new System.Windows.Forms.MenuItem();
