@@ -19,7 +19,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.27 Alpha";
+        string Cur_Version = "v2.3 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -387,7 +387,7 @@ namespace ICSpec
 
             AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
             InitializeComponents_byVariables();
-            Load_properties_for_3WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.RangeMax, 0);
+            Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.RangeMax, 0);
         }
 
         private void BPower_Click(object sender, EventArgs e)
@@ -515,7 +515,13 @@ namespace ICSpec
                 if (promval > 1) TBExposureVal.Text = promval.ToString();
                 else TBExposureVal.Text = promval.ToString();
                 ChangingActivatedTextBoxExp = true;
-                NUD_Multi_ex_time1.Value = NUD_Multi_ex_time2.Value = NUD_Multi_ex_time3.Value = (decimal)(AbsValExp.Value / 3.0);
+
+                //Установка одинаковой экспозиции во всех боксах
+                for (int i = 0; i < WLS_at_all; ++i)
+                {
+                    var EXP_control = this.Controls.Find("NUD_Multi_ex_time" + (i + 1).ToString(),true);
+                    (EXP_control[0] as NumericUpDown).Value = (decimal)(AbsValExp.Value / ((double)WLS_at_all));                  
+                }
                // frames_aquired = 0; timer_for_FPS.Restart();
             }
             catch (Exception ex) { LogError("ORIGINAL: " + ex.Message); }
@@ -1341,19 +1347,17 @@ namespace ICSpec
             New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, null);
             EnableFlipButtons();
         }
+
         System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
         double finalExposure = 0;
-        int time_to_sleep_1 = 0;
-        int time_to_sleep_2 = 0;
-        int time_to_sleep_3 = 0;
-        float WL_2set_1 = 500;
-        float WL_2set_2 = 500;
-        float WL_2set_3 = 500;
+        const int WLS_at_all = 8;
+        int[] times_to_sleep = new int[WLS_at_all];
+        float[] WLs_2set = new float[WLS_at_all];
         double Exposure_was = 0;
         float WL_was = 500;
         private void B_Get_HyperSpectral_Image_Click(object sender, EventArgs e)
         {
-
+            finalExposure = 0;
             Exposure_was = AbsValExp.Value;
             icImagingControl1.LiveStop();
             //  icImagingControl1.LiveCaptureContinuous = true;
@@ -1365,25 +1369,34 @@ namespace ICSpec
 
             //  Filter.Set_Wl((float)NUD_Multi_WL1.Value); Log.Message("Перестройка на ДВ1: " + NUD_Multi_WL1.Value.ToString());
             SW.Reset();
-            finalExposure = ((double)(NUD_Multi_ex_time1.Value + NUD_Multi_ex_time2.Value + NUD_Multi_ex_time3.Value));
+            for(int i =0;i<WLS_at_all;++i)
+            {
+                //поиск элемента управления с заданным номером для ДВ и копирование значения
+                var EXP_control = this.Controls.Find("NUD_Multi_ex_time" + (i+1).ToString(),true);
+                double data_var = (double)(EXP_control[0] as NumericUpDown).Value;
+                times_to_sleep[i] = (int)(data_var * 1000);
+                finalExposure += data_var;
+                //поиск элемента управления с заданным номером для вр.эксп. и копирование значения
+                var WL_control = this.Controls.Find("NUD_Multi_WL" + (i+1).ToString(),true);
+                WLs_2set[i] = (float)(WL_control[0] as NumericUpDown).Value;
+            }
+            WL_was = Filter.WL_Current;
+         
             if (finalExposure > AbsValExp.RangeMax)
             {
-                Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. больше максимально возможного для данной камеры (" + AbsValExp.RangeMax.ToString() + " сек.)");
+                Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. больше максимально возможного для данной камеры ("
+                    + AbsValExp.RangeMax.ToString() + " сек.)");
                 return;
             }
             else if (finalExposure < AbsValExp.RangeMin)
             {
-                Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. меньше минимально возможного для данной камеры (" + AbsValExp.RangeMin.ToString() + " сек.)");
+                Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. меньше минимально возможного для данной камеры (" 
+                    + AbsValExp.RangeMin.ToString() + " сек.)");
                 return;
             }
-            time_to_sleep_1 = (int)(NUD_Multi_ex_time1.Value * 1000);
-            time_to_sleep_2 = (int)(NUD_Multi_ex_time2.Value * 1000);
-            time_to_sleep_3 = (int)(NUD_Multi_ex_time3.Value * 1000);
-            WL_2set_1 = (float)NUD_Multi_WL1.Value;
-            WL_2set_2 = (float)NUD_Multi_WL2.Value;
-            WL_2set_3 = (float)NUD_Multi_WL3.Value;
-            WL_was = Filter.WL_Current;
+            
             Log.Message("---------------------------------");
+
             if (use_one_image)
             {
                 LoadExposure_ToCam(ref AbsValExp, finalExposure);
@@ -1409,39 +1422,16 @@ namespace ICSpec
                     string SCRName = CheckScreenShotBasicName();
                     string date = GetFullDateString();                
                     string local_name = SnapImageStyle.Directory + SCRName + "_" + date + "_"
-                        + NUD_Multi_WL1.Value.ToString() + "_" + NUD_Multi_WL2.Value.ToString() + "_" + NUD_Multi_WL3.Value.ToString() + SnapImageStyle.Extension;
+                        + NUD_Multi_WL1.Value.ToString() + "_" + NUD_Multi_WL8.Value.ToString() + SnapImageStyle.Extension;
                     rval[0].SaveAsTiff(local_name);
 
                     icImagingControl1.LiveStart();
                     Filter.Set_Wl(WL_was);
                 }
-               /* else
-                {
-
-                    //long time1 = SW.ElapsedMilliseconds;
-                    // if (icImagingControl1.InvokeRequired) icImagingControl1.Invoke((Action)(() => { icImagingControl1.MemorySnapImage(); }));
-                    icImagingControl1.MemorySnapImage();
-                    // curfhs.SnapImage();
-                    //Log.Message("Image grabbing is started...");
-                    // Log.Message("Время на захват изображения: " + (SW.ElapsedMilliseconds - time1).ToString() + " мс");
-                    SW.Stop();
-                    // Log.Message("Image Grabbed! Time elapsed: " + SW.ElapsedMilliseconds.ToString());
-                    LoadExposure_ToCam(ref AbsValExp, Exposure_was);
-                    //IMG Save here
-
-                    string SCRName = CheckScreenShotBasicName();
-                    string date = GetFullDateString();
-                    icImagingControl1.MemorySaveImage(SnapImageStyle.Directory + SCRName + "_" + date + "_"
-                        + NUD_Multi_WL1.Value.ToString() + "_" + NUD_Multi_WL2.Value.ToString() + "_" + NUD_Multi_WL3.Value.ToString() + SnapImageStyle.Extension);
-                    icImagingControl1.LiveStart();
-
-
-                    Filter.Set_Wl(WL_was);
-                }*/
             }
             else
             {
-                string SCRName = CheckScreenShotBasicName();
+              /*  string SCRName = CheckScreenShotBasicName();
                 string date = GetFullDateString();
                 int delay = 500; 
                 TIS.Imaging.ImageBuffer[] rval = new TIS.Imaging.ImageBuffer[3];
@@ -1481,7 +1471,7 @@ namespace ICSpec
                 rval[2].SaveAsTiff(local_name);
 
                 icImagingControl1.LiveStart();
-                Filter.Set_Wl(WL_was);
+                Filter.Set_Wl(WL_was);*/
             }
 
             // Log.Message("Image grabbing is started...");
@@ -1498,30 +1488,32 @@ namespace ICSpec
             Log.Message("Время на захват изображения: "+(SW.ElapsedMilliseconds - time1).ToString()+" мс");
             Log.Message("---------------------------------");
         }
-        long time_of_WLset1 = 0;
-        long time_of_WLset2 = 0;
-        long time_of_WLset3 = 0;
+
+        long[] times_of_WLset = new long[WLS_at_all];
         private void BGW_SpectralImageTuning_DoWork(object sender, DoWorkEventArgs e)
         {
-            Filter.Set_Wl(WL_2set_1); //Log.Message("Перестройка на ДВ1: " + NUD_Multi_WL1.Value.ToString() +". Прошло времени: "+SW.ElapsedMilliseconds);
-            time_of_WLset1 = SW.ElapsedMilliseconds;
-            Thread.Sleep(time_to_sleep_1);
-            /*int time_to_sleep1 = (int)(NUD_Multi_ex_time1.Value - SW.ElapsedMilliseconds);
-            Thread.Sleep(time_to_sleep1);*/
-            Filter.Set_Wl(WL_2set_2); //Log.Message("Перестройка на ДВ2: " + NUD_Multi_WL2.Value.ToString() + ". Прошло времени: " + SW.ElapsedMilliseconds);
-            time_of_WLset2 = SW.ElapsedMilliseconds;
-            Thread.Sleep(time_to_sleep_2);
-           /* int time_to_sleep2 = (int)(NUD_Multi_ex_time2.Value + NUD_Multi_ex_time1.Value - SW.ElapsedMilliseconds);
-            Thread.Sleep(time_to_sleep2);*/
-            Filter.Set_Wl(WL_2set_3);// Log.Message("Перестройка на ДВ3: " + NUD_Multi_WL3.Value.ToString() + ". Прошло времени: " + SW.ElapsedMilliseconds);
-            time_of_WLset3 = SW.ElapsedMilliseconds;
-            Thread.Sleep(time_to_sleep_3);
-
-            Filter.Set_Wl(WL_2set_1);
-            Thread.Sleep(time_to_sleep_1);
-
-            Filter.Set_Wl(WL_2set_2);
-            Thread.Sleep(time_to_sleep_2);
+            for(int i =0;i<WLS_at_all;i++)
+            {
+                if (times_to_sleep[i] != 0)
+                {
+                    Filter.Set_Wl(WLs_2set[i]);
+                    Log.Message("Перестройка на ДВ" +(i+1).ToString() + ": " 
+                        + WLs_2set[i].ToString() +". Прошло времени: "+SW.ElapsedMilliseconds);
+                    times_of_WLset[i] = SW.ElapsedMilliseconds;
+                    Thread.Sleep(times_to_sleep[i]);
+                }
+            }
+            int j = 0;
+            for (int i = 0; (i < WLS_at_all) && (j<2); i++)
+            {
+                if (times_to_sleep[i] != 0)
+                {
+                    j++;
+                    Filter.Set_Wl(WLs_2set[i]);
+                    //Log.Message("Перестройка на ДВ1: " + NUD_Multi_WL1.Value.ToString() +". Прошло времени: "+SW.ElapsedMilliseconds);
+                    Thread.Sleep(times_to_sleep[i]);
+                }
+            }
             
         }
         private void BGW_SpectralImageGrabbing_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -1562,7 +1554,13 @@ namespace ICSpec
             }
             else
             {
-                Log.Message(string.Format("Времена перестроек: {0} ::: {1} ::: {2}",time_of_WLset1.ToString(), time_of_WLset2.ToString(), time_of_WLset3.ToString()));
+                string data_times = "";
+                for(int i =0;i<WLS_at_all-1;i++)
+                {
+                    data_times += times_of_WLset[i].ToString() + " :::";
+                }
+                data_times += times_of_WLset[7].ToString();
+                Log.Message("Времена перестроек: " + data_times);
             }
         }
         private void NUD_Multi_ex_time3_ValueChanged(object sender, EventArgs e)
@@ -1575,8 +1573,6 @@ namespace ICSpec
             frames_aquired+=2.5;
             //LogMessage("meow");
         }
-
-       
 
         private void tests()
         {

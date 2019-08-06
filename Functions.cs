@@ -910,18 +910,21 @@ namespace ICSpec
         {
 
         }
-        private void Load_properties_for_3WL_ctrls(decimal WL_MAX, decimal WL_MIN,decimal TIME_MAX, decimal TIME_MIN)
+        private void Load_properties_for_WL_ctrls(decimal WL_MAX, decimal WL_MIN,decimal TIME_MAX, decimal TIME_MIN)
         {
-            NUD_Multi_WL1.Maximum = NUD_Multi_WL2.Maximum = NUD_Multi_WL3.Maximum = WL_MAX;
-            NUD_Multi_WL1.Minimum = NUD_Multi_WL2.Minimum = NUD_Multi_WL3.Minimum = WL_MIN;
-            NUD_Multi_WL1.Value = NUD_Multi_WL2.Value = NUD_Multi_WL3.Value = (WL_MAX+ WL_MIN)/2;
-
-            NUD_Multi_ex_time1.Maximum = NUD_Multi_ex_time2.Maximum = NUD_Multi_ex_time3.Maximum = TIME_MAX;
-            NUD_Multi_ex_time1.Minimum = NUD_Multi_ex_time2.Minimum = NUD_Multi_ex_time3.Minimum = TIME_MIN;
-            NUD_Multi_ex_time1.Value = (decimal)(AbsValExp.Value / 3.0);
-            NUD_Multi_ex_time2.Value = (decimal)(AbsValExp.Value / 3.0);
-            NUD_Multi_ex_time3.Value = (decimal)(AbsValExp.Value / 3.0);
-
+            for (int i = 0; i < WLS_at_all; ++i)
+            {
+                //поиск элемента управления с заданным номером
+                var EXP_control = this.Controls.Find("NUD_Multi_ex_time" + (i + 1).ToString(), true)[0] as NumericUpDown;
+                EXP_control.Maximum = TIME_MAX;
+                EXP_control.Minimum = TIME_MIN;
+                EXP_control.Value = (decimal)(AbsValExp.Value / ((double)WLS_at_all));
+                //поиск элемента управления с заданным номером
+                var WL_control = this.Controls.Find("NUD_Multi_WL" + (i + 1).ToString(), true)[0] as NumericUpDown;
+                WL_control.Maximum = WL_MAX;
+                WL_control.Minimum = WL_MIN;
+                WL_control.Value = (WL_MAX + WL_MIN) / 2; 
+            }
 
         }
         private void NewWrite16Bit(ref ImageBuffer buf,string name)
