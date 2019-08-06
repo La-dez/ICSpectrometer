@@ -19,7 +19,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.3 Beta";
+        string Cur_Version = "v2.31 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -1572,6 +1572,66 @@ namespace ICSpec
         {
             frames_aquired+=2.5;
             //LogMessage("meow");
+        }
+
+        private void ChB_SpectralCycle_CheckedChanged(object sender, EventArgs e)
+        {
+            if(ChB_SpectralCycle.Checked)
+            {
+                finalExposure = 0;
+                SW.Reset();
+                for (int i = 0; i < WLS_at_all; ++i)
+                {
+                    //поиск элемента управления с заданным номером для ДВ и копирование значения
+                    var EXP_control = this.Controls.Find("NUD_Multi_ex_time" + (i + 1).ToString(), true);
+                    double data_var = (double)(EXP_control[0] as NumericUpDown).Value;
+                    times_to_sleep[i] = (int)(data_var * 1000);
+                    finalExposure += data_var;
+                    //поиск элемента управления с заданным номером для вр.эксп. и копирование значения
+                    var WL_control = this.Controls.Find("NUD_Multi_WL" + (i + 1).ToString(), true);
+                    WLs_2set[i] = (float)(WL_control[0] as NumericUpDown).Value;
+                }
+                WL_was = Filter.WL_Current;
+
+                Log.Message("---------------------------------");
+
+
+
+                BGW_SpectralCycle.RunWorkerAsync();
+            }
+            else
+            {
+                BGW_SpectralCycle.CancelAsync();
+            }
+        }
+
+        private void BGW_SpectralCycle_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            while (worker.CancellationPending == false)
+            {
+                for (int i = 0; i < WLS_at_all; i++)
+                {
+                    if (times_to_sleep[i] != 0)
+                    {
+                        Filter.Set_Wl(WLs_2set[i]);
+                        worker.ReportProgress((int)WLs_2set[i]);
+                        Thread.Sleep(times_to_sleep[i]);
+                    }
+                    if (worker.CancellationPending) break;
+                }
+            }
+        }
+
+        private void BGW_SpectralCycle_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            Log.Message("Установленная длина волны " + e.ProgressPercentage + " нм");
+        }
+
+        private void BGW_SpectralCycle_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Log.Message("Циклическая перестройка остановлена!");
+            Filter.Set_Wl(WL_was);
         }
 
         private void tests()
