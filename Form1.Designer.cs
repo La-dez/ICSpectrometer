@@ -1592,7 +1592,7 @@
             this.TabP_2_SpectralImg.Controls.Add(this.tableLayoutPanel8);
             this.TabP_2_SpectralImg.Location = new System.Drawing.Point(4, 22);
             this.TabP_2_SpectralImg.Name = "TabP_2_SpectralImg";
-            this.TabP_2_SpectralImg.Size = new System.Drawing.Size(280, 335);
+            this.TabP_2_SpectralImg.Size = new System.Drawing.Size(280, 294);
             this.TabP_2_SpectralImg.TabIndex = 1;
             this.TabP_2_SpectralImg.Text = "Multispectral image";
             // 
@@ -1649,7 +1649,7 @@
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(280, 335);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(280, 294);
             this.tableLayoutPanel8.TabIndex = 0;
             // 
             // L_Num
@@ -2212,7 +2212,7 @@
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.quitToolStripMenuItem.Text = "Exit";
             // 
             // TSMI_TuneSettings
@@ -2221,7 +2221,7 @@
             this.specialSeriesToolStripMenuItem,
             this.curvesCreatingToolStripMenuItem});
             this.TSMI_TuneSettings.Name = "TSMI_TuneSettings";
-            this.TSMI_TuneSettings.Size = new System.Drawing.Size(89, 22);
+            this.TSMI_TuneSettings.Size = new System.Drawing.Size(90, 22);
             this.TSMI_TuneSettings.Text = "Tune settings";
             // 
             // specialSeriesToolStripMenuItem
@@ -2246,14 +2246,14 @@
             // TSMI_Load_EXWL_C
             // 
             this.TSMI_Load_EXWL_C.Name = "TSMI_Load_EXWL_C";
-            this.TSMI_Load_EXWL_C.Size = new System.Drawing.Size(211, 22);
+            this.TSMI_Load_EXWL_C.Size = new System.Drawing.Size(210, 22);
             this.TSMI_Load_EXWL_C.Text = "Load Exposure - WL curve";
             this.TSMI_Load_EXWL_C.Click += new System.EventHandler(this.TSMI_Load_EXWL_C_Click);
             // 
             // startTuningToolStripMenuItem
             // 
             this.startTuningToolStripMenuItem.Name = "startTuningToolStripMenuItem";
-            this.startTuningToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.startTuningToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.startTuningToolStripMenuItem.Text = "Start tuning";
             this.startTuningToolStripMenuItem.Click += new System.EventHandler(this.startTuningToolStripMenuItem_Click_1);
             // 
@@ -2298,7 +2298,7 @@
             // TSMI_CurveCreating_ExposureWL
             // 
             this.TSMI_CurveCreating_ExposureWL.Name = "TSMI_CurveCreating_ExposureWL";
-            this.TSMI_CurveCreating_ExposureWL.Size = new System.Drawing.Size(182, 22);
+            this.TSMI_CurveCreating_ExposureWL.Size = new System.Drawing.Size(181, 22);
             this.TSMI_CurveCreating_ExposureWL.Text = "Exposure - WL curve";
             this.TSMI_CurveCreating_ExposureWL.Click += new System.EventHandler(this.TSMI_CurveCreating_ExposureWL_Click);
             // 
