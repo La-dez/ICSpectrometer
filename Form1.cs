@@ -195,8 +195,7 @@ namespace ICSpec
                       menuItem2.Index = 1;
                       menuItem2.Text = "Измерения";
                       icImagingControl1.ContextMenu = MyContextMenu;
-                      menuItem1.Click += new System.EventHandler(this.menuItem1_Click);
-                      menuItem2.Click += new System.EventHandler(this.menuItem2_Click);*/
+                      menuItem1.Click += new System.EventHandler(this.menuItem1_Click);*/
                 }
             }
             catch (Exception ext)
