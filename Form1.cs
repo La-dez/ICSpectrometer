@@ -1603,7 +1603,7 @@ namespace ICSpec
 
                 Log.Message("---------------------------------");
 
-                if(precalculating_mode)
+                if((precalculating_mode)&&(Filter.FilterType == FilterTypes.STC_Filter))
                 {
                     for (int i = 0; i < WLS_at_all; i++)
                     {
@@ -1627,7 +1627,7 @@ namespace ICSpec
         {
             BackgroundWorker worker = sender as BackgroundWorker;
             var FP = Filter as STC_Filter;
-            if (precalculating_mode)
+            if ((precalculating_mode) && (Filter.FilterType == FilterTypes.STC_Filter))
             {
                 while (worker.CancellationPending == false)
                 {
