@@ -375,6 +375,14 @@ namespace ICSpec
                         Log.Message(AO_DEV_loaded_fullPath + " - файл считан успешно!");
                     else
                         throw new Exception(Filter.Implement_Error(Status));
+                    if (Filter.FilterType == FilterTypes.STC_Filter)
+                    {
+                        Log.Message("Бит инверсия (считана из файла): " + (Filter as STC_Filter).Bit_inverse_needed.ToString().ToLower());
+                    }
+                    else if ((Filter.FilterType == FilterTypes.Emulator))
+                    {
+                        Log.Message("Бит инверсия (считана из файла): " + (Filter as Emulator).Bit_inverse_needed.ToString().ToLower());
+                    }
                 }
                 catch (Exception exc)
                 {
@@ -1569,10 +1577,11 @@ namespace ICSpec
         double frames_aquired = 0;
         private void icImagingControl1_ImageAvailable(object sender, ICImagingControl.ImageAvailableEventArgs e)
         {
-            frames_aquired+=2.5;
+            frames_aquired+=2.5; //подбор
             //LogMessage("meow");
         }
-
+        bool precalculating_mode = true;
+        List<byte[]> ByteMass_precalculated_list = new List<byte[]>();
         private void ChB_SpectralCycle_CheckedChanged(object sender, EventArgs e)
         {
             if(ChB_SpectralCycle.Checked)
@@ -1594,7 +1603,17 @@ namespace ICSpec
 
                 Log.Message("---------------------------------");
 
-
+                if(precalculating_mode)
+                {
+                    for (int i = 0; i < WLS_at_all; i++)
+                    {
+                        if (times_to_sleep[i] != 0)
+                        {
+                            float curHZ = Filter.Get_HZ_via_WL(WLs_2set[i]);
+                            ByteMass_precalculated_list.Add((Filter as STC_Filter).Create_byteMass_forHzTune(curHZ));
+                        }
+                    }
+                }
 
                 BGW_SpectralCycle.RunWorkerAsync();
             }
@@ -1607,17 +1626,37 @@ namespace ICSpec
         private void BGW_SpectralCycle_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
-            while (worker.CancellationPending == false)
+            var FP = Filter as STC_Filter;
+            if (precalculating_mode)
             {
-                for (int i = 0; i < WLS_at_all; i++)
+                while (worker.CancellationPending == false)
                 {
-                    if (times_to_sleep[i] != 0)
+                    for (int i = 0; i < WLS_at_all; i++)
                     {
-                        Filter.Set_Wl(WLs_2set[i]);
-                        worker.ReportProgress((int)WLs_2set[i]);
-                        Thread.Sleep(times_to_sleep[i]);
+                        if (times_to_sleep[i] != 0)
+                        {
+                            FP.Set_Hz_via_bytemass(ByteMass_precalculated_list[i]);
+                            worker.ReportProgress((int)WLs_2set[i]);
+                            Thread.Sleep(times_to_sleep[i]);
+                        }
+                        if (worker.CancellationPending) break;
                     }
-                    if (worker.CancellationPending) break;
+                }
+            }
+            else
+            {
+                while (worker.CancellationPending == false)
+                {
+                    for (int i = 0; i < WLS_at_all; i++)
+                    {
+                        if (times_to_sleep[i] != 0)
+                        {
+                            Filter.Set_Wl(WLs_2set[i]);
+                            worker.ReportProgress((int)WLs_2set[i]);
+                            Thread.Sleep(times_to_sleep[i]);
+                        }
+                        if (worker.CancellationPending) break;
+                    }
                 }
             }
         }

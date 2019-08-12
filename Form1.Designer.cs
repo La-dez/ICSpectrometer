@@ -1637,15 +1637,15 @@
             this.tableLayoutPanel8.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 12;
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -1656,7 +1656,7 @@
             // 
             this.L_Num.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.L_Num.AutoSize = true;
-            this.L_Num.Location = new System.Drawing.Point(11, 8);
+            this.L_Num.Location = new System.Drawing.Point(11, 6);
             this.L_Num.Name = "L_Num";
             this.L_Num.Size = new System.Drawing.Size(18, 13);
             this.L_Num.TabIndex = 0;
@@ -1666,7 +1666,7 @@
             // 
             this.label36.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(71, 8);
+            this.label36.Location = new System.Drawing.Point(71, 6);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(47, 13);
             this.label36.TabIndex = 103;
@@ -1676,7 +1676,7 @@
             // 
             this.label37.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(183, 8);
+            this.label37.Location = new System.Drawing.Point(183, 6);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(44, 13);
             this.label37.TabIndex = 104;
@@ -1685,7 +1685,7 @@
             // NUD_Multi_WL1
             // 
             this.NUD_Multi_WL1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.NUD_Multi_WL1.Location = new System.Drawing.Point(57, 35);
+            this.NUD_Multi_WL1.Location = new System.Drawing.Point(57, 28);
             this.NUD_Multi_WL1.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -1698,7 +1698,7 @@
             // NUD_Multi_WL2
             // 
             this.NUD_Multi_WL2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.NUD_Multi_WL2.Location = new System.Drawing.Point(57, 65);
+            this.NUD_Multi_WL2.Location = new System.Drawing.Point(57, 53);
             this.NUD_Multi_WL2.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -1711,7 +1711,7 @@
             // NUD_Multi_WL3
             // 
             this.NUD_Multi_WL3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.NUD_Multi_WL3.Location = new System.Drawing.Point(57, 95);
+            this.NUD_Multi_WL3.Location = new System.Drawing.Point(57, 78);
             this.NUD_Multi_WL3.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -1725,7 +1725,7 @@
             // 
             this.NUD_Multi_ex_time1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.NUD_Multi_ex_time1.DecimalPlaces = 3;
-            this.NUD_Multi_ex_time1.Location = new System.Drawing.Point(167, 35);
+            this.NUD_Multi_ex_time1.Location = new System.Drawing.Point(167, 28);
             this.NUD_Multi_ex_time1.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -1739,7 +1739,7 @@
             // 
             this.NUD_Multi_ex_time2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.NUD_Multi_ex_time2.DecimalPlaces = 3;
-            this.NUD_Multi_ex_time2.Location = new System.Drawing.Point(167, 65);
+            this.NUD_Multi_ex_time2.Location = new System.Drawing.Point(167, 53);
             this.NUD_Multi_ex_time2.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -1753,7 +1753,7 @@
             // 
             this.NUD_Multi_ex_time3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.NUD_Multi_ex_time3.DecimalPlaces = 3;
-            this.NUD_Multi_ex_time3.Location = new System.Drawing.Point(167, 95);
+            this.NUD_Multi_ex_time3.Location = new System.Drawing.Point(167, 78);
             this.NUD_Multi_ex_time3.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -1768,7 +1768,7 @@
             // 
             this.tableLayoutPanel8.SetColumnSpan(this.B_Get_HyperSpectral_Image, 4);
             this.B_Get_HyperSpectral_Image.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.B_Get_HyperSpectral_Image.Location = new System.Drawing.Point(0, 270);
+            this.B_Get_HyperSpectral_Image.Location = new System.Drawing.Point(0, 225);
             this.B_Get_HyperSpectral_Image.Margin = new System.Windows.Forms.Padding(0);
             this.B_Get_HyperSpectral_Image.Name = "B_Get_HyperSpectral_Image";
             this.B_Get_HyperSpectral_Image.Size = new System.Drawing.Size(280, 35);
@@ -1780,7 +1780,7 @@
             // NUD_Multi_WL4
             // 
             this.NUD_Multi_WL4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.NUD_Multi_WL4.Location = new System.Drawing.Point(57, 125);
+            this.NUD_Multi_WL4.Location = new System.Drawing.Point(57, 103);
             this.NUD_Multi_WL4.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -1793,7 +1793,7 @@
             // NUD_Multi_WL5
             // 
             this.NUD_Multi_WL5.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.NUD_Multi_WL5.Location = new System.Drawing.Point(57, 155);
+            this.NUD_Multi_WL5.Location = new System.Drawing.Point(57, 128);
             this.NUD_Multi_WL5.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -1806,7 +1806,7 @@
             // NUD_Multi_WL6
             // 
             this.NUD_Multi_WL6.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.NUD_Multi_WL6.Location = new System.Drawing.Point(57, 185);
+            this.NUD_Multi_WL6.Location = new System.Drawing.Point(57, 153);
             this.NUD_Multi_WL6.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -1819,7 +1819,7 @@
             // NUD_Multi_WL7
             // 
             this.NUD_Multi_WL7.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.NUD_Multi_WL7.Location = new System.Drawing.Point(57, 215);
+            this.NUD_Multi_WL7.Location = new System.Drawing.Point(57, 178);
             this.NUD_Multi_WL7.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -1832,7 +1832,7 @@
             // NUD_Multi_WL8
             // 
             this.NUD_Multi_WL8.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.NUD_Multi_WL8.Location = new System.Drawing.Point(57, 245);
+            this.NUD_Multi_WL8.Location = new System.Drawing.Point(57, 203);
             this.NUD_Multi_WL8.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -1846,7 +1846,7 @@
             // 
             this.NUD_Multi_ex_time4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.NUD_Multi_ex_time4.DecimalPlaces = 3;
-            this.NUD_Multi_ex_time4.Location = new System.Drawing.Point(167, 125);
+            this.NUD_Multi_ex_time4.Location = new System.Drawing.Point(167, 103);
             this.NUD_Multi_ex_time4.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -1860,7 +1860,7 @@
             // 
             this.NUD_Multi_ex_time5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.NUD_Multi_ex_time5.DecimalPlaces = 3;
-            this.NUD_Multi_ex_time5.Location = new System.Drawing.Point(167, 155);
+            this.NUD_Multi_ex_time5.Location = new System.Drawing.Point(167, 128);
             this.NUD_Multi_ex_time5.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -1874,7 +1874,7 @@
             // 
             this.NUD_Multi_ex_time6.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.NUD_Multi_ex_time6.DecimalPlaces = 3;
-            this.NUD_Multi_ex_time6.Location = new System.Drawing.Point(167, 185);
+            this.NUD_Multi_ex_time6.Location = new System.Drawing.Point(167, 153);
             this.NUD_Multi_ex_time6.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -1888,7 +1888,7 @@
             // 
             this.NUD_Multi_ex_time7.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.NUD_Multi_ex_time7.DecimalPlaces = 3;
-            this.NUD_Multi_ex_time7.Location = new System.Drawing.Point(167, 215);
+            this.NUD_Multi_ex_time7.Location = new System.Drawing.Point(167, 178);
             this.NUD_Multi_ex_time7.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -1902,7 +1902,7 @@
             // 
             this.NUD_Multi_ex_time8.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.NUD_Multi_ex_time8.DecimalPlaces = 3;
-            this.NUD_Multi_ex_time8.Location = new System.Drawing.Point(167, 245);
+            this.NUD_Multi_ex_time8.Location = new System.Drawing.Point(167, 203);
             this.NUD_Multi_ex_time8.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -1916,7 +1916,7 @@
             // 
             this.L_WL_Num1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.L_WL_Num1.AutoSize = true;
-            this.L_WL_Num1.Location = new System.Drawing.Point(13, 38);
+            this.L_WL_Num1.Location = new System.Drawing.Point(13, 31);
             this.L_WL_Num1.Name = "L_WL_Num1";
             this.L_WL_Num1.Size = new System.Drawing.Size(13, 13);
             this.L_WL_Num1.TabIndex = 117;
@@ -1926,7 +1926,7 @@
             // 
             this.label22.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(13, 68);
+            this.label22.Location = new System.Drawing.Point(13, 56);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(13, 13);
             this.label22.TabIndex = 118;
@@ -1936,7 +1936,7 @@
             // 
             this.label35.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(13, 98);
+            this.label35.Location = new System.Drawing.Point(13, 81);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(13, 13);
             this.label35.TabIndex = 119;
@@ -1946,7 +1946,7 @@
             // 
             this.label38.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(13, 128);
+            this.label38.Location = new System.Drawing.Point(13, 106);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(13, 13);
             this.label38.TabIndex = 120;
@@ -1956,7 +1956,7 @@
             // 
             this.label39.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(13, 158);
+            this.label39.Location = new System.Drawing.Point(13, 131);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(13, 13);
             this.label39.TabIndex = 121;
@@ -1966,7 +1966,7 @@
             // 
             this.label40.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(13, 188);
+            this.label40.Location = new System.Drawing.Point(13, 156);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(13, 13);
             this.label40.TabIndex = 122;
@@ -1976,7 +1976,7 @@
             // 
             this.label41.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(13, 218);
+            this.label41.Location = new System.Drawing.Point(13, 181);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(13, 13);
             this.label41.TabIndex = 123;
@@ -1986,7 +1986,7 @@
             // 
             this.label43.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label43.AutoSize = true;
-            this.label43.Location = new System.Drawing.Point(13, 248);
+            this.label43.Location = new System.Drawing.Point(13, 206);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(13, 13);
             this.label43.TabIndex = 125;
@@ -1998,7 +1998,7 @@
             this.ChB_SpectralCycle.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.tableLayoutPanel8.SetColumnSpan(this.ChB_SpectralCycle, 4);
             this.ChB_SpectralCycle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ChB_SpectralCycle.Location = new System.Drawing.Point(0, 308);
+            this.ChB_SpectralCycle.Location = new System.Drawing.Point(0, 263);
             this.ChB_SpectralCycle.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.ChB_SpectralCycle.Name = "ChB_SpectralCycle";
             this.ChB_SpectralCycle.Size = new System.Drawing.Size(280, 32);
