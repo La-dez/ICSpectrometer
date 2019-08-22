@@ -105,11 +105,6 @@ E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.2 Beta.pdb
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.2 Beta.exe
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.2 Beta.pdb
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.31 Beta.exe.config
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.31 Beta.exe
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.31 Beta.pdb
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.31 Beta.exe
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.31 Beta.pdb
 C:\Users\gustav\Documents\GitHub\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.31 Beta.exe.config
 C:\Users\gustav\Documents\GitHub\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.31 Beta.exe
 C:\Users\gustav\Documents\GitHub\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.31 Beta.pdb
@@ -123,3 +118,8 @@ C:\Users\gustav\Documents\GitHub\ICSpectrometer\obj\x86\Release\ICSpectrometer.c
 C:\Users\gustav\Documents\GitHub\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.CopyComplete
 C:\Users\gustav\Documents\GitHub\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.31 Beta.exe
 C:\Users\gustav\Documents\GitHub\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.31 Beta.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.33 Beta.exe.config
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.33 Beta.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.33 Beta.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.33 Beta.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.33 Beta.pdb

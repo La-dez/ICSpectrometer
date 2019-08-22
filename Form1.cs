@@ -19,7 +19,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.31 Beta";
+        string Cur_Version = "v2.33 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -1607,7 +1607,7 @@ namespace ICSpec
                 {
                     for (int i = 0; i < WLS_at_all; i++)
                     {
-                        if (times_to_sleep[i] != 0)
+                        if (times_to_sleep[i] >= 0.001f)
                         {
                             float curHZ = Filter.Get_HZ_via_WL(WLs_2set[i]);
                             ByteMass_precalculated_list.Add((Filter as STC_Filter).Create_byteMass_forHzTune(curHZ));
@@ -1620,6 +1620,7 @@ namespace ICSpec
             else
             {
                 BGW_SpectralCycle.CancelAsync();
+                ByteMass_precalculated_list.Clear();
             }
         }
 
@@ -1633,7 +1634,7 @@ namespace ICSpec
                 {
                     for (int i = 0; i < WLS_at_all; i++)
                     {
-                        if (times_to_sleep[i] != 0)
+                        if (times_to_sleep[i] >= 0.001f)
                         {
                             FP.Set_Hz_via_bytemass(ByteMass_precalculated_list[i]);
                             worker.ReportProgress((int)WLs_2set[i]);
