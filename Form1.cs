@@ -19,7 +19,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.33 Beta";
+        string Cur_Version = "v2.34 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -27,7 +27,7 @@ namespace ICSpec
         bool ChangingActivatedTextBoxGain = true;
         ImageStyle SnapImageStyle = new ImageStyle();
         TIS.Imaging.BaseSink m_oldSink;
-        TIS.Imaging.FrameHandlerSink curfhs;
+        TIS.Imaging.FrameHandlerSink curfhs; // Инициализация текущего FramehandlerSink экземпляра для быстрого захвата кадров
         string filedatename = null;
         public string fileName = null;//Application.StartupPath + @"\\SettingsOfWriting.txt";
         public bool WarningofCapt = false;
@@ -334,7 +334,7 @@ namespace ICSpec
                     if (icImagingControl1.LiveVideoRunning) icImagingControl1.LiveStop();
                     ContTransAfterSnapshot.Visible = true;
                     string SCRName = CheckScreenShotBasicName();
-                    string date = GetDateString();
+                    string date = GetFullDateString();
                     var buf = curfhs.LastAcquiredBuffer;
                     string exactname = SnapImageStyle.Directory + SCRName + "_" + date + "_" + AO_CurrentWL.ToString() + SnapImageStyle.Extension;
                     buf.SaveAsTiff(exactname);
@@ -1364,6 +1364,13 @@ namespace ICSpec
         float WL_was = 500;
         private void B_Get_HyperSpectral_Image_Click(object sender, EventArgs e)
         {
+            if(ChB_SpectralCycle.Checked)
+            {
+                BGW_SpectralCycle.CancelAsync();
+                ByteMass_precalculated_list.Clear();
+                ChB_SpectralCycle.Checked = false;
+            }
+
             finalExposure = 0;
             Exposure_was = AbsValExp.Value;
             icImagingControl1.LiveStop();
@@ -1415,6 +1422,18 @@ namespace ICSpec
                 icImagingControl1.LiveStart();
                 curfhs.SnapMode = true;
 
+                if ((precalculating_mode) && (Filter.FilterType == FilterTypes.STC_Filter))
+                {
+                    for (int i = 0; i < WLS_at_all; i++)
+                    {
+                        if (times_to_sleep[i] >= 0.001f)
+                        {
+                            float curHZ = Filter.Get_HZ_via_WL(WLs_2set[i]);
+                            ByteMass_precalculated_list.Add((Filter as STC_Filter).Create_byteMass_forHzTune(curHZ));
+                        }
+                    }
+                }
+
                 SW.Restart();
                 BGW_SpectralImageTuning.RunWorkerAsync();
                 if (use_inCamera_invoke)
@@ -1438,52 +1457,8 @@ namespace ICSpec
             }
             else
             {
-              /*  string SCRName = CheckScreenShotBasicName();
-                string date = GetFullDateString();
-                int delay = 500; 
-                TIS.Imaging.ImageBuffer[] rval = new TIS.Imaging.ImageBuffer[3];
-                icImagingControl1.ImageRingBufferSize = 3;
-                icImagingControl1.LiveStart();
-                curfhs.SnapMode = true;
-
-                LoadExposure_ToCam(ref AbsValExp, (double)(NUD_Multi_ex_time1.Value));
-                Filter.Set_Wl(WL_2set_1);
-                Thread.Sleep(delay);
-                curfhs.SnapImage();
-                rval[0] = curfhs.LastAcquiredBuffer;
-
-                LoadExposure_ToCam(ref AbsValExp, (double)(NUD_Multi_ex_time2.Value));
-                Filter.Set_Wl(WL_2set_2);
-                Thread.Sleep(delay);
-                curfhs.SnapImage();
-                rval[1] = curfhs.LastAcquiredBuffer;
-
-                LoadExposure_ToCam(ref AbsValExp, (double)(NUD_Multi_ex_time3.Value));
-                Filter.Set_Wl(WL_2set_3);
-                Thread.Sleep(delay);
-                curfhs.SnapImage();
-                rval[2] = curfhs.LastAcquiredBuffer;
-
-                
-                string local_name = SnapImageStyle.Directory + SCRName + "_" + date + "_"
-                    + NUD_Multi_WL1.Value.ToString() + SnapImageStyle.Extension;      
-                rval[0].SaveAsTiff(local_name);
-
-                local_name = SnapImageStyle.Directory + SCRName + "_" + date + "_"
-                     + NUD_Multi_WL2.Value.ToString() + SnapImageStyle.Extension;
-                rval[1].SaveAsTiff(local_name);
-
-                local_name = SnapImageStyle.Directory + SCRName + "_" + date + "_"
-                    + NUD_Multi_WL3.Value.ToString() + SnapImageStyle.Extension;
-                rval[2].SaveAsTiff(local_name);
-
-                icImagingControl1.LiveStart();
-                Filter.Set_Wl(WL_was);*/
+       
             }
-
-            // Log.Message("Image grabbing is started...");
-
-
         }
 
         private void BGW_SpectralImageGrabbing_DoWork(object sender, DoWorkEventArgs e)
@@ -1497,31 +1472,64 @@ namespace ICSpec
         }
 
         long[] times_of_WLset = new long[WLS_at_all];
+        
         private void BGW_SpectralImageTuning_DoWork(object sender, DoWorkEventArgs e)
         {
-            for(int i =0;i<WLS_at_all;i++)
+            var FP = Filter as STC_Filter;
+            if ((precalculating_mode) && (Filter.FilterType == FilterTypes.STC_Filter))
             {
-                if (times_to_sleep[i] != 0)
+
+                for (int i = 0; i < WLS_at_all; i++)
                 {
-                    Filter.Set_Wl(WLs_2set[i]);
-                    Log.Message("Перестройка на ДВ" +(i+1).ToString() + ": " 
-                        + WLs_2set[i].ToString() +". Прошло времени: "+SW.ElapsedMilliseconds);
-                    times_of_WLset[i] = SW.ElapsedMilliseconds;
-                    Thread.Sleep(times_to_sleep[i]);
+                    if (times_to_sleep[i] >= 0.0001f)
+                    {
+                        FP.Set_Hz_via_bytemass(ByteMass_precalculated_list[i]);
+                        /*    Log.Message("Перестройка на ДВ" + (i + 1).ToString() + ": "
+                                + WLs_2set[i].ToString() + ". Прошло времени: " + SW.ElapsedMilliseconds);
+                            times_of_WLset[i] = SW.ElapsedMilliseconds;*/
+                        // worker.ReportProgress((int)WLs_2set[i]);
+                        Thread.Sleep(times_to_sleep[i]);
+                    }
+                }
+
+                int j_data = 0;
+                for (int i = 0; (i < WLS_at_all) && (j_data < 2); i++)
+                {
+                    if (times_to_sleep[i] >= 0.0001f)
+                    {
+                        j_data++;
+                        FP.Set_Hz_via_bytemass(ByteMass_precalculated_list[i]);
+                        //Log.Message("Перестройка на ДВ1: " + NUD_Multi_WL1.Value.ToString() +". Прошло времени: "+SW.ElapsedMilliseconds);
+                        Thread.Sleep(times_to_sleep[i]);
+                    }
                 }
             }
-            int j = 0;
-            for (int i = 0; (i < WLS_at_all) && (j<2); i++)
+            else
             {
-                if (times_to_sleep[i] != 0)
+                for (int i = 0; i < WLS_at_all; i++)
                 {
-                    j++;
-                    Filter.Set_Wl(WLs_2set[i]);
-                    //Log.Message("Перестройка на ДВ1: " + NUD_Multi_WL1.Value.ToString() +". Прошло времени: "+SW.ElapsedMilliseconds);
-                    Thread.Sleep(times_to_sleep[i]);
+                    if (times_to_sleep[i] != 0)
+                    {
+                        Filter.Set_Wl(WLs_2set[i]);
+                        Log.Message("Перестройка на ДВ" + (i + 1).ToString() + ": "
+                            + WLs_2set[i].ToString() + ". Прошло времени: " + SW.ElapsedMilliseconds);
+                        times_of_WLset[i] = SW.ElapsedMilliseconds;
+                        Thread.Sleep(times_to_sleep[i]);
+                    }
+                }
+
+                int j_data = 0;
+                for (int i = 0; (i < WLS_at_all) && (j_data < 2); i++)
+                {
+                    if (times_to_sleep[i] != 0)
+                    {
+                        j_data++;
+                        Filter.Set_Wl(WLs_2set[i]);
+                        //Log.Message("Перестройка на ДВ1: " + NUD_Multi_WL1.Value.ToString() +". Прошло времени: "+SW.ElapsedMilliseconds);
+                        Thread.Sleep(times_to_sleep[i]);
+                    }
                 }
             }
-            
         }
         private void BGW_SpectralImageGrabbing_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {

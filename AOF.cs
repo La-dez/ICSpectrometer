@@ -503,6 +503,193 @@ namespace LDZ_Code
             }            
             #endregion
         }
+        public class VNIIFTRI_Filter_v20 : AO_Filter //идея: сделать 2 класса чисто на импорт, а обвязку оставить общую
+        {
+            public override FilterTypes FilterType { get { return FilterTypes.VNIIFTRI_Filter_v15; } }
+
+            protected override string FilterDescriptor_or_name { set; get; }
+            protected override string FilterCfgName { set; get; }
+            protected override string FilterCfgPath { set; get; }
+            protected override string DllName { set; get; }
+
+            protected override float[] HZs { set; get; }
+            protected override float[] WLs { set; get; }
+            protected override float[] Intensity { set; get; }
+            protected override bool AOF_Loaded_without_fails { set; get; }
+            protected override bool sAOF_isPowered { set; get; }
+
+            public override float WL_Max { get { return WLs[WLs.Length - 1]; } }
+            public override float WL_Min { get { return WLs[0]; } }
+            public override float HZ_Max { get { return HZs[0]; } }
+            public override float HZ_Min { get { return HZs[WLs.Length - 1]; } }
+
+            protected override bool sAO_Sweep_On { set; get; }
+            protected override bool sAO_ProgrammMode_Ready { set; get; }
+
+            public VNIIFTRI_Filter_v20()
+            {
+                Init_device(0);
+                sAO_ProgrammMode_Ready = false;
+            }
+            ~VNIIFTRI_Filter_v20()
+            {
+                this.PowerOff();
+                this.Dispose();
+            }
+
+            public override int Set_Wl(float pWL)
+            {
+                sWL_Current = pWL;
+                sHZ_Current = Get_HZ_via_WL(pWL);
+                return AOM_SetWL(pWL);
+            }
+            public override int Set_Hz(float freq)
+            {
+                sWL_Current = Get_WL_via_HZ(freq);
+                sHZ_Current = freq;
+                return AOM_SetWL((int)Math.Round(sWL_Current));
+            }
+            public override int Set_Sweep_on(float MHz_start, float Sweep_range_MHz, double Period/*[мс с точностью до двух знаков]*/, bool OnRepeat)
+            {
+                sAO_Sweep_On = false;
+                return (int)Status.AOM_OTHER_ERROR;
+            }
+            public override int Set_Sweep_off()
+            {
+                sAO_Sweep_On = false;
+                return (int)Status.AOM_OTHER_ERROR;
+            }
+            protected override int Init_device(uint number)
+            {
+                AOM_Init((int)number);
+                return 0;
+            }
+            protected override int Deinit_device()
+            {
+                return AOM_Close();
+            }
+            public override string Ask_required_dev_file()
+            {
+                StringBuilder dev_name = new StringBuilder(7);
+                AOM_GetID(dev_name);
+                return dev_name.ToString();
+            }
+            public override int Set_OutputPower(byte percentage)
+            {
+                return -1;
+            }
+            public override int Read_dev_file(string path)
+            {
+                float min = 0, max = 0;
+                try
+                {
+                    var Data_from_dev = ServiceFunctions.Files.Read_txt(path);
+                    float[] pWLs, pHZs, pCoefs;
+                    ServiceFunctions.Files.Get_WLData_byKnownCountofNumbers(3, Data_from_dev.ToArray(), out pWLs, out pHZs, out pCoefs);
+                    ServiceFunctions.Math.Interpolate_curv(pWLs, pHZs);
+                    ServiceFunctions.Math.Interpolate_curv(pWLs, pCoefs);
+                    WLs = pWLs;
+                    HZs = pHZs;
+                    Intensity = pCoefs;
+                    int state = AOM_LoadSettings(path, ref min, ref max);
+                    FilterCfgPath = path;
+                    FilterCfgName = System.IO.Path.GetFileName(path);
+                    if ((min != WL_Min) || (max != WL_Max) || (state != 0)) throw new Exception();
+                }
+                catch
+                {
+                    return -1;
+                }
+                return 0;
+            }
+
+            public override int PowerOn()
+            {
+                var retval = AOM_PowerOn();
+                if (retval == 0) sAOF_isPowered = true;
+                else sAOF_isPowered = false;
+                return retval;
+            }
+            public override int PowerOff()
+            {
+                var retval = AOM_PowerOff();
+                if (retval == 0) sAOF_isPowered = false;
+                else sAOF_isPowered = true;
+                return retval;
+            }
+            public override void Dispose()
+            {
+                Deinit_device();
+            }
+            public static int Search_Devices()
+            {
+
+                return AOM_GetNumDevices();
+            }
+            public override string Implement_Error(int pCode_of_error)
+            {
+                return ((Status)pCode_of_error).ToString();
+            }
+
+            #region DllFunctions
+            public const string basepath = "aom_new.dll";
+            //Назначение: функция возвращает число подключенных акустооптических фильтров.
+            [DllImport(basepath, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int AOM_GetNumDevices();
+
+            //Назначение: функция производит инициализацию подключенного акустооптического фильтра 
+            //(обычное значение devicenum = 0, т.е. первое).
+            [DllImport(basepath, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int AOM_Init(int devicenum);
+
+            //Назначение: функция выполняет деинициализацию акустооптического фильтра.
+            [DllImport(basepath, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int AOM_Close();
+
+            //Назначение: функция записывает в переменную id значение идентификатор подключенного акустооптического фильтра.
+            [DllImport(basepath, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+            public static extern int AOM_GetID([MarshalAs(UnmanagedType.LPStr)] StringBuilder id);
+
+            //Назначение: функция производит загрузку значений максимальной
+            //(wlmax) и минимальной длины волны (wlmin) из файла с именем filename с расширением *.dev.
+            [DllImport(basepath,
+                CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            public static extern int AOM_LoadSettings(string filename, ref float wlmin, ref float wlmax);
+
+            //Назначение: функция выполняет выгрузку установленных значений из калибровочного файла формата *.dev.
+            [DllImport(basepath, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int AOM_UnloadSettings();
+
+            //Назначение: функция производит установку требуемой частоты акустооптического фильтра
+            [DllImport(basepath, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int AOM_SetWL(float wl);
+
+            //Назначение: функция производит включение акустооптического фильтра.
+            [DllImport(basepath, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int AOM_PowerOn();
+
+            //Назначение: функция производит выключение акустооптического фильтра.
+            [DllImport(basepath, CallingConvention = CallingConvention.Cdecl)]
+            public static extern int AOM_PowerOff();
+
+            private enum Status
+            {
+                AOM_OK = 0,
+                AOM_ALREADY_INITIALIZED,
+                AOM_ALREADY_LOADED,
+                AOM_NOT_INITIALIZED,
+                AOM_DEVICE_NOTFOUND,
+                AOM_BAD_RESPONSE,
+                AOM_NULL_POINTER,
+                AOM_FILE_NOTFOUND,
+                AOM_FILE_READ_ERROR,
+                AOM_WINUSB_INIT_FAIL,
+                AOM_NOT_LOADED,
+                AOM_RANGE_ERROR,
+                AOM_OTHER_ERROR
+            }
+            #endregion
+        }
         public class STC_Filter : AO_Filter
         {
             public override FilterTypes FilterType { get { return FilterTypes.STC_Filter; } }
