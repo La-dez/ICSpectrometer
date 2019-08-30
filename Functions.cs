@@ -11,7 +11,6 @@ using System.Threading;
 using TIS.Imaging;
 using TIS.Imaging.VCDHelpers;
 using System.Diagnostics;
-using static LDZ_Code.AO_Devices;
 
 namespace ICSpec
 {

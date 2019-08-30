@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using AO_Lib;
 
 
 namespace LDZ_Code
@@ -182,7 +183,7 @@ namespace LDZ_Code
         public static void CreateCurve(ref System.ComponentModel.BackgroundWorker pBackWorker, ref System.ComponentModel.DoWorkEventArgs pE,
             ref TIS.Imaging.ICImagingControl IC, ref TIS.Imaging.VCDHelpers.VCDSimpleProperty VSExp, ref TIS.Imaging.VCDAbsoluteValueProperty pAbsVal,
             int pWlRealMin, int pWlRealMax, int pStWL, int pFinWL, int pStep, int pCurGain, double pFPS,
-            ICSpec.Form1.ShowStringDelegate pMesShowDel, bool pwasAutomation, LDZ_Code.AO_Devices.AO_Filter pFilter)
+            ICSpec.Form1.ShowStringDelegate pMesShowDel, bool pwasAutomation, AO_Devices.AO_Filter pFilter)
         {
             try
             {
