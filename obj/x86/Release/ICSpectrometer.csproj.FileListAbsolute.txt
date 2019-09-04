@@ -118,10 +118,10 @@ C:\Users\gustav\Documents\GitHub\ICSpectrometer\obj\x86\Release\ICSpectrometer.c
 C:\Users\gustav\Documents\GitHub\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.CopyComplete
 C:\Users\gustav\Documents\GitHub\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.31 Beta.exe
 C:\Users\gustav\Documents\GitHub\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.31 Beta.pdb
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.34 Beta.exe.config
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.34 Beta.exe
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.34 Beta.pdb
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.34 Beta.exe
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.34 Beta.pdb
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\AO_Lib.dll
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\AO_Lib.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.35 Beta.exe.config
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.35 Beta.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.35 Beta.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.35 Beta.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.35 Beta.pdb
