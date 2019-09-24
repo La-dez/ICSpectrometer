@@ -188,11 +188,13 @@
             this.TSMI_Tuning_Pereodical = new System.Windows.Forms.ToolStripMenuItem();
             this.curvesCreatingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_CurveCreating_ExposureWL = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_MThreadSave = new System.Windows.Forms.ToolStripMenuItem();
             this.SessionTiming = new System.Windows.Forms.Timer(this.components);
             this.Timer_Sweep = new System.Windows.Forms.Timer(this.components);
             this.BGW_SpectralImageGrabbing = new System.ComponentModel.BackgroundWorker();
             this.BGW_SpectralImageTuning = new System.ComponentModel.BackgroundWorker();
             this.BGW_SpectralCycle = new System.ComponentModel.BackgroundWorker();
+            this.BGW_Saver = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.icImagingControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrBZoomOfImage)).BeginInit();
             this.GPCamFeat.SuspendLayout();
@@ -2212,16 +2214,17 @@
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.quitToolStripMenuItem.Text = "Exit";
             // 
             // TSMI_TuneSettings
             // 
             this.TSMI_TuneSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.specialSeriesToolStripMenuItem,
-            this.curvesCreatingToolStripMenuItem});
+            this.curvesCreatingToolStripMenuItem,
+            this.TSMI_MThreadSave});
             this.TSMI_TuneSettings.Name = "TSMI_TuneSettings";
-            this.TSMI_TuneSettings.Size = new System.Drawing.Size(89, 22);
+            this.TSMI_TuneSettings.Size = new System.Drawing.Size(90, 22);
             this.TSMI_TuneSettings.Text = "Tune settings";
             // 
             // specialSeriesToolStripMenuItem
@@ -2231,7 +2234,7 @@
             this.TSMI_Tuning_Irregular,
             this.TSMI_Tuning_Pereodical});
             this.specialSeriesToolStripMenuItem.Name = "specialSeriesToolStripMenuItem";
-            this.specialSeriesToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.specialSeriesToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.specialSeriesToolStripMenuItem.Text = "Special series";
             // 
             // TSMI_Tuning_Exposure
@@ -2246,14 +2249,14 @@
             // TSMI_Load_EXWL_C
             // 
             this.TSMI_Load_EXWL_C.Name = "TSMI_Load_EXWL_C";
-            this.TSMI_Load_EXWL_C.Size = new System.Drawing.Size(211, 22);
+            this.TSMI_Load_EXWL_C.Size = new System.Drawing.Size(210, 22);
             this.TSMI_Load_EXWL_C.Text = "Load Exposure - WL curve";
             this.TSMI_Load_EXWL_C.Click += new System.EventHandler(this.TSMI_Load_EXWL_C_Click);
             // 
             // startTuningToolStripMenuItem
             // 
             this.startTuningToolStripMenuItem.Name = "startTuningToolStripMenuItem";
-            this.startTuningToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.startTuningToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.startTuningToolStripMenuItem.Text = "Start tuning";
             this.startTuningToolStripMenuItem.Click += new System.EventHandler(this.startTuningToolStripMenuItem_Click_1);
             // 
@@ -2292,15 +2295,22 @@
             this.curvesCreatingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSMI_CurveCreating_ExposureWL});
             this.curvesCreatingToolStripMenuItem.Name = "curvesCreatingToolStripMenuItem";
-            this.curvesCreatingToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.curvesCreatingToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.curvesCreatingToolStripMenuItem.Text = "Curves creating";
             // 
             // TSMI_CurveCreating_ExposureWL
             // 
             this.TSMI_CurveCreating_ExposureWL.Name = "TSMI_CurveCreating_ExposureWL";
-            this.TSMI_CurveCreating_ExposureWL.Size = new System.Drawing.Size(182, 22);
+            this.TSMI_CurveCreating_ExposureWL.Size = new System.Drawing.Size(181, 22);
             this.TSMI_CurveCreating_ExposureWL.Text = "Exposure - WL curve";
             this.TSMI_CurveCreating_ExposureWL.Click += new System.EventHandler(this.TSMI_CurveCreating_ExposureWL_Click);
+            // 
+            // TSMI_MThreadSave
+            // 
+            this.TSMI_MThreadSave.Name = "TSMI_MThreadSave";
+            this.TSMI_MThreadSave.Size = new System.Drawing.Size(173, 22);
+            this.TSMI_MThreadSave.Text = "Multithread saving";
+            this.TSMI_MThreadSave.Click += new System.EventHandler(this.TSMI_MThreadSave_Click);
             // 
             // SessionTiming
             // 
@@ -2333,6 +2343,13 @@
             this.BGW_SpectralCycle.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BGW_SpectralCycle_DoWork);
             this.BGW_SpectralCycle.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BGW_SpectralCycle_ProgressChanged);
             this.BGW_SpectralCycle.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BGW_SpectralCycle_RunWorkerCompleted);
+            // 
+            // BGW_Saver
+            // 
+            this.BGW_Saver.WorkerReportsProgress = true;
+            this.BGW_Saver.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BGW_Saver_DoWork);
+            this.BGW_Saver.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BGW_Saver_ProgressChanged);
+            this.BGW_Saver.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BGW_Saver_RunWorkerCompleted);
             // 
             // Form1
             // 
@@ -2578,6 +2595,8 @@
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.CheckBox ChB_SpectralCycle;
         private System.ComponentModel.BackgroundWorker BGW_SpectralCycle;
+        private System.ComponentModel.BackgroundWorker BGW_Saver;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_MThreadSave;
     }
 }
 

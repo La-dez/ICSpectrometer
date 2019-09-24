@@ -20,7 +20,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.35 Beta";
+        string Cur_Version = "v2.38 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -87,6 +87,9 @@ namespace ICSpec
         string data_NOW = null;
         bool isTimeSesNeeded = false;
 
+        List<dynamic> IMG_buffers_mass = new List<dynamic>();
+
+
         public Form1()
         {
             InitializeComponent();//функция инициалиции элементов управления
@@ -101,6 +104,7 @@ namespace ICSpec
             if (Filter.FilterType == FilterTypes.Emulator) { Log.Message("ПРЕДУПРЕЖДЕНИЕ: Не обнаружены подключенные АО фильтры. Фильтр будет эмулирован."); }
             else { Log.Message("Обнаружен подключенный АО фильтр. Тип фильтра: " + Filter.FilterType.ToString()); }
             ChB_Power.Enabled = false;
+            TSMI_Tuning_Pereodical.Enabled = false;
             //GB_AllAOFControls.Enabled = false;
             //ReadData();
             //tests();
@@ -395,7 +399,7 @@ namespace ICSpec
 
             AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
             InitializeComponents_byVariables();
-            Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.RangeMax, 0);
+            Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, 0/*AbsValExp.Value*/, 0/*(decimal)AbsValExp.RangeMax*/, 0);
         }
 
         private void BPower_Click(object sender, EventArgs e)
@@ -959,6 +963,7 @@ namespace ICSpec
                     {
                         Log.Message("Активация АОФ успешна!");
                         GrBAOFWlSet.Enabled = true;
+                        TSMI_Tuning_Pereodical.Enabled = true;
                     }
                     else throw new Exception(Filter.Implement_Error(state));
                 }
@@ -1149,7 +1154,7 @@ namespace ICSpec
                     int Secs_total_elapsed =/* dd_elapsed * 86400 +*/hh_elapsed * 3600 + mm_elapsed * 60 + ss_elapsed; 
                     if (Secs_total_elapsed >= 60)
                     {
-                        data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
+                        data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now); //обнуление, по факту
                         int stepss = CalculateSteps();
                         DisableFlipButtons();
                         if (!TSMI_Load_EXWL_C.Checked) { WLs_toTune = null; }
@@ -1170,10 +1175,10 @@ namespace ICSpec
             if (!TSMI_Tuning_Pereodical.Checked)
             {
                 isTimeSesNeeded = true;
-                data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
                 int stepss = CalculateSteps();
                 DisableFlipButtons();
                 if (!TSMI_Load_UDWL_Curve.Checked) { WLs_toTune = null; }
+                data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
                 New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
                 EnableFlipButtons();
             }
@@ -1680,6 +1685,61 @@ namespace ICSpec
         {
             Log.Message("Циклическая перестройка остановлена!");
             Filter.Set_Wl(WL_was);
+        }
+
+        string lastSavedBuf_name = "";
+        private void BGW_Saver_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                var Timer = new System.Diagnostics.Stopwatch();
+                //IMG_buf_toSave.Add(new { Frames_and_Names = new List<dynamic>(Frames_and_Names_cur), Dir_name = NameDirectory.Substring(0, NameDirectory.Count() - 2) });
+                while (IMG_buffers_mass.Count != 0)
+                {
+                    if (IMG_buffers_mass.Count == 2)
+                    { int ahg = 0; }
+
+                    var current_frame_buf = IMG_buffers_mass[0].Frames_and_Names;
+                    for (int i = current_frame_buf.Count - 1; i != -1; i--)
+                    {
+                      /*  Timer.Start();
+                        while (Timer.ElapsedMilliseconds < 100) { }
+                        Timer.Reset();*/
+                        current_frame_buf[i].Buffer.SaveAsTiff(current_frame_buf[i].Name);
+                       // current_frame_buf[i].Buffer.Dispose();
+                        //Log.Error("кадр 0," + i.ToString()+" очищен!");
+                        current_frame_buf.RemoveAt(i);
+                       // Log.Error("кадр 0," + i.ToString() + " удален!");
+                    }
+                    
+                    
+                    IMG_buffers_mass[0].Frames_and_Names.Clear();
+                    lastSavedBuf_name = IMG_buffers_mass[0].Dir_name;
+                    IMG_buffers_mass.RemoveAt(0);
+                    BGW_Saver.ReportProgress(0);
+                }
+            }
+            catch(Exception exc)
+            { Log.Error("Ошибка во время многопоточного сохранения: " + exc.Message); }
+        }
+
+        private void BGW_Saver_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {           
+           // Log.Message("Все серии сохранены!");
+        }
+
+        private void BGW_Saver_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
+           Log.Message("Данные в директории " + lastSavedBuf_name + " сохранены! Осталось серий в памяти: " + IMG_buffers_mass.Count.ToString());
+            
+        }
+
+      
+
+        private void TSMI_MThreadSave_Click(object sender, EventArgs e)
+        {
+            TSMI_MThreadSave.Checked = TSMI_MThreadSave.Checked ? false : true;
         }
 
         private void tests()
