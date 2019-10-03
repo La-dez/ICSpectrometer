@@ -100,11 +100,6 @@ E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\TIS.Imaging.ICImagingControl34.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.CopyComplete
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csprojAssemblyReference.cache
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.2 Beta.exe.config
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.2 Beta.exe
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.2 Beta.pdb
-E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.2 Beta.exe
-E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.2 Beta.pdb
 C:\Users\gustav\Documents\GitHub\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.31 Beta.exe.config
 C:\Users\gustav\Documents\GitHub\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.31 Beta.exe
 C:\Users\gustav\Documents\GitHub\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.31 Beta.pdb
@@ -138,3 +133,10 @@ D:\Работа\Разработки\Спектрометры\IC Spectrometer NA
 D:\Работа\Разработки\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.38 Beta.pdb
 D:\Работа\Разработки\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.38 Beta.exe
 D:\Работа\Разработки\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.38 Beta.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\AO_Lib.dll
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\AO_Lib.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.39 Beta.exe.config
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.39 Beta.exe
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.39 Beta.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.39 Beta.exe
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.39 Beta.pdb

@@ -20,7 +20,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.38 Beta";
+        string Cur_Version = "v2.39 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -1152,7 +1152,7 @@ namespace ICSpec
                     int ss_elapsed = Convert.ToInt32(NOW.Substring(17, 2)) - Convert.ToInt32(data_of_start.Substring(17, 2));
 
                     int Secs_total_elapsed =/* dd_elapsed * 86400 +*/hh_elapsed * 3600 + mm_elapsed * 60 + ss_elapsed; 
-                    if (Secs_total_elapsed >= 60)
+                    if (Secs_total_elapsed >= TimeOfTuning_inSeconds)
                     {
                         data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now); //обнуление, по факту
                         int stepss = CalculateSteps();
@@ -1740,6 +1740,13 @@ namespace ICSpec
         private void TSMI_MThreadSave_Click(object sender, EventArgs e)
         {
             TSMI_MThreadSave.Checked = TSMI_MThreadSave.Checked ? false : true;
+        }
+
+
+        int TimeOfTuning_inSeconds = 30;
+        private void NUD_TimingInCycle_ValueChanged(object sender, EventArgs e)
+        {
+            TimeOfTuning_inSeconds = (int)NUD_TimingInCycle.Value;
         }
 
         private void tests()
