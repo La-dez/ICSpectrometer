@@ -20,7 +20,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.39 Beta";
+        string Cur_Version = "v2.4 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -399,7 +399,7 @@ namespace ICSpec
 
             AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
             InitializeComponents_byVariables();
-            Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, 0/*AbsValExp.Value*/, 0/*(decimal)AbsValExp.RangeMax*/, 0);
+            Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.Value, (decimal)AbsValExp.RangeMax, 0);
         }
 
         private void BPower_Click(object sender, EventArgs e)
@@ -523,17 +523,16 @@ namespace ICSpec
                 ChangingActivatedTextBoxExp = false;
                 double value = Exposure_Slide2real(TrBExposureVal.Value);
                 LoadExposure_ToCam(ref AbsValExp, value);
-                double promval = (Exposure_Slide2real(TrBExposureVal.Value));
-                if (promval > 1) TBExposureVal.Text = promval.ToString();
-                else TBExposureVal.Text = promval.ToString();
+                decimal promval = (decimal)PerfectRounding((Exposure_Slide2real(TrBExposureVal.Value)),7);
+                TBExposureVal.Text = promval.ToString();
                 ChangingActivatedTextBoxExp = true;
 
                 //Установка одинаковой экспозиции во всех боксах
-                for (int i = 0; i < WLS_at_all; ++i)
+               /* for (int i = 0; i < WLS_at_all; ++i)
                 {
                     var EXP_control = this.Controls.Find("NUD_Multi_ex_time" + (i + 1).ToString(),true);
                     (EXP_control[0] as NumericUpDown).Value = (decimal)(AbsValExp.Value / ((double)WLS_at_all));                  
-                }
+                }*/
                // frames_aquired = 0; timer_for_FPS.Restart();
             }
             catch (Exception ex) { LogError("ORIGINAL: " + ex.Message); }
