@@ -2216,7 +2216,7 @@
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.quitToolStripMenuItem.Text = "Exit";
             // 
             // TSMI_TuneSettings
@@ -2226,7 +2226,7 @@
             this.curvesCreatingToolStripMenuItem,
             this.TSMI_MThreadSave});
             this.TSMI_TuneSettings.Name = "TSMI_TuneSettings";
-            this.TSMI_TuneSettings.Size = new System.Drawing.Size(89, 22);
+            this.TSMI_TuneSettings.Size = new System.Drawing.Size(90, 22);
             this.TSMI_TuneSettings.Text = "Tune settings";
             // 
             // specialSeriesToolStripMenuItem
@@ -2251,14 +2251,14 @@
             // TSMI_Load_EXWL_C
             // 
             this.TSMI_Load_EXWL_C.Name = "TSMI_Load_EXWL_C";
-            this.TSMI_Load_EXWL_C.Size = new System.Drawing.Size(211, 22);
+            this.TSMI_Load_EXWL_C.Size = new System.Drawing.Size(210, 22);
             this.TSMI_Load_EXWL_C.Text = "Load Exposure - WL curve";
             this.TSMI_Load_EXWL_C.Click += new System.EventHandler(this.TSMI_Load_EXWL_C_Click);
             // 
             // startTuningToolStripMenuItem
             // 
             this.startTuningToolStripMenuItem.Name = "startTuningToolStripMenuItem";
-            this.startTuningToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.startTuningToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.startTuningToolStripMenuItem.Text = "Start tuning";
             this.startTuningToolStripMenuItem.Click += new System.EventHandler(this.startTuningToolStripMenuItem_Click_1);
             // 
@@ -2303,7 +2303,7 @@
             // TSMI_CurveCreating_ExposureWL
             // 
             this.TSMI_CurveCreating_ExposureWL.Name = "TSMI_CurveCreating_ExposureWL";
-            this.TSMI_CurveCreating_ExposureWL.Size = new System.Drawing.Size(182, 22);
+            this.TSMI_CurveCreating_ExposureWL.Size = new System.Drawing.Size(181, 22);
             this.TSMI_CurveCreating_ExposureWL.Text = "Exposure - WL curve";
             this.TSMI_CurveCreating_ExposureWL.Click += new System.EventHandler(this.TSMI_CurveCreating_ExposureWL_Click);
             // 

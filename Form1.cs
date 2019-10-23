@@ -399,7 +399,7 @@ namespace ICSpec
 
             AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
             InitializeComponents_byVariables();
-            Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.Value, (decimal)AbsValExp.RangeMax, 0);
+            Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.Value,(decimal)AbsValExp.RangeMax, 0);
         }
 
         private void BPower_Click(object sender, EventArgs e)
@@ -1480,6 +1480,7 @@ namespace ICSpec
         
         private void BGW_SpectralImageTuning_DoWork(object sender, DoWorkEventArgs e)
         {
+            //B_Get_HyperSpectral_Image.Enabled = false;
             var FP = Filter as STC_Filter;
             if ((precalculating_mode) && (Filter.FilterType == FilterTypes.STC_Filter))
             {
@@ -1516,14 +1517,26 @@ namespace ICSpec
                     if (times_to_sleep[i] != 0)
                     {
                         Filter.Set_Wl(WLs_2set[i]);
-                        Log.Message("Перестройка на ДВ" + (i + 1).ToString() + ": "
-                            + WLs_2set[i].ToString() + ". Прошло времени: " + SW.ElapsedMilliseconds);
-                        times_of_WLset[i] = SW.ElapsedMilliseconds;
+                     //   Log.Message("Перестройка на ДВ" + (i + 1).ToString() + ": "
+                    //        + WLs_2set[i].ToString() + ". Прошло времени: " + SW.ElapsedMilliseconds);
+                    //    times_of_WLset[i] = SW.ElapsedMilliseconds;
+                        Thread.Sleep(times_to_sleep[i]);
+                    }
+                }
+                //second cycle for compensation of asynchrous starting of grab and tuning
+                for (int i = 0; i < WLS_at_all; i++)
+                {
+                    if (times_to_sleep[i] != 0)
+                    {
+                        Filter.Set_Wl(WLs_2set[i]);
+                  //      Log.Message("Перестройка на ДВ" + (i + 1).ToString() + ": "
+                   //         + WLs_2set[i].ToString() + ". Прошло времени: " + SW.ElapsedMilliseconds);
+                  //      times_of_WLset[i] = SW.ElapsedMilliseconds;
                         Thread.Sleep(times_to_sleep[i]);
                     }
                 }
 
-                int j_data = 0;
+             /*   int j_data = 0;
                 for (int i = 0; (i < WLS_at_all) && (j_data < 2); i++)
                 {
                     if (times_to_sleep[i] != 0)
@@ -1533,7 +1546,7 @@ namespace ICSpec
                         //Log.Message("Перестройка на ДВ1: " + NUD_Multi_WL1.Value.ToString() +". Прошло времени: "+SW.ElapsedMilliseconds);
                         Thread.Sleep(times_to_sleep[i]);
                     }
-                }
+                }*/
             }
         }
         private void BGW_SpectralImageGrabbing_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -1580,8 +1593,10 @@ namespace ICSpec
                     data_times += times_of_WLset[i].ToString() + " :::";
                 }
                 data_times += times_of_WLset[7].ToString();
+                //B_Tun
                 Log.Message("Времена перестроек: " + data_times);
             }
+           // B_Get_HyperSpectral_Image.Enabled = true;
         }
         private void NUD_Multi_ex_time3_ValueChanged(object sender, EventArgs e)
         {
