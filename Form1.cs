@@ -124,7 +124,10 @@ namespace ICSpec
                     TIS.Imaging.LibrarySetup.SetLocalizationLanguage("ru");
                     //var data_sink = new FrameHandlerSink(false, new FrameType("Y800"));
                     //icImagingControl1.Sink = data_sink;
-                    icImagingControl1.ShowDeviceSettingsDialog();
+
+                     icImagingControl1.ShowDeviceSettingsDialog();
+                    //icImagingControl1.LoadDeviceStateFromFile("set.xml",true);
+
                     if (!icImagingControl1.DeviceValid)
                     {
                         MessageBox.Show("Не было выбрано ни одного устройства", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -399,7 +402,8 @@ namespace ICSpec
 
             AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
             InitializeComponents_byVariables();
-            Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.Value,(decimal)AbsValExp.RangeMax, 0);
+            //Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min,1 /*(decimal)AbsValExp.Value*/,8/*(decimal)AbsValExp.RangeMax*/, 0);
+            Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.Value, (decimal)AbsValExp.RangeMax, 0);
         }
 
         private void BPower_Click(object sender, EventArgs e)
@@ -815,7 +819,7 @@ namespace ICSpec
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-          
+          //  icImagingControl1.SaveDeviceStateToFile("set.xml");
         }
 
         private void CBoxPixelFormat_SelectedIndexChanged(object sender, EventArgs e)
@@ -1367,9 +1371,14 @@ namespace ICSpec
         float[] WLs_2set = new float[WLS_at_all];
         double Exposure_was = 0;
         float WL_was = 500;
+
+        //Новая концепция: мы включаем автокопирование фреймов в буфер. 
+        //При первом копировании мы включаем перестройку. Поскольку второй фрейм начал регистрироваться раньше, чем началась перестройка,
+        // то информативным является третий кадр.
+        string Last_and_new_Image2save = "1.tiff";
         private void B_Get_HyperSpectral_Image_Click(object sender, EventArgs e)
         {
-            if(ChB_SpectralCycle.Checked)
+            if (ChB_SpectralCycle.Checked)
             {
                 BGW_SpectralCycle.CancelAsync();
                 ByteMass_precalculated_list.Clear();
@@ -1377,17 +1386,10 @@ namespace ICSpec
             }
 
             finalExposure = 0;
-            Exposure_was = AbsValExp.Value;
-            icImagingControl1.LiveStop();
-            //  icImagingControl1.LiveCaptureContinuous = true;
-            // curfhs.SnapMode = true; //взаимоисключающие вещи с предыдущим
-            bool use_inCamera_invoke = false;
-            bool use_one_image = true;
-            // icImagingControl1.LiveStart();
-
-
-            //  Filter.Set_Wl((float)NUD_Multi_WL1.Value); Log.Message("Перестройка на ДВ1: " + NUD_Multi_WL1.Value.ToString());
+            if(vcdProp.Available(VCDIDs.VCDID_Exposure)) Exposure_was = AbsValExp.Value;
+            
             SW.Reset();
+            //извлечение данных об экспозиции для каждой ДВ
             for(int i =0;i<WLS_at_all;++i)
             {
                 //поиск элемента управления с заданным номером для ДВ и копирование значения
@@ -1399,33 +1401,129 @@ namespace ICSpec
                 var WL_control = this.Controls.Find("NUD_Multi_WL" + (i+1).ToString(),true);
                 WLs_2set[i] = (float)(WL_control[0] as NumericUpDown).Value;
             }
+
             WL_was = Filter.WL_Current;
-         
-            if (finalExposure > AbsValExp.RangeMax)
+            //Проверка времени экспонирования
+            if (vcdProp.Available(VCDIDs.VCDID_Exposure))
             {
-                Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. больше максимально возможного для данной камеры ("
-                    + AbsValExp.RangeMax.ToString() + " сек.)");
-                return;
-            }
-            else if (finalExposure < AbsValExp.RangeMin)
-            {
-                Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. меньше минимально возможного для данной камеры (" 
-                    + AbsValExp.RangeMin.ToString() + " сек.)");
-                return;
+                if (finalExposure > AbsValExp.RangeMax)
+                {
+                    Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. больше максимально возможного для данной камеры ("
+                        + AbsValExp.RangeMax.ToString() + " сек.)");
+                    return;
+                }
+                else if (finalExposure < AbsValExp.RangeMin)
+                {
+                    Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. меньше минимально возможного для данной камеры ("
+                        + AbsValExp.RangeMin.ToString() + " сек.)");
+                    return;
+                }
             }
             
+
+            if ((precalculating_mode) && (Filter.FilterType == FilterTypes.STC_Filter))
+            {
+                for (int i = 0; i < WLS_at_all; i++)
+                {
+                    if (times_to_sleep[i] >= 0.001f)
+                    {
+                        float curHZ = Filter.Get_HZ_via_WL(WLs_2set[i]);
+                        ByteMass_precalculated_list.Add((Filter as STC_Filter).Create_byteMass_forHzTune(curHZ));
+                    }
+                }
+            }
+
+            //ImgName calculating
+            string SCRName = CheckScreenShotBasicName();
+            string date = GetFullDateString();
+            string local_name = SnapImageStyle.Directory + SCRName + "_" + date + "_"
+                + NUD_Multi_WL1.Value.ToString() + "_" + NUD_Multi_WL8.Value.ToString() + SnapImageStyle.Extension;
+           
+            Last_and_new_Image2save = local_name;
+
+            for (int i = 0; i < times_of_WLset.Count(); i++)
+                times_of_WLset[i] = 0;
+
+            Log.Message("---------------------------------");
+
+            icImagingControl1.LiveStop();
+            TIS.Imaging.ImageBuffer[] rval = new TIS.Imaging.ImageBuffer[1];
+            icImagingControl1.ImageRingBufferSize = 1;
+            icImagingControl1.LiveStart();
+            curfhs.SnapMode = false; //Включает регистрацию фреймов
+
+           // SW.Restart();
+            // BGW_SpectralImageTuning.RunWorkerAsync();
+
+            //  curfhs.SnapImage(); // именно из-за этого curfhs.SnapMode = true;
+            //  rval[0] = curfhs.LastAcquiredBuffer;
+            //   rval[0].SaveAsTiff(local_name);
+
+            if (!icImagingControl1.LiveVideoRunning) icImagingControl1.LiveStart();
+               // Filter.Set_Wl(WL_was);
+               
+           
+        }
+        private void B_Get_HyperSpectral_Image_Click2(object sender, EventArgs e)
+        {
+            if (ChB_SpectralCycle.Checked)
+            {
+                BGW_SpectralCycle.CancelAsync();
+                ByteMass_precalculated_list.Clear();
+                ChB_SpectralCycle.Checked = false;
+            }
+
+            finalExposure = 0;
+            if (vcdProp.Available(VCDIDs.VCDID_Exposure)) Exposure_was = AbsValExp.Value;
+
+            // //  icImagingControl1.LiveCaptureContinuous = true;
+            // // curfhs.SnapMode = true; //взаимоисключающие вещи с предыдущим
+
+            const bool use_inCamera_invoke = false;
+            const bool use_one_image = true;
+
+
+            //  Filter.Set_Wl((float)NUD_Multi_WL1.Value); Log.Message("Перестройка на ДВ1: " + NUD_Multi_WL1.Value.ToString());
+            SW.Reset();
+            for (int i = 0; i < WLS_at_all; ++i)
+            {
+                //поиск элемента управления с заданным номером для ДВ и копирование значения
+                var EXP_control = this.Controls.Find("NUD_Multi_ex_time" + (i + 1).ToString(), true);
+                double data_var = (double)(EXP_control[0] as NumericUpDown).Value;
+                times_to_sleep[i] = (int)(data_var * 1000);
+                finalExposure += data_var;
+                //поиск элемента управления с заданным номером для вр.эксп. и копирование значения
+                var WL_control = this.Controls.Find("NUD_Multi_WL" + (i + 1).ToString(), true);
+                WLs_2set[i] = (float)(WL_control[0] as NumericUpDown).Value;
+            }
+            WL_was = Filter.WL_Current;
+            if (vcdProp.Available(VCDIDs.VCDID_Exposure))
+            {
+                if (finalExposure > AbsValExp.RangeMax)
+                {
+                    Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. больше максимально возможного для данной камеры ("
+                        + AbsValExp.RangeMax.ToString() + " сек.)");
+                    return;
+                }
+                else if (finalExposure < AbsValExp.RangeMin)
+                {
+                    Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. меньше минимально возможного для данной камеры ("
+                        + AbsValExp.RangeMin.ToString() + " сек.)");
+                    return;
+                }
+            }
             Log.Message("---------------------------------");
 
             if (use_one_image)
             {
-                LoadExposure_ToCam(ref AbsValExp, finalExposure);
+                if (vcdProp.Available(VCDIDs.VCDID_Exposure)) LoadExposure_ToCam(ref AbsValExp, finalExposure);
                 Thread.Sleep((int)((Exposure_was/*+ finalExposure*/) * 1000));
-               
 
+                icImagingControl1.LiveStop();
                 TIS.Imaging.ImageBuffer[] rval = new TIS.Imaging.ImageBuffer[1];
                 icImagingControl1.ImageRingBufferSize = 1;
                 icImagingControl1.LiveStart();
-                curfhs.SnapMode = true;
+                curfhs.SnapMode = true; //Резрешает использование SnapImage
 
                 if ((precalculating_mode) && (Filter.FilterType == FilterTypes.STC_Filter))
                 {
@@ -1447,24 +1545,25 @@ namespace ICSpec
                     Log.Message("Image grabbing is started...");
                 }
                 else
-                {               
-                    curfhs.SnapImage();
-                    rval[0] = curfhs.LastAcquiredBuffer;
+                {
+                    //  curfhs.SnapImage(); // именно из-за этого curfhs.SnapMode = true;
+                    //  rval[0] = curfhs.LastAcquiredBuffer;
                     string SCRName = CheckScreenShotBasicName();
-                    string date = GetFullDateString();                
+                    string date = GetFullDateString();
                     string local_name = SnapImageStyle.Directory + SCRName + "_" + date + "_"
                         + NUD_Multi_WL1.Value.ToString() + "_" + NUD_Multi_WL8.Value.ToString() + SnapImageStyle.Extension;
-                    rval[0].SaveAsTiff(local_name);
+                    //   rval[0].SaveAsTiff(local_name);
 
-                    icImagingControl1.LiveStart();
+                    if (!icImagingControl1.LiveVideoRunning) icImagingControl1.LiveStart();
                     Filter.Set_Wl(WL_was);
                 }
             }
             else
             {
-       
+
             }
         }
+
 
         private void BGW_SpectralImageGrabbing_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -1478,9 +1577,14 @@ namespace ICSpec
 
         long[] times_of_WLset = new long[WLS_at_all];
         
-        private void BGW_SpectralImageTuning_DoWork(object sender, DoWorkEventArgs e)
+        private void BGW_SpectralImageTuning_DoWork2(object sender, DoWorkEventArgs e)
         {
-            //B_Get_HyperSpectral_Image.Enabled = false;
+            B_Get_HyperSpectral_Image.Invoke(new MethodInvoker(delegate
+            {
+                B_Get_HyperSpectral_Image.Enabled = false;
+            }));
+           // B_Get_HyperSpectral_Image.Enabled = false;
+
             var FP = Filter as STC_Filter;
             if ((precalculating_mode) && (Filter.FilterType == FilterTypes.STC_Filter))
             {
@@ -1549,37 +1653,45 @@ namespace ICSpec
                 }*/
             }
         }
-        private void BGW_SpectralImageGrabbing_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void BGW_SpectralImageTuning_DoWork(object sender, DoWorkEventArgs e)
         {
-           /* if (e.Cancelled == true)
+            B_Get_HyperSpectral_Image.Invoke(new MethodInvoker(delegate
             {
-                Log.Message("Canceled!");
-            }
-            else */
-            if (e.Error == null)
+                B_Get_HyperSpectral_Image.Enabled = false;
+            }));
+            
+            while(!(sender as BackgroundWorker).CancellationPending)
             {
-                SW.Stop();
-                Log.Message("Image Grabbed! Time elapsed: " + SW.ElapsedMilliseconds.ToString());
-                LoadExposure_ToCam(ref AbsValExp, Exposure_was);
-                //IMG Save here
-
-                string SCRName = CheckScreenShotBasicName();
-                string date = GetFullDateString();
-                icImagingControl1.MemorySaveImage(SnapImageStyle.Directory + SCRName + "_" + date + "_"
-                    + NUD_Multi_WL1.Value.ToString() + "_" + NUD_Multi_WL2.Value.ToString() + "_" + NUD_Multi_WL3.Value.ToString() + SnapImageStyle.Extension);
-                icImagingControl1.LiveStart();
-                Filter.Set_Wl(WL_was);
+                
+                    for (int i = 0; i < WLS_at_all; i++)
+                    {
+                        if (times_to_sleep[i] != 0)
+                        {
+                            Filter.Set_Wl(WLs_2set[i]);
+                              /* Log.Message("Перестройка на ДВ" + (i + 1).ToString() + ": "
+                                    + WLs_2set[i].ToString() + ". Прошло времени: " + SW.ElapsedMilliseconds);*/
+                                times_of_WLset[i] = SW.ElapsedMilliseconds;
+                            Thread.Sleep(times_to_sleep[i]);
+                        }
+                    }
+                
             }
-            else 
-            {
-                Log.Message("Error: " + e.Error.Message);
-            }
+            e.Cancel = true;
         }
         private void BGW_SpectralImageTuning_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled == true)
             {
                 Log.Message("Canceled!");
+
+                string data_times = "";
+                for (int i = 0; i < WLS_at_all - 1; i++)
+                {
+                    data_times += times_of_WLset[i].ToString() + " :::";
+                }
+                data_times += times_of_WLset[7].ToString();
+                //B_Tun
+                Log.Message("Времена перестроек: " + data_times);
             }
             else if (e.Error != null)
             {
@@ -1596,17 +1708,81 @@ namespace ICSpec
                 //B_Tun
                 Log.Message("Времена перестроек: " + data_times);
             }
-           // B_Get_HyperSpectral_Image.Enabled = true;
+
+            B_Get_HyperSpectral_Image.Invoke(new MethodInvoker(delegate
+            {
+                B_Get_HyperSpectral_Image.Enabled = true;
+            }));
+        }
+
+
+        private void BGW_SpectralImageGrabbing_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            /* if (e.Cancelled == true)
+             {
+                 Log.Message("Canceled!");
+             }
+             else */
+            if (e.Error == null)
+            {
+                SW.Stop();
+                Log.Message("Image Grabbed! Time elapsed: " + SW.ElapsedMilliseconds.ToString());
+                LoadExposure_ToCam(ref AbsValExp, Exposure_was);
+                //IMG Save here
+
+                string SCRName = CheckScreenShotBasicName();
+                string date = GetFullDateString();
+                icImagingControl1.MemorySaveImage(SnapImageStyle.Directory + SCRName + "_" + date + "_"
+                    + NUD_Multi_WL1.Value.ToString() + "_" + NUD_Multi_WL2.Value.ToString() + "_" + NUD_Multi_WL3.Value.ToString() + SnapImageStyle.Extension);
+                icImagingControl1.LiveStart();
+                Filter.Set_Wl(WL_was);
+            }
+            else
+            {
+                Log.Message("Error: " + e.Error.Message);
+            }
         }
         private void NUD_Multi_ex_time3_ValueChanged(object sender, EventArgs e)
         {
 
         }
-        double frames_aquired = 0;
+        int frames_gotten_spec = 0;
         private void icImagingControl1_ImageAvailable(object sender, ICImagingControl.ImageAvailableEventArgs e)
         {
-            frames_aquired+=2.5; //подбор
-            //LogMessage("meow");
+            frames_gotten_spec++;
+            switch (frames_gotten_spec)
+            {
+                case 1:
+                    {
+                        BGW_SpectralImageTuning.RunWorkerAsync(); SW.Restart();
+                        break;
+                    }
+                case 2:
+                    {
+
+                        break;
+                    }
+                case 3:
+                    {
+                        curfhs.LastAcquiredBuffer.SaveAsTiff(Last_and_new_Image2save);
+                        Log.Message("Время экспонирования кадра(с):"+(curfhs.LastAcquiredBuffer.SampleEndTime - curfhs.LastAcquiredBuffer.SampleStartTime).ToString());
+                        curfhs.SnapMode = true;
+                        BGW_SpectralImageTuning.CancelAsync();
+                        frames_gotten_spec = 0;
+                        Filter.Set_Wl(WL_was);
+
+                        // curfhs.LastAcquiredBuffer.
+                        break;
+                    }
+                default:
+                    {
+                        curfhs.SnapMode = true;
+                        BGW_SpectralImageTuning.CancelAsync();
+                        frames_gotten_spec = 0;
+                        Filter.Set_Wl(WL_was);
+                        break;
+                    }
+            }
         }
         bool precalculating_mode = true;
         List<byte[]> ByteMass_precalculated_list = new List<byte[]>();
