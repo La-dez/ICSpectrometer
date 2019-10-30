@@ -125,11 +125,6 @@ D:\Работа\Разработки\Спектрометры\IC Spectrometer NA
 D:\Работа\Разработки\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.GenerateResource.Cache
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\AO_Lib.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\AO_Lib.pdb
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.39 Beta.exe.config
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.39 Beta.exe
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.39 Beta.pdb
-E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.39 Beta.exe
-E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.39 Beta.pdb
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.4 Beta.exe.config
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.4 Beta.exe
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.4 Beta.pdb
@@ -140,3 +135,8 @@ D:\Работа\Разработки\Спектрометры\IC Spectrometer NA
 D:\Работа\Разработки\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.4 Beta.pdb
 D:\Работа\Разработки\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.4 Beta.exe
 D:\Работа\Разработки\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.4 Beta.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.4 Beta.exe.config
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.4 Beta.exe
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.4 Beta.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.4 Beta.exe
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.4 Beta.pdb

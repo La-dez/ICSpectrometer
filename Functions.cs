@@ -386,14 +386,17 @@ namespace ICSpec
             if (!vcdProp.Available(ChangeVCDID))
             {
                 TrBExposureVal.Enabled = false;
-                TBExposureVal.Enabled = false;
+                NUD_ExposureVal.Enabled = false;
             }
             else
             {
+                NUD_ExposureVal.Minimum = (decimal)AbsValExp.RangeMin;
+                NUD_ExposureVal.Maximum = (decimal)AbsValExp.RangeMax;
+                NUD_ExposureVal.DecimalPlaces = Detect_Right_DecimalPositions_Num((decimal)AbsValExp.RangeMin);
                 AbsValExp = (VCDAbsoluteValueProperty)icImagingControl1.VCDPropertyItems.FindInterface(ChangeVCDID +
                     ":" + VCDIDs.VCDElement_Value + ":" + VCDIDs.VCDInterface_AbsoluteValue);
                 TrBExposureVal.Enabled = true;
-                TBExposureVal.Enabled = true;
+                NUD_ExposureVal.Enabled = true;
                 int Az = TrBExposureVal.Minimum = (int)PerfectRounding((double)(AbsValExp.RangeMin * zF),0);
                 int Bz = TrBExposureVal.Maximum = (int)PerfectRounding((double)(AbsValExp.RangeMax * zF),0);
                 alpha = (AbsValExp.RangeMin*AbsValExp.RangeMax - 0.25*0.25) / (AbsValExp.RangeMin + AbsValExp.RangeMax - 2*0.25);
@@ -411,24 +414,24 @@ namespace ICSpec
                 }
                 TrBExposureVal.TickFrequency = (TrBExposureVal.Maximum - TrBExposureVal.Minimum) / 10;
                 ChangingActivatedTextBoxExp = false;
-                TBExposureVal.Text = (PerfectRounding(Exposure_Slide2real(TrBExposureVal.Value),4)).ToString();
+                NUD_ExposureVal.Value = (decimal)(PerfectRounding(Exposure_Slide2real(TrBExposureVal.Value), NUD_ExposureVal.DecimalPlaces));
                 ChangingActivatedTextBoxExp = true;
             }
             if (!vcdProp.Available(ChangeVCDID2))
             {
                 TrBGainVal.Enabled = false;
-                TBGainVal.Enabled = false;
+                NUD_GainVal.Enabled = false;
             }
             else
             {
                 TrBGainVal.Enabled = true;
-                TBGainVal.Enabled = true;
-                TrBGainVal.Minimum = vcdProp.RangeMin(ChangeVCDID2);
-                TrBGainVal.Maximum = vcdProp.RangeMax(ChangeVCDID2);
+                NUD_GainVal.Enabled = true;
+                NUD_GainVal.Minimum = TrBGainVal.Minimum = vcdProp.RangeMin(ChangeVCDID2);
+                NUD_GainVal.Maximum = TrBGainVal.Maximum = vcdProp.RangeMax(ChangeVCDID2);
                 TrBGainVal.Value = vcdProp.RangeValue[ChangeVCDID2];
                 TrBGainVal.TickFrequency = (TrBGainVal.Maximum - TrBGainVal.Minimum) / 10;
                 ChangingActivatedTextBoxGain = false;
-                TBGainVal.Text = TrBGainVal.Value.ToString();
+                NUD_GainVal.Value = TrBGainVal.Value;
                 ChangingActivatedTextBoxGain = true;
             }
         }
@@ -443,6 +446,24 @@ namespace ICSpec
         private int Exposure_real2slide(double arg)
         {
             return (int)PerfectRounding((float)(zF*(Math.Log(((arg - alpha) / beta),xenta))),0);
+
+        }
+        private int Detect_Right_DecimalPositions_Num(decimal val)
+        {
+            try
+            {
+                int positions = 0;
+                while(val-(int)val!=0)
+                {
+                    val *= 10;
+                    positions++;
+                }
+                return positions;
+            }
+            catch
+            {
+                return 5;
+            }
 
         }
         private bool dots(string s)//функция,проверяющая, дробное или целое число введено в окно регулировки параметров
@@ -1490,6 +1511,32 @@ namespace ICSpec
                 icImagingControl1.DeviceFrameRate = SelectedRate;
                 try { icImagingControl1.LiveStart(); }
                 catch { }
+            }
+        }
+        private void Refresh_GainExp_Ctrls()
+        {
+            if (!vcdProp.Available(VCDIDs.VCDID_Exposure))
+            {
+                TrBExposureVal.Enabled = false;
+                NUD_ExposureVal.Enabled = false;
+            }
+            else
+            {
+                NUD_ExposureVal.Value = (decimal)AbsValExp.Value;
+                ChBExposureAuto.Checked = vcdProp.Automation[VCDIDs.VCDID_Exposure];
+                TrBExposureVal.Enabled = !ChBExposureAuto.Checked;
+            }
+
+            if (!vcdProp.Available(VCDIDs.VCDID_Gain))
+            {
+                TrBGainVal.Enabled = false;
+                NUD_GainVal.Enabled = false;
+            }
+            else
+            {
+                NUD_GainVal.Value = (decimal)vcdProp.RangeValue[VCDIDs.VCDID_Gain];
+                ChBGainAuto.Checked = vcdProp.Automation[VCDIDs.VCDID_Gain];
+                TrBGainVal.Enabled = !ChBGainAuto.Checked;
             }
         }
         private void RefreshROIControls(bool CausedByChangingFormatByUser)

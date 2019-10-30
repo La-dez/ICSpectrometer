@@ -96,7 +96,7 @@ namespace ICSpec
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-
+           
             //this.Text = "Перестраиваемый источник " + version;
             Log = new UI.Log.Logger(LBConsole);
             Log.Message(" - текущее время");
@@ -226,29 +226,8 @@ namespace ICSpec
         private void PropBut_Click(object sender, EventArgs e)//функция,вызывающая диалоговое окно свойств
         {
             icImagingControl1.ShowPropertyDialog();
-            if (!vcdProp.Available(VCDIDs.VCDID_Exposure))
-            {
-                TrBExposureVal.Enabled = false;
-                TBExposureVal.Enabled = false;
-            }
-            else
-            {
-                if (AbsValExp.Value < 1) TBExposureVal.Text = "1/" + ((int)(1 / (AbsValExp.Value))).ToString();
-                else TBExposureVal.Text = (AbsValExp.Value).ToString();
-                ChBExposureAuto.Checked = vcdProp.Automation[VCDIDs.VCDID_Exposure];
-                TrBExposureVal.Enabled = !ChBExposureAuto.Checked;
-            }
-            if (!vcdProp.Available(VCDIDs.VCDID_Gain))
-            {
-                TrBGainVal.Enabled = false;
-                TBGainVal.Enabled = false;
-            }
-            else
-            {
-                TBGainVal.Text = vcdProp.RangeValue[VCDIDs.VCDID_Gain].ToString();
-                ChBGainAuto.Checked = vcdProp.Automation[VCDIDs.VCDID_Gain];
-                TrBGainVal.Enabled = !ChBGainAuto.Checked;
-            }
+           
+            Refresh_GainExp_Ctrls();
             RefreshROIControls(false);
         }
         private void Form1_WheelScrolled(object sender, MouseEventArgs e)//фукция,обрабатывающая прокрутку колеса мыши для увеличения в live режиме
@@ -281,12 +260,11 @@ namespace ICSpec
         {
             try
             {
-                if (AbsValExp.Value < 1) TBExposureVal.Text = "1/" + ((int)(1.0 / (AbsValExp.Value))).ToString();
-                else TBExposureVal.Text = (AbsValExp.Value).ToString();
+                NUD_ExposureVal.Value = (decimal)(AbsValExp.Value);
                 TrBExposureVal.Value = Exposure_real2slide(AbsValExp.Value);
                 //ChBExposureAuto.Checked = vcdProp.Automation[VCDIDs.VCDID_Exposure];
 
-                TBGainVal.Text = vcdProp.RangeValue[VCDIDs.VCDID_Gain].ToString();
+                NUD_GainVal.Value = (decimal)vcdProp.RangeValue[VCDIDs.VCDID_Gain];
                 TrBGainVal.Value = vcdProp.RangeValue[VCDIDs.VCDID_Gain];
                 //ChBGainAuto.Checked = vcdProp.Automation[VCDIDs.VCDID_Gain];
             }
@@ -496,28 +474,12 @@ namespace ICSpec
 
         private void TBExposureVal_TextChanged(object sender, EventArgs e)
         {
-            if ((ChangingActivatedTextBoxExp) && (TBExposureVal.Text != "") && (!vcdProp.Automation[VCDIDs.VCDID_Exposure]))
-            {
-                int toslide = 0;
-                toslide = Exposure_real2slide(NormalConvertToFloat(TBExposureVal.Text));
-                if ((toslide < (TrBExposureVal.Maximum + 1)) && (toslide > (TrBExposureVal.Minimum - 1)))
-                    TrBExposureVal.Value = toslide;
-                else
-                    TrBExposureVal.Value = Exposure_real2slide(AbsValExp.Default);
-            }
+           
         }
 
         private void TBGainVal_TextChanged(object sender, EventArgs e)
         {
-            if ((ChangingActivatedTextBoxGain) && (TBGainVal.Text != "") && (!vcdProp.Automation[VCDIDs.VCDID_Gain]))
-            {
-                int toslide = 0;
-                toslide = Convert.ToInt32(TBGainVal.Text);
-                if ((toslide < (TrBGainVal.Maximum + 1)) && (toslide > (TrBGainVal.Minimum - 1)))
-                    TrBGainVal.Value = toslide;
-                else
-                    TrBGainVal.Value = vcdProp.DefaultValue(VCDIDs.VCDID_Gain);
-            }
+          
         }
 
         private void TrBExposureVal_Scroll(object sender, EventArgs e)
@@ -528,7 +490,7 @@ namespace ICSpec
                 double value = Exposure_Slide2real(TrBExposureVal.Value);
                 LoadExposure_ToCam(ref AbsValExp, value);
                 decimal promval = (decimal)PerfectRounding((Exposure_Slide2real(TrBExposureVal.Value)),7);
-                TBExposureVal.Text = promval.ToString();
+                NUD_ExposureVal.Value = promval;
                 ChangingActivatedTextBoxExp = true;
 
                 //Установка одинаковой экспозиции во всех боксах
@@ -552,17 +514,19 @@ namespace ICSpec
             string ChangeVCDID2 = VCDIDs.VCDID_Gain;
             if (pvalue < SProp.RangeMin(ChangeVCDID2))
             {
-                TBGainVal.Text = SProp.RangeMin(ChangeVCDID2).ToString();
+                NUD_GainVal.Value = SProp.RangeMin(ChangeVCDID2);
 
             }
             else if (pvalue > SProp.RangeMax(ChangeVCDID2))
             {
-                TBGainVal.Text = SProp.RangeMax(ChangeVCDID2).ToString();
+                NUD_GainVal.Value = SProp.RangeMax(ChangeVCDID2);
 
             }
             else
             {
-                TBGainVal.Text = pvalue.ToString();
+                NUD_GainVal.Value = SProp.RangeMin(ChangeVCDID2);
+
+                NUD_GainVal.Value = (decimal)pvalue;
                 SProp.RangeValue[ChangeVCDID2] = (int)pvalue;
 
             }
@@ -572,32 +536,8 @@ namespace ICSpec
         {
             ChangingActivatedTextBoxGain = false;
             vcdProp.RangeValue[VCDIDs.VCDID_Gain] = TrBGainVal.Value;
-            TBGainVal.Text = TrBGainVal.Value.ToString();
+            NUD_GainVal.Value = TrBGainVal.Value;
             ChangingActivatedTextBoxGain = true;
-        }
-
-        private void TBExposureVal_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!Char.IsDigit(e.KeyChar) && (e.KeyChar != Convert.ToChar(8)) && (e.KeyChar != Convert.ToChar(46)) && (e.KeyChar != '/'))
-            {
-                e.Handled = true;
-            }
-            if (((e.KeyChar == Convert.ToChar(46)) || (e.KeyChar == '/')) && (dots(TBExposureVal.Text) == true))//блок на введение второй точки или слэша
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void TBGainVal_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!Char.IsDigit(e.KeyChar) && (e.KeyChar != Convert.ToChar(8)) && (e.KeyChar != Convert.ToChar(46)) && (e.KeyChar != '/'))
-            {
-                e.Handled = true;
-            }
-            if (((e.KeyChar == Convert.ToChar(46)) || (e.KeyChar == '/')) && (dots(TBExposureVal.Text) == true))//блок на введение второй точки или слэша
-            {
-                e.Handled = true;
-            }
         }
 
         private void ChBGainAuto_CheckedChanged(object sender, EventArgs e)
@@ -1436,8 +1376,19 @@ namespace ICSpec
             //ImgName calculating
             string SCRName = CheckScreenShotBasicName();
             string date = GetFullDateString();
-            string local_name = SnapImageStyle.Directory + SCRName + "_" + date + "_"
-                + NUD_Multi_WL1.Value.ToString() + "_" + NUD_Multi_WL8.Value.ToString() + SnapImageStyle.Extension;
+
+            string WLS_name = "";
+
+            if (NUD_Multi_ex_time1.Value != 0) WLS_name += ("_" + NUD_Multi_WL1.Value.ToString());
+            if (NUD_Multi_ex_time2.Value != 0) WLS_name += ("_" + NUD_Multi_WL2.Value.ToString());
+            if (NUD_Multi_ex_time3.Value != 0) WLS_name += ("_" + NUD_Multi_WL3.Value.ToString());
+            if (NUD_Multi_ex_time4.Value != 0) WLS_name += ("_" + NUD_Multi_WL4.Value.ToString());
+            if (NUD_Multi_ex_time5.Value != 0) WLS_name += ("_" + NUD_Multi_WL5.Value.ToString());
+            if (NUD_Multi_ex_time6.Value != 0) WLS_name += ("_" + NUD_Multi_WL6.Value.ToString());
+            if (NUD_Multi_ex_time7.Value != 0) WLS_name += ("_" + NUD_Multi_WL7.Value.ToString());
+            if (NUD_Multi_ex_time8.Value != 0) WLS_name += ("_" + NUD_Multi_WL8.Value.ToString());
+
+            string local_name = SnapImageStyle.Directory + date + WLS_name + SnapImageStyle.Extension;
            
             Last_and_new_Image2save = local_name;
 
@@ -1937,6 +1888,32 @@ namespace ICSpec
         private void NUD_TimingInCycle_ValueChanged(object sender, EventArgs e)
         {
             TimeOfTuning_inSeconds = (int)NUD_TimingInCycle.Value;
+        }
+
+        private void NUD_ExposureVal_ValueChanged(object sender, EventArgs e)
+        {
+            if ((!vcdProp.Automation[VCDIDs.VCDID_Exposure]))
+            {
+                int toslide = 0;
+                toslide = Exposure_real2slide((double)(NUD_ExposureVal.Value));
+                if ((toslide < (TrBExposureVal.Maximum + 1)) && (toslide > (TrBExposureVal.Minimum - 1)))
+                    TrBExposureVal.Value = toslide;
+                else
+                    TrBExposureVal.Value = Exposure_real2slide(AbsValExp.Default);
+            }
+        }
+
+        private void NUD_GainVal_ValueChanged(object sender, EventArgs e)
+        {
+            if ((!vcdProp.Automation[VCDIDs.VCDID_Gain]))
+            {
+                decimal toslide = 0;
+                toslide = NUD_GainVal.Value;
+                if ((toslide < (TrBGainVal.Maximum + 1)) && (toslide > (TrBGainVal.Minimum - 1)))
+                    TrBGainVal.Value = (int)toslide;
+                else
+                    TrBGainVal.Value = vcdProp.DefaultValue(VCDIDs.VCDID_Gain);
+            }
         }
 
         private void tests()
