@@ -682,6 +682,18 @@ namespace ICSpec
         {
 
             string date = GetDateString();
+            /*  if (!curfhs.SnapMode)
+              {
+                  try
+                  {
+                    curfhs.SnapMode = true;
+                }
+                catch
+                {
+                    Log.Message("Ошибка при отключении постоянной регистрации кадров. Прерывание...");
+                    return;
+                }
+            }*/
             string NameDirectory = GetFullDateString() + "\\";
             int level = 0;
             try
@@ -1033,12 +1045,25 @@ namespace ICSpec
         }
         private string GetDateString()
         {
-            string res = DateTime.Today.ToString();
-            return ((res.Substring(0, res.IndexOf(' '))).Remove(res.IndexOf('.'), 1)).Remove(res.LastIndexOf('.') - 1, 1);             
+            try
+            {
+                string res = DateTime.Today.ToString();
+                return ((res.Substring(0, res.IndexOf(' '))).Remove(res.IndexOf('.'), 1)).Remove(res.LastIndexOf('.') - 1, 1);
+            }
+            catch { return "date"; }           
         }
         public static string GetFullDateString()
         {
-            return DateTime.Now.ToString().Replace('.', '_').Replace(' ', '_').Replace(':', '_');
+            try
+            {
+                return DateTime.Now.ToString().Replace('.', '_').Replace(' ', '_').Replace(':', '_');
+            }
+            catch { return "date_time"; }   
+        }
+        public static string GetTimeString()
+        {
+            try { return (DateTime.Now.ToString().Replace('.', '_').Replace(' ', '_').Replace(':', '_')).Substring(11); }
+            catch { return "time"; }
         }
         private void OpenDevSearcher()
         {

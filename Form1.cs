@@ -20,7 +20,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.42 Beta";
+        string Cur_Version = "v2.44 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -191,6 +191,11 @@ namespace ICSpec
                     DisableAlltheShit();
                     FormatAdaptation();
                     m_oldSink = New_SetSelectedCamera_SignalStream_Format();
+
+                    //вырубим триггер
+                    if (icImagingControl1.DeviceTriggerAvailable) 
+                        if (icImagingControl1.DeviceTrigger) icImagingControl1.DeviceTrigger = false;
+
                     //создание контекстного меню
                     this.WindowState = FormWindowState.Maximized;
                     FormatAdaptation();
@@ -1316,8 +1321,10 @@ namespace ICSpec
         //При первом копировании мы включаем перестройку. Поскольку второй фрейм начал регистрироваться раньше, чем началась перестройка,
         // то информативным является третий кадр.
         string Last_and_new_Image2save = "1.tiff";
+        bool GettingHyperSpectralImage = false;
         private void B_Get_HyperSpectral_Image_Click(object sender, EventArgs e)
         {
+            GettingHyperSpectralImage = true;
             if (ChB_SpectralCycle.Checked)
             {
                 BGW_SpectralCycle.CancelAsync();
@@ -1375,20 +1382,20 @@ namespace ICSpec
 
             //ImgName calculating
             string SCRName = CheckScreenShotBasicName();
-            string date = GetFullDateString();
+            string date = GetTimeString();
 
             string WLS_name = "";
-            decimal deltaa = 0.000001M;
-            if (NUD_Multi_ex_time1.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL1.Value.ToString());
-            if (NUD_Multi_ex_time2.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL2.Value.ToString());
-            if (NUD_Multi_ex_time3.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL3.Value.ToString());
-            if (NUD_Multi_ex_time4.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL4.Value.ToString());
-            if (NUD_Multi_ex_time5.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL5.Value.ToString());
-            if (NUD_Multi_ex_time6.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL6.Value.ToString());
-            if (NUD_Multi_ex_time7.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL7.Value.ToString());
-            if (NUD_Multi_ex_time8.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL8.Value.ToString());
+            decimal deltaa = (decimal)(1.0/(System.Math.Pow(10, NUD_Multi_ex_time1.DecimalPlaces)));
+            if (NUD_Multi_ex_time1.Value >= deltaa) WLS_name += ("_" + NUD_Multi_WL1.Value.ToString());
+            if (NUD_Multi_ex_time2.Value >= deltaa) WLS_name += ("_" + NUD_Multi_WL2.Value.ToString());
+            if (NUD_Multi_ex_time3.Value >= deltaa) WLS_name += ("_" + NUD_Multi_WL3.Value.ToString());
+            if (NUD_Multi_ex_time4.Value >= deltaa) WLS_name += ("_" + NUD_Multi_WL4.Value.ToString());
+            if (NUD_Multi_ex_time5.Value >= deltaa) WLS_name += ("_" + NUD_Multi_WL5.Value.ToString());
+            if (NUD_Multi_ex_time6.Value >= deltaa) WLS_name += ("_" + NUD_Multi_WL6.Value.ToString());
+            if (NUD_Multi_ex_time7.Value >= deltaa) WLS_name += ("_" + NUD_Multi_WL7.Value.ToString());
+            if (NUD_Multi_ex_time8.Value >= deltaa) WLS_name += ("_" + NUD_Multi_WL8.Value.ToString());
 
-            string local_name = SnapImageStyle.Directory + date + "_WLs"+WLS_name + SnapImageStyle.Extension;
+            string local_name = SnapImageStyle.Directory + date + "_" + WLS_name + SnapImageStyle.Extension;
            
             Last_and_new_Image2save = local_name;
 
@@ -1660,6 +1667,7 @@ namespace ICSpec
                 Log.Message("Времена перестроек: " + data_times);
             }
 
+            GettingHyperSpectralImage = false;
             B_Get_HyperSpectral_Image.Invoke(new MethodInvoker(delegate
             {
                 B_Get_HyperSpectral_Image.Enabled = true;
@@ -1700,39 +1708,42 @@ namespace ICSpec
         int frames_gotten_spec = 0;
         private void icImagingControl1_ImageAvailable(object sender, ICImagingControl.ImageAvailableEventArgs e)
         {
-            frames_gotten_spec++;
-            switch (frames_gotten_spec)
+            if (GettingHyperSpectralImage)
             {
-                case 1:
-                    {
-                        BGW_SpectralImageTuning.RunWorkerAsync(); SW.Restart();
-                        break;
-                    }
-                case 2:
-                    {
+                frames_gotten_spec++;
+                switch (frames_gotten_spec)
+                {
+                    case 1:
+                        {
+                            BGW_SpectralImageTuning.RunWorkerAsync(); SW.Restart();
+                            break;
+                        }
+                    case 2:
+                        {
 
-                        break;
-                    }
-                case 3:
-                    {
-                        curfhs.LastAcquiredBuffer.SaveAsTiff(Last_and_new_Image2save);
-                        Log.Message("Время экспонирования кадра(с):"+(curfhs.LastAcquiredBuffer.SampleEndTime - curfhs.LastAcquiredBuffer.SampleStartTime).ToString());
-                        curfhs.SnapMode = true;
-                        BGW_SpectralImageTuning.CancelAsync();
-                        frames_gotten_spec = 0;
-                        Filter.Set_Wl(WL_was);
+                            break;
+                        }
+                    case 3:
+                        {
+                            curfhs.LastAcquiredBuffer.SaveAsTiff(Last_and_new_Image2save);
+                            Log.Message("Время экспонирования кадра(с):" + (curfhs.LastAcquiredBuffer.SampleEndTime - curfhs.LastAcquiredBuffer.SampleStartTime).ToString());
+                            curfhs.SnapMode = true;
+                            BGW_SpectralImageTuning.CancelAsync();
+                            frames_gotten_spec = 0;
+                            Filter.Set_Wl(WL_was);
 
-                        // curfhs.LastAcquiredBuffer.
-                        break;
-                    }
-                default:
-                    {
-                        curfhs.SnapMode = true;
-                        BGW_SpectralImageTuning.CancelAsync();
-                        frames_gotten_spec = 0;
-                        Filter.Set_Wl(WL_was);
-                        break;
-                    }
+                            // curfhs.LastAcquiredBuffer.
+                            break;
+                        }
+                    default:
+                        {
+                            curfhs.SnapMode = true;
+                            BGW_SpectralImageTuning.CancelAsync();
+                            frames_gotten_spec = 0;
+                            Filter.Set_Wl(WL_was);
+                            break;
+                        }
+                }
             }
         }
         bool precalculating_mode = true;
@@ -1830,51 +1841,64 @@ namespace ICSpec
         }
 
         string lastSavedBuf_name = "";
+        bool AllSeriesIsSaved = true;
         private void BGW_Saver_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
                 var Timer = new System.Diagnostics.Stopwatch();
+                AllSeriesIsSaved = IMG_buffers_mass.Count == 0 ? true : false;
                 //IMG_buf_toSave.Add(new { Frames_and_Names = new List<dynamic>(Frames_and_Names_cur), Dir_name = NameDirectory.Substring(0, NameDirectory.Count() - 2) });
-                while (IMG_buffers_mass.Count != 0)
+                while (!AllSeriesIsSaved)
                 {
-                    if (IMG_buffers_mass.Count == 2)
+                    if (IMG_buffers_mass.Count == 1)
                     { int ahg = 0; }
 
                     var current_frame_buf = IMG_buffers_mass[0].Frames_and_Names;
                     for (int i = current_frame_buf.Count - 1; i != -1; i--)
                     {
-                      /*  Timer.Start();
-                        while (Timer.ElapsedMilliseconds < 100) { }
-                        Timer.Reset();*/
+                        /*  Timer.Start();
+                          while (Timer.ElapsedMilliseconds < 100) { }
+                          Timer.Reset();*/
                         current_frame_buf[i].Buffer.SaveAsTiff(current_frame_buf[i].Name);
-                       // current_frame_buf[i].Buffer.Dispose();
+                        // current_frame_buf[i].Buffer.Dispose();
                         //Log.Error("кадр 0," + i.ToString()+" очищен!");
                         current_frame_buf.RemoveAt(i);
-                       // Log.Error("кадр 0," + i.ToString() + " удален!");
+                        // Log.Error("кадр 0," + i.ToString() + " удален!");
                     }
-                    
-                    
+
+
                     IMG_buffers_mass[0].Frames_and_Names.Clear();
                     lastSavedBuf_name = IMG_buffers_mass[0].Dir_name;
                     IMG_buffers_mass.RemoveAt(0);
+                    for(int j=0;j<10;j++) //подождем 10*0.5с, вдруг придет еще одна серия
+                    {
+                        if (IMG_buffers_mass.Count == 0)
+                        {
+                            Thread.Sleep(500); AllSeriesIsSaved = true;
+                        }
+                        else { AllSeriesIsSaved = false; break; }
+                    }
                     BGW_Saver.ReportProgress(0);
                 }
             }
-            catch(Exception exc)
-            { Log.Error("Ошибка во время многопоточного сохранения: " + exc.Message); }
+            catch (Exception exc)
+            {
+                Log.Error("Ошибка во время многопоточного сохранения: " + exc.Message);
+
+            }
         }
 
         private void BGW_Saver_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {           
-           // Log.Message("Все серии сохранены!");
+        {
+            AllSeriesIsSaved = IMG_buffers_mass.Count == 0 ? true : false; //на всякий случай проверим, нет ли еще серий в памяти
+            if (AllSeriesIsSaved) BGW_Saver.RunWorkerAsync();
         }
 
         private void BGW_Saver_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-
-           Log.Message("Данные в директории " + lastSavedBuf_name + " сохранены! Осталось серий в памяти: " + IMG_buffers_mass.Count.ToString());
-            
+            AllSeriesIsSaved = IMG_buffers_mass.Count == 0 ? true : false;
+            Log.Message("Данные в директории " + lastSavedBuf_name + " сохранены! Осталось серий в памяти: " + IMG_buffers_mass.Count.ToString());
         }
 
       

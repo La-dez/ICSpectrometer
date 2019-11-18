@@ -1,4 +1,4 @@
-﻿Image Settings:
+Image Settings:
       1.Directory::
       2.Extension::.tiff
       3.Quality::100
