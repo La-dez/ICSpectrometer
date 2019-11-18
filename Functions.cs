@@ -390,11 +390,16 @@ namespace ICSpec
             }
             else
             {
-                NUD_ExposureVal.Minimum = (decimal)AbsValExp.RangeMin;
-                NUD_ExposureVal.Maximum = (decimal)AbsValExp.RangeMax;
-                NUD_ExposureVal.DecimalPlaces = Detect_Right_DecimalPositions_Num((decimal)AbsValExp.RangeMin);
+                
                 AbsValExp = (VCDAbsoluteValueProperty)icImagingControl1.VCDPropertyItems.FindInterface(ChangeVCDID +
                     ":" + VCDIDs.VCDElement_Value + ":" + VCDIDs.VCDInterface_AbsoluteValue);
+
+                
+
+                NUD_ExposureVal.DecimalPlaces = Detect_Right_DecimalPositions_Num((decimal)AbsValExp.RangeMin);
+                NUD_ExposureVal.Minimum = (decimal)AbsValExp.RangeMin;
+                NUD_ExposureVal.Maximum = (decimal)AbsValExp.RangeMax;
+
                 TrBExposureVal.Enabled = true;
                 NUD_ExposureVal.Enabled = true;
                 int Az = TrBExposureVal.Minimum = (int)PerfectRounding((double)(AbsValExp.RangeMin * zF),0);
@@ -414,7 +419,7 @@ namespace ICSpec
                 }
                 TrBExposureVal.TickFrequency = (TrBExposureVal.Maximum - TrBExposureVal.Minimum) / 10;
                 ChangingActivatedTextBoxExp = false;
-                NUD_ExposureVal.Value = (decimal)(PerfectRounding(Exposure_Slide2real(TrBExposureVal.Value), NUD_ExposureVal.DecimalPlaces));
+                NUD_ExposureVal.Value = (decimal)(PerfectRounding(AbsValExp.Value, NUD_ExposureVal.DecimalPlaces));
                 ChangingActivatedTextBoxExp = true;
             }
             if (!vcdProp.Available(ChangeVCDID2))
@@ -453,7 +458,7 @@ namespace ICSpec
             try
             {
                 int positions = 0;
-                while(val-(int)val!=0)
+                while((val-(int)val!=0)&&((int)val < 10))
                 {
                     val *= 10;
                     positions++;
@@ -998,7 +1003,7 @@ namespace ICSpec
                 var WL_control = this.Controls.Find("NUD_Multi_WL" + (i + 1).ToString(), true)[0] as NumericUpDown;
                 WL_control.Maximum = WL_MAX;
                 WL_control.Minimum = WL_MIN;
-                WL_control.Value = (WL_MAX + WL_MIN) / 2; 
+                WL_control.Value = (int)((WL_MAX + WL_MIN) / 2); 
             }
 
         }
@@ -1084,8 +1089,8 @@ namespace ICSpec
         {
             double mnoj = (float)Math.Pow(10.0, CharN);
             val *= mnoj;
-            if (Math.Abs(val - (int)val) > 0.5f) return (((int)val + 1 * Math.Sign(val - (int)val)) / mnoj);
-            else return ((int)val / mnoj);
+            if (Math.Abs(val - (Int64)val) > 0.5f) return (((Int64)val + 1 * Math.Sign(val - (int)val)) / mnoj);
+            else return ((Int64)val / mnoj);
         }
         
 

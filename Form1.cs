@@ -20,7 +20,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.4 Beta";
+        string Cur_Version = "v2.42 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -1305,7 +1305,7 @@ namespace ICSpec
         }
 
         System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
-        double finalExposure = 0;
+        decimal finalExposure = 0;
         const int WLS_at_all = 8;
         int[] times_to_sleep = new int[WLS_at_all];
         float[] WLs_2set = new float[WLS_at_all];
@@ -1334,7 +1334,7 @@ namespace ICSpec
             {
                 //поиск элемента управления с заданным номером для ДВ и копирование значения
                 var EXP_control = this.Controls.Find("NUD_Multi_ex_time" + (i+1).ToString(),true);
-                double data_var = (double)(EXP_control[0] as NumericUpDown).Value;
+                decimal data_var = (decimal)(EXP_control[0] as NumericUpDown).Value;
                 times_to_sleep[i] = (int)(data_var * 1000);
                 finalExposure += data_var;
                 //поиск элемента управления с заданным номером для вр.эксп. и копирование значения
@@ -1346,13 +1346,13 @@ namespace ICSpec
             //Проверка времени экспонирования
             if (vcdProp.Available(VCDIDs.VCDID_Exposure))
             {
-                if (finalExposure > AbsValExp.RangeMax)
+                if (((double)finalExposure - AbsValExp.RangeMax) > 0.000001)
                 {
                     Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. больше максимально возможного для данной камеры ("
                         + AbsValExp.RangeMax.ToString() + " сек.)");
                     return;
                 }
-                else if (finalExposure < AbsValExp.RangeMin)
+                else if (((double)finalExposure - AbsValExp.RangeMin) < 0.000001)
                 {
                     Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. меньше минимально возможного для данной камеры ("
                         + AbsValExp.RangeMin.ToString() + " сек.)");
@@ -1378,17 +1378,17 @@ namespace ICSpec
             string date = GetFullDateString();
 
             string WLS_name = "";
+            decimal deltaa = 0.000001M;
+            if (NUD_Multi_ex_time1.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL1.Value.ToString());
+            if (NUD_Multi_ex_time2.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL2.Value.ToString());
+            if (NUD_Multi_ex_time3.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL3.Value.ToString());
+            if (NUD_Multi_ex_time4.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL4.Value.ToString());
+            if (NUD_Multi_ex_time5.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL5.Value.ToString());
+            if (NUD_Multi_ex_time6.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL6.Value.ToString());
+            if (NUD_Multi_ex_time7.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL7.Value.ToString());
+            if (NUD_Multi_ex_time8.Value <= deltaa) WLS_name += ("_" + NUD_Multi_WL8.Value.ToString());
 
-            if (NUD_Multi_ex_time1.Value != 0) WLS_name += ("_" + NUD_Multi_WL1.Value.ToString());
-            if (NUD_Multi_ex_time2.Value != 0) WLS_name += ("_" + NUD_Multi_WL2.Value.ToString());
-            if (NUD_Multi_ex_time3.Value != 0) WLS_name += ("_" + NUD_Multi_WL3.Value.ToString());
-            if (NUD_Multi_ex_time4.Value != 0) WLS_name += ("_" + NUD_Multi_WL4.Value.ToString());
-            if (NUD_Multi_ex_time5.Value != 0) WLS_name += ("_" + NUD_Multi_WL5.Value.ToString());
-            if (NUD_Multi_ex_time6.Value != 0) WLS_name += ("_" + NUD_Multi_WL6.Value.ToString());
-            if (NUD_Multi_ex_time7.Value != 0) WLS_name += ("_" + NUD_Multi_WL7.Value.ToString());
-            if (NUD_Multi_ex_time8.Value != 0) WLS_name += ("_" + NUD_Multi_WL8.Value.ToString());
-
-            string local_name = SnapImageStyle.Directory + date + WLS_name + SnapImageStyle.Extension;
+            string local_name = SnapImageStyle.Directory + date + "_WLs"+WLS_name + SnapImageStyle.Extension;
            
             Last_and_new_Image2save = local_name;
 
@@ -1440,7 +1440,7 @@ namespace ICSpec
             {
                 //поиск элемента управления с заданным номером для ДВ и копирование значения
                 var EXP_control = this.Controls.Find("NUD_Multi_ex_time" + (i + 1).ToString(), true);
-                double data_var = (double)(EXP_control[0] as NumericUpDown).Value;
+                decimal data_var = (decimal)(EXP_control[0] as NumericUpDown).Value;
                 times_to_sleep[i] = (int)(data_var * 1000);
                 finalExposure += data_var;
                 //поиск элемента управления с заданным номером для вр.эксп. и копирование значения
@@ -1450,13 +1450,13 @@ namespace ICSpec
             WL_was = Filter.WL_Current;
             if (vcdProp.Available(VCDIDs.VCDID_Exposure))
             {
-                if (finalExposure > AbsValExp.RangeMax)
+                if (finalExposure > (decimal)AbsValExp.RangeMax)
                 {
                     Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. больше максимально возможного для данной камеры ("
                         + AbsValExp.RangeMax.ToString() + " сек.)");
                     return;
                 }
-                else if (finalExposure < AbsValExp.RangeMin)
+                else if (finalExposure < (decimal)AbsValExp.RangeMin)
                 {
                     Log.Error("Суммарное заданое время экспонирования " + finalExposure.ToString() + " сек. меньше минимально возможного для данной камеры ("
                         + AbsValExp.RangeMin.ToString() + " сек.)");
@@ -1467,7 +1467,7 @@ namespace ICSpec
 
             if (use_one_image)
             {
-                if (vcdProp.Available(VCDIDs.VCDID_Exposure)) LoadExposure_ToCam(ref AbsValExp, finalExposure);
+                if (vcdProp.Available(VCDIDs.VCDID_Exposure)) LoadExposure_ToCam(ref AbsValExp, (double)finalExposure);
                 Thread.Sleep((int)((Exposure_was/*+ finalExposure*/) * 1000));
 
                 icImagingControl1.LiveStop();
@@ -1633,7 +1633,7 @@ namespace ICSpec
         {
             if (e.Cancelled == true)
             {
-                Log.Message("Canceled!");
+                Log.Message("Захват кадра осуществлен!");
 
                 string data_times = "";
                 for (int i = 0; i < WLS_at_all - 1; i++)
@@ -1747,7 +1747,7 @@ namespace ICSpec
                 {
                     //поиск элемента управления с заданным номером для ДВ и копирование значения
                     var EXP_control = this.Controls.Find("NUD_Multi_ex_time" + (i + 1).ToString(), true);
-                    double data_var = (double)(EXP_control[0] as NumericUpDown).Value;
+                    decimal data_var = (decimal)(EXP_control[0] as NumericUpDown).Value;
                     times_to_sleep[i] = (int)(data_var * 1000);
                     finalExposure += data_var;
                     //поиск элемента управления с заданным номером для вр.эксп. и копирование значения
@@ -1819,6 +1819,7 @@ namespace ICSpec
 
         private void BGW_SpectralCycle_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+
             Log.Message("Установленная длина волны " + e.ProgressPercentage + " нм");
         }
 

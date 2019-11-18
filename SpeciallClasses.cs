@@ -1344,34 +1344,38 @@ namespace LDZ_Code
                 /// <param name="message">The message</param>
                 private static void Message(ListBox pLBConsole, int pAttachmentFactor, string message)
                 {
-                    if (null == message)
+                    try
                     {
-                        throw new ArgumentNullException("message");
-                    }
-                    string data = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}: {1}", DateTime.Now, message);
-                    object index;
-                    if (data.Length <= pAttachmentFactor)
-                    {
-                        index = data;
-                        if (pLBConsole.InvokeRequired)
-                            pLBConsole.BeginInvoke((Action)(() => Message(pLBConsole, pAttachmentFactor, message)));
-                        else
-                            pLBConsole.Items.Insert(0, index);
-                    }
-                    else
-                    {
-                        index = data.Substring(0, (int)pAttachmentFactor) + "...";
-                        if (pLBConsole.InvokeRequired)
+                        if (null == message)
                         {
-                            pLBConsole.BeginInvoke((Action)(() => Message(pLBConsole, pAttachmentFactor, message)));
-                            pLBConsole.BeginInvoke((Action)(() => Attachment(pLBConsole, pAttachmentFactor, data.Substring((int)pAttachmentFactor), 1)));
+                            throw new ArgumentNullException("message");
+                        }
+                        string data = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}: {1}", DateTime.Now, message);
+                        object index;
+                        if (data.Length <= pAttachmentFactor)
+                        {
+                            index = data;
+                            if (pLBConsole.InvokeRequired)
+                                pLBConsole.BeginInvoke((Action)(() => Message(pLBConsole, pAttachmentFactor, message)));
+                            else
+                                pLBConsole.Items.Insert(0, index);
                         }
                         else
                         {
-                            pLBConsole.Items.Insert(0, index);
-                            Log.Attachment(pLBConsole, pAttachmentFactor, data.Substring((int)pAttachmentFactor), 1);
+                            index = data.Substring(0, (int)pAttachmentFactor) + "...";
+                            if (pLBConsole.InvokeRequired)
+                            {
+                                pLBConsole.BeginInvoke((Action)(() => Message(pLBConsole, pAttachmentFactor, message)));
+                                pLBConsole.BeginInvoke((Action)(() => Attachment(pLBConsole, pAttachmentFactor, data.Substring((int)pAttachmentFactor), 1)));
+                            }
+                            else
+                            {
+                                pLBConsole.Items.Insert(0, index);
+                                Log.Attachment(pLBConsole, pAttachmentFactor, data.Substring((int)pAttachmentFactor), 1);
+                            }
                         }
                     }
+                    catch { }
 
                 }
 
