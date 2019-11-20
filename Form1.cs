@@ -20,7 +20,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.44 Beta";
+        string Cur_Version = "v2.45 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -124,9 +124,14 @@ namespace ICSpec
                     TIS.Imaging.LibrarySetup.SetLocalizationLanguage("ru");
                     //var data_sink = new FrameHandlerSink(false, new FrameType("Y800"));
                     //icImagingControl1.Sink = data_sink;
-
-                     icImagingControl1.ShowDeviceSettingsDialog();
-                    //icImagingControl1.LoadDeviceStateFromFile("set.xml",true);
+                    try
+                    {
+                        icImagingControl1.LoadDeviceStateFromFile("CameraSettings.xml",true);
+                    }
+                    catch
+                    {
+                        icImagingControl1.ShowDeviceSettingsDialog();
+                    }
 
                     if (!icImagingControl1.DeviceValid)
                     {
@@ -764,7 +769,7 @@ namespace ICSpec
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-          //  icImagingControl1.SaveDeviceStateToFile("set.xml");
+            icImagingControl1.SaveDeviceStateToFile("CameraSettings.xml");
         }
 
         private void CBoxPixelFormat_SelectedIndexChanged(object sender, EventArgs e)
