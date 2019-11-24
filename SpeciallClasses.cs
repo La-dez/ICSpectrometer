@@ -1322,19 +1322,30 @@ namespace LDZ_Code
 
                     public delegate void Log_del(string message);
                     int AttachmentFactor = 1;
-                    ListBox ControlledLB;
+                    Control Controlled_LBorL;
+
                     public Logger(ListBox pLBConsole)
                     {
-                        ControlledLB = pLBConsole;
-                        Log.CreateAttachmentFactor(ref AttachmentFactor, ControlledLB);
+                        Controlled_LBorL = pLBConsole;
+                        Log.CreateAttachmentFactor(ref AttachmentFactor, Controlled_LBorL as ListBox);
+                    }
+                    public Logger(Label pLConsole)
+                    {
+                        Controlled_LBorL = pLConsole;
                     }
                     public void Message(string Message)
                     {
-                        Log.Message(ControlledLB, AttachmentFactor, Message);
+                        if(Controlled_LBorL is Label)
+                            Log.Message(Controlled_LBorL as Label, Message);
+                        else
+                            Log.Message(Controlled_LBorL as ListBox, AttachmentFactor, Message);
                     }
                     public void Error(string Message)
                     {
-                        Log.Error(ControlledLB, AttachmentFactor, Message);
+                        if (Controlled_LBorL is Label)
+                            Log.Error(Controlled_LBorL as Label, Message);
+                        else
+                            Log.Error(Controlled_LBorL as ListBox, AttachmentFactor, Message);
                     }
 
                 }
@@ -1372,7 +1383,22 @@ namespace LDZ_Code
                             Log.Attachment(pLBConsole, pAttachmentFactor, data.Substring((int)pAttachmentFactor), 1);
                         }
                     }
-
+                }
+                /// <summary>
+                /// Сообщает об ошибке в элемент ListBox, используемый как коноль вывода
+                /// </summary>
+                /// <param name="message">The message</param>
+                private static void Message(Label pLConsole, string message)
+                {
+                    if (null == message)
+                    {
+                        throw new ArgumentNullException("message");
+                    }
+                    string data = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}: {1}", DateTime.Now, message);                    
+                    if (pLConsole.InvokeRequired)
+                        pLConsole.BeginInvoke((Action)(() => Message(pLConsole, message)));
+                    else
+                        pLConsole.Text = data;
                 }
 
                 /// <summary>
@@ -1383,6 +1409,16 @@ namespace LDZ_Code
                 {
                     Log.Message(LBConsole, pAttachmentFactor, "Ошибка: " + message);
                 }
+
+                /// <summary>
+                /// Add an error log message and show an error message box
+                /// </summary>
+                /// <param name="message">The message</param>
+                private static void Error(Label pLConsole, string message)
+                {
+                    Log.Message(pLConsole, "Error: " + message);
+                }
+
                 private static void Attachment(ListBox pLBConsole, int pAttachmentFactor, string Addmessage, int level)
                 {
                     if (null == Addmessage)

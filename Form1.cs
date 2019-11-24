@@ -96,9 +96,10 @@ namespace ICSpec
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-           
-            //this.Text = "Перестраиваемый источник " + version;
-            Log = new UI.Log.Logger(LBConsole);
+            TextProcessing("E:\\Preproc.txt");
+            return;
+             //this.Text = "Перестраиваемый источник " + version;
+             Log = new UI.Log.Logger(LBConsole);
             Log.Message(" - текущее время");
             Filter = AO_Devices.AO_Filter.Find_and_connect_AnyFilter();
             if (Filter.FilterType == FilterTypes.Emulator) { Log.Message("ПРЕДУПРЕЖДЕНИЕ: Не обнаружены подключенные АО фильтры. Фильтр будет эмулирован."); }
@@ -212,7 +213,48 @@ namespace ICSpec
             }
             finally { if (icImagingControl1.DeviceValid) icImagingControl1.LiveStart(); timer_for_FPS.Start(); }
         }//функция предзагрузки окна для динамической инициализации некоторых элементов управления 
+        private void TextProcessing(string path)
+        {
+            List<string> all_lines = ServiceFunctions.Files.Read_txt(path);
+            List<string> all_times = new List<string>();
+            List<string> all_text = new List<string>();
+            for (int i = 0; i < all_lines.Count; i++)
+            {
+                all_times.Add(all_lines[i].Substring(0, 5));
+                all_text.Add(all_lines[i].Substring(5));
 
+            }
+            int correction_sec = 2;
+            for (int i = 0; i < all_lines.Count; i++)
+            {
+                int min = Convert.ToInt16(all_times[i].Substring(0, 2));
+                int sec = Convert.ToInt16(all_times[i].Substring(3, 2));
+                if(sec + correction_sec<60) all_times[i] = String.Format("{0:D2}:{1:D2}", min.ToString("00"),(sec+ correction_sec).ToString("00"));
+                else all_times[i] = String.Format("{0:D2}:{1:D2}", (min+1).ToString("00"), (sec + correction_sec-60).ToString("00"));
+            }
+            for (int i = 0; i < all_lines.Count; i++)
+            {
+                all_times[i] = "00:" + all_times[i] + ",000";
+            }
+            all_times.Add("00:42:18,000");
+            for (int i = 0; i < all_lines.Count-1; i++)
+            {
+                all_times[i] = all_times[i] + " --> " + all_times[i + 1];
+            }
+            all_times.RemoveAt(all_lines.Count - 1);
+
+            List<string> Final_strings = new List<string>();
+            for (int i = 0; i < all_lines.Count; i++)
+            {
+                Final_strings.Add((i + 1).ToString());
+                Final_strings.Add(all_times[i]);
+                Final_strings.Add(all_text[i]+"\n");
+            }
+            ServiceFunctions.Files.Write_txt("E:\\Processed.srt", Final_strings);
+            Application.Exit();
+            
+
+        }
         private void ExitBut_Click(object sender, EventArgs e)//функция выхода из приложения
         {
             Close();
