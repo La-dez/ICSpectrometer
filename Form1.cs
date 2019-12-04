@@ -391,7 +391,11 @@ namespace ICSpec
             AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
             InitializeComponents_byVariables();
             //Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min,1 /*(decimal)AbsValExp.Value*/,8/*(decimal)AbsValExp.RangeMax*/, 0);
-            Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.Value, (decimal)AbsValExp.RangeMax, 0);
+            try { Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.Value, (decimal)AbsValExp.RangeMax, 0); }
+            catch
+            {
+                
+            }
         }
 
         private void BPower_Click(object sender, EventArgs e)
