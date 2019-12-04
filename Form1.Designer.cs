@@ -39,7 +39,7 @@
             this.TrBZoomOfImage = new System.Windows.Forms.TrackBar();
             this.L_Zoom = new System.Windows.Forms.Label();
             this.ContTransAfterSnapshot = new System.Windows.Forms.Button();
-            this.TimerForRenew = new System.Windows.Forms.Timer(this.components);
+            this.TimerForExpGain_refresh = new System.Windows.Forms.Timer(this.components);
             this.SaveImageBut = new System.Windows.Forms.Button();
             this.LBConsole = new System.Windows.Forms.ListBox();
             this.GPCamFeat = new System.Windows.Forms.GroupBox();
@@ -183,6 +183,7 @@
             this.specialSeriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_Tuning_Exposure = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_Load_EXWL_C = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_UseRefExpFromFile = new System.Windows.Forms.ToolStripMenuItem();
             this.startTuningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_Tuning_Irregular = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_Load_UDWL_Curve = new System.Windows.Forms.ToolStripMenuItem();
@@ -375,9 +376,9 @@
             this.ContTransAfterSnapshot.UseVisualStyleBackColor = true;
             this.ContTransAfterSnapshot.Click += new System.EventHandler(this.ContTransAfterSnapshot_Click);
             // 
-            // TimerForRenew
+            // TimerForExpGain_refresh
             // 
-            this.TimerForRenew.Tick += new System.EventHandler(this.TimerForRenew_Tick);
+            this.TimerForExpGain_refresh.Tick += new System.EventHandler(this.TimerForExpGain_refresh_Tick);
             // 
             // SaveImageBut
             // 
@@ -2292,22 +2293,30 @@
             // 
             this.TSMI_Tuning_Exposure.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSMI_Load_EXWL_C,
+            this.TSMI_UseRefExpFromFile,
             this.startTuningToolStripMenuItem});
             this.TSMI_Tuning_Exposure.Name = "TSMI_Tuning_Exposure";
             this.TSMI_Tuning_Exposure.Size = new System.Drawing.Size(232, 22);
-            this.TSMI_Tuning_Exposure.Text = "Via Exposure - WL curve";
+            this.TSMI_Tuning_Exposure.Text = "Via WL - Exposure curve";
             // 
             // TSMI_Load_EXWL_C
             // 
             this.TSMI_Load_EXWL_C.Name = "TSMI_Load_EXWL_C";
-            this.TSMI_Load_EXWL_C.Size = new System.Drawing.Size(211, 22);
-            this.TSMI_Load_EXWL_C.Text = "Load Exposure - WL curve";
+            this.TSMI_Load_EXWL_C.Size = new System.Drawing.Size(244, 22);
+            this.TSMI_Load_EXWL_C.Text = "Load WL - exposure curve";
             this.TSMI_Load_EXWL_C.Click += new System.EventHandler(this.TSMI_Load_EXWL_C_Click);
+            // 
+            // TSMI_UseRefExpFromFile
+            // 
+            this.TSMI_UseRefExpFromFile.Name = "TSMI_UseRefExpFromFile";
+            this.TSMI_UseRefExpFromFile.Size = new System.Drawing.Size(244, 22);
+            this.TSMI_UseRefExpFromFile.Text = "Use reference exposure from file";
+            this.TSMI_UseRefExpFromFile.Click += new System.EventHandler(this.TSMI_UseRefExpFromFile_Click);
             // 
             // startTuningToolStripMenuItem
             // 
             this.startTuningToolStripMenuItem.Name = "startTuningToolStripMenuItem";
-            this.startTuningToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.startTuningToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
             this.startTuningToolStripMenuItem.Text = "Start tuning";
             this.startTuningToolStripMenuItem.Click += new System.EventHandler(this.startTuningToolStripMenuItem_Click_1);
             // 
@@ -2533,7 +2542,7 @@
         private System.Windows.Forms.TrackBar TrBZoomOfImage;
         private System.Windows.Forms.Label L_Zoom;
         private System.Windows.Forms.Button ContTransAfterSnapshot;
-        private System.Windows.Forms.Timer TimerForRenew;
+        private System.Windows.Forms.Timer TimerForExpGain_refresh;
         private System.Windows.Forms.Button SaveImageBut;
         private System.Windows.Forms.ListBox LBConsole;
         private System.Windows.Forms.GroupBox GPCamFeat;
@@ -2693,6 +2702,7 @@
         private System.Windows.Forms.NumericUpDown NUD_GainVal;
         private System.Windows.Forms.Label L_ExpDim;
         private System.Windows.Forms.Label L_GainDim;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_UseRefExpFromFile;
     }
 }
 

@@ -266,16 +266,26 @@ namespace ICSpec
             Point p = icImagingControl1.AutoScrollPosition;
         }
 
-        private void TimerForRenew_Tick(object sender, EventArgs e)//Пока включена автоматическая регулировка, эта функция отвечает за отображения значения параметра 
+        private void TimerForExpGain_refresh_Tick(object sender, EventArgs e)//Пока включена автоматическая регулировка, эта функция отвечает за отображения значения параметра 
         {
             try
             {
+                NUD_ExposureVal.ValueChanged-= NUD_ExposureVal_ValueChanged;
                 NUD_ExposureVal.Value = (decimal)(AbsValExp.Value);
+                NUD_ExposureVal.ValueChanged += NUD_ExposureVal_ValueChanged;
+
+                TrBExposureVal.Scroll -= TrBExposureVal_Scroll;
                 TrBExposureVal.Value = Exposure_real2slide(AbsValExp.Value);
+                TrBExposureVal.Scroll += TrBExposureVal_Scroll;
                 //ChBExposureAuto.Checked = vcdProp.Automation[VCDIDs.VCDID_Exposure];
 
+                NUD_GainVal.ValueChanged -= NUD_GainVal_ValueChanged;
                 NUD_GainVal.Value = (decimal)vcdProp.RangeValue[VCDIDs.VCDID_Gain];
+                NUD_GainVal.ValueChanged += NUD_GainVal_ValueChanged;
+
+                TrBGainVal.Scroll -= TrBGainVal_Scroll;
                 TrBGainVal.Value = vcdProp.RangeValue[VCDIDs.VCDID_Gain];
+                TrBGainVal.Scroll += TrBGainVal_Scroll;
                 //ChBGainAuto.Checked = vcdProp.Automation[VCDIDs.VCDID_Gain];
             }
             catch { }
@@ -560,13 +570,13 @@ namespace ICSpec
             TrBGainVal.Enabled = !ChBGainAuto.Checked;
             if (ChBGainAuto.Checked)
             {
-                TimerForRenew.Enabled = true;
-                TimerForRenew.Start();
+                TimerForExpGain_refresh.Enabled = true;
+                TimerForExpGain_refresh.Start();
             }
             else
             {
-                TimerForRenew.Stop();
-                TimerForRenew.Enabled = false;
+                TimerForExpGain_refresh.Stop();
+                TimerForExpGain_refresh.Enabled = false;
             }
         }
 
@@ -576,13 +586,13 @@ namespace ICSpec
             TrBExposureVal.Enabled = !ChBExposureAuto.Checked;
             if (ChBExposureAuto.Checked)
             {
-                TimerForRenew.Enabled = true;
-                TimerForRenew.Start();
+                TimerForExpGain_refresh.Enabled = true;
+                TimerForExpGain_refresh.Start();
             }
             else
             {
-                TimerForRenew.Stop();
-                TimerForRenew.Enabled = false;
+                TimerForExpGain_refresh.Stop();
+                TimerForExpGain_refresh.Enabled = false;
             }
         }
 
@@ -1291,10 +1301,13 @@ namespace ICSpec
 
                     List<int> wls = new List<int>();
                     List<double> exps = new List<double>();
+                    List<double> exps_ref = new List<double>();
+                    double reference_exposure = (true == true) ? -1 : AbsValExp.Value;
                     AO_MinimumWL = Convert.ToInt32(NUD_StartL.Text);
                     AO_MaximumWL = Convert.ToInt32(NUD_FinishL.Text);
                     double Gain = 0, FPS = 0;
-                    ExpCurve.Get_andWrite_NiceCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL, (int)AO_MinimumWL, (int)AO_MaximumWL, (int)AO_StepWL, ref wls, ref exps, ref Gain, ref FPS);
+                    ExpCurve.Get_Interpolated_WlExpCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL, (int)AO_MinimumWL, (int)AO_MaximumWL, (int)AO_StepWL, 
+                        ref wls, ref exps,ref exps_ref, ref Gain, ref FPS, ref reference_exposure);
 
                     LogMessage("Перестройка по кривой включена.");
                 }
@@ -1948,6 +1961,11 @@ namespace ICSpec
                 else
                     TrBGainVal.Value = vcdProp.DefaultValue(VCDIDs.VCDID_Gain);
             }
+        }
+
+        private void TSMI_UseRefExpFromFile_Click(object sender, EventArgs e)
+        {
+            TSMI_UseRefExpFromFile.Checked = !TSMI_UseRefExpFromFile.Checked;
         }
 
         private void tests()

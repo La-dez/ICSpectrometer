@@ -705,9 +705,14 @@ namespace ICSpec
                 double Gain = 0, FPS = 0;
                 List<int> wls = new List<int>();
                 List<double> exps = new List<double>();
+                List<double> exps_ref = new List<double>();
+                double Exposure_ref_use_file = (TSMI_UseRefExpFromFile.Checked) ? -1 : AbsValExp.Value; 
                 if (IsNeeded_ExpCurve)
                 {
-                    LDZ_Code.ExpCurve.Get_andWrite_NiceCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL, pStartWL, pFinishWL, (int)AO_StepWL, ref wls, ref exps, ref Gain, ref FPS);
+                    LDZ_Code.ExpCurve.Get_Interpolated_WlExpCurveFromDirectory(WayToCurv_exp, (int)Filter.WL_Min, (int)Filter.WL_Max,
+                        pStartWL, pFinishWL, (int)AO_StepWL,
+                        ref wls, ref exps, ref exps_ref,
+                        ref Gain, ref FPS,ref Exposure_ref_use_file);
                 }
 
                 List<float> allvalues = new List<float>();
@@ -746,7 +751,8 @@ namespace ICSpec
                         codeerr = Filter.Set_Wl(pStartWL);//, AOFSimulatorActivated);
                         if (IsNeeded_ExpCurve)
                         {
-                            LoadExposure_ToCam(ref AbsValExp, exps[0]);
+                            double exposure2use = (TSMI_UseRefExpFromFile.Checked) ? exps_ref[0] : exps[0];
+                            LoadExposure_ToCam(ref AbsValExp, exposure2use);
                             LoadGain(ref vcdProp, Gain);
                         }
                         Thread.Sleep(500);
@@ -771,7 +777,10 @@ namespace ICSpec
                              LogError(ex.Message);
                          }*/
                         if (IsNeeded_ExpCurve)
-                            LoadExposure_ToCam(ref AbsValExp, exps[i]);
+                        {
+                            double exposure2use = (TSMI_UseRefExpFromFile.Checked) ? exps_ref[i] : exps[i];
+                            LoadExposure_ToCam(ref AbsValExp, exposure2use);
+                        }
 
                         Stopwatch swl = new Stopwatch(); swl.Start();
                         //AOF.AOM_SetWL(allvalues[i], AOFSimulatorActivated);

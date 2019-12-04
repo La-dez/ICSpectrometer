@@ -22,34 +22,48 @@ namespace LDZ_Code
         int FinishWL = 0;
         public static void GetNiceCurve(int pRealMin, int pRealMax, int pStWL, int pFinWL, int pStep, List<int> pWls, List<double> pExps)
         {
-            int pMinWL = pRealMin;
+        /*    int pMinWL = pRealMin;
             int pMaxhWL = pRealMax;
             if (pWls.Count != pExps.Count)
                 throw new Exception("Некорректное содержимое файла для перестройки.");
-            RestructValues(ref pWls, ref pExps);
+            ResortValues(ref pWls, ref pExps);
             InterpolateValues(pMinWL, pMaxhWL, ref pWls, ref pExps);
-            CutValues(pStWL, pFinWL, pStep, ref pWls, ref pExps);
+            CutValues(pStWL, pFinWL, pStep, ref pWls, ref pExps);*/
 
         }
-        public static void Get_andWrite_NiceCurveFromDirectory(string path, int pRealMin, int pRealMax, int pStWL, int pFinWL, int pStep, ref List<int> pWls, ref List<double> pExps,
-            ref double pGain, ref double pFPS)
+        public static void Get_Interpolated_WlExpCurveFromDirectory(string path, 
+            int pWlRealMin, int pWlRealMax,
+            int pStWL, int pFinWL, int pStep, 
+            ref List<int> pWls, ref List<double> pExps, ref List<double> pRealExps_byRef,
+            ref double pGain, ref double pFPS, ref double pExpRef)
         {
-            int pMinWL = pRealMin;
-            int pMaxhWL = pRealMax;
-            GetCurveFromDirectory(path, ref pWls, ref pExps, ref pGain, ref pFPS);
-            if (pWls.Count != pExps.Count)
+            int pMinWL = pWlRealMin;
+            int pMaxhWL = pWlRealMax;
+            bool UseReference_Exposure = (pExpRef == -1); //если передана экспозиция -1, то юзаем экспозичию из файла
+            try
+            {
+                Get_WlExpCurveFromDirectory(path, ref pWls, ref pExps, ref pRealExps_byRef, ref pGain, ref pFPS, ref pExpRef);
+            }
+            catch
+            {
                 throw new Exception("Некорректное содержимое файла для перестройки.");
-            RestructValues(ref pWls, ref pExps);
-            InterpolateValues(pMinWL, pMaxhWL, ref pWls, ref pExps);
-            ICSpec.Form1.ShowStringDelegate obj = null;
-            WriteCurveToFile(path, pWls, pExps, pGain, pFPS, ref obj, true);
-            CutValues(pStWL, pFinWL, pStep, ref pWls, ref pExps);
+            }
+          //  if (UseReference_Exposure) pExps = RealExps_byRef;
+            ResortValues(ref pWls, ref pExps, ref pRealExps_byRef); //отсортируем
+            InterpolateValues(pMinWL, pMaxhWL, ref pWls, ref pExps, ref pRealExps_byRef); //проинтерполируем с шагом 1
+           // ICSpec.Form1.ShowStringDelegate obj = null;
+           // WriteCurveToFile(path, pWls, pExps, pGain, pFPS, ref obj, true);
+            CutValues(pStWL, pFinWL, pStep, ref pWls, ref pExps,ref pRealExps_byRef);
         }
-        public static void GetCurveFromDirectory(string path, ref List<int> pWls, ref List<double> pExps, ref double pGain, ref double pFPS)
+        public static void Get_WlExpCurveFromDirectory(string path, 
+            ref List<int> pWls, ref List<double> pExps_fromfile, ref List<double> pExps_ref, 
+            ref double pGain, ref double pFPS, ref double pExposure_ref)
         {
             string[] readText = File.ReadAllLines(path);
             int StartPos = 0, EndPos = 0;
-            int StartPosFPS = 0, StartPosGain = 0;
+            string Gain_str = "";
+            string Fps_str = "";
+            string Exp_reference_str = "";
 
             for (int i = 0; i < readText.Count(); i++)
             {
@@ -59,36 +73,48 @@ namespace LDZ_Code
                 }
                 if (readText[i] == "<Data>") StartPos = i + 1;
                 else if (readText[i] == "</Data>") EndPos = i;
-                else if (readText[i] == "<FPS>") StartPosFPS = i + 1;
-                else if (readText[i] == "<Gain>") StartPosGain = i + 1;
+                else if (readText[i].Contains("<FPS>")) Fps_str = ServiceFunctions.Files.XML_CutFromEdges(readText[i]);
+                else if (readText[i].Contains("<Gain>")) Gain_str = ServiceFunctions.Files.XML_CutFromEdges(readText[i]);
+                else if (readText[i].Contains("<Reference Exposure>")) Exp_reference_str = ServiceFunctions.Files.XML_CutFromEdges(readText[i]);
             }
             int num = EndPos - StartPos;
+
+            pGain = Convert.ToDouble(Gain_str.Replace('.', ','));
+            pFPS = Convert.ToDouble(Fps_str.Replace('.', ','));
+            if (pExposure_ref==-1) pExposure_ref = Convert.ToDouble(Exp_reference_str.Replace('.', ','));
+
             for (int i = StartPos; i < EndPos; i++)
             {
                 pWls.Add(Convert.ToInt32(readText[i].Substring(0, readText[i].IndexOf('\t'))));
-                pExps.Add(Convert.ToDouble(readText[i].Substring(readText[i].LastIndexOf('\t') + 1)));
+                //2nd num - real exp
+                string Real_exp_currrent = readText[i].Substring(readText[i].IndexOf('\t') + 1, readText[i].LastIndexOf('\t')- readText[i].IndexOf('\t')-1);
+                pExps_fromfile.Add(Convert.ToDouble(Real_exp_currrent.Replace('.', ',')));
+                //3d num - Multiplier
+                string Ref_exp_currrent = readText[i].Substring(readText[i].LastIndexOf('\t') + 1);
+                pExps_ref.Add(pExposure_ref * Convert.ToDouble(Ref_exp_currrent.Replace('.', ',')));
             }
-            pGain = Convert.ToDouble(readText[StartPosGain].Replace('.', ','));
-            pFPS = Convert.ToDouble(readText[StartPosFPS].Replace('.', ','));
         }
-        private static void RestructValues(ref List<int> ppWls, ref List<double> ppExps)//сортивка методом вставок
+        private static void ResortValues(ref List<int> ppWls, ref List<double> ppExps,ref List<double> ppExpsRef)//сортивка методом вставок
         {
             for (int i = 1; i < ppWls.Count; i++)
             {
                 int cur = ppWls[i];
                 double cur2 = ppExps[i];
+                double cur_refexp = ppExpsRef[i];
                 int j = i;
                 while (j > 0 && cur < ppWls[j - 1])
                 {
                     ppWls[j] = ppWls[j - 1];
                     ppExps[j] = ppExps[j - 1];
+                    ppExpsRef[j] = ppExpsRef[j - 1];
                     j--;
                 }
                 ppWls[j] = cur;
                 ppExps[j] = cur2;
+                ppExpsRef[j] = cur_refexp;
             }
         }
-        private static void InterpolateValues(int ppMinWL, int ppMaxWL, ref List<int> ppWls, ref List<double> ppExps)
+        private static void InterpolateValues(int ppMinWL, int ppMaxWL, ref List<int> ppWls, ref List<double> ppExps,ref List<double> ppExps_ref)
         {
             int ValuesEdded = 0;
             bool StartWL_exists = false;
@@ -99,14 +125,18 @@ namespace LDZ_Code
                 {
 
                     double expcur = ppExps[1] - ((ppExps[1] - ppExps[0]) / (double)(ppWls[1] - ppWls[0])) * ((double)(ppWls[1] - ppMinWL));
+                    double expcur2 = ppExps_ref[1] - ((ppExps_ref[1] - ppExps_ref[0]) / (double)(ppWls[1] - ppWls[0])) * ((double)(ppWls[1] - ppMinWL));
                     ppWls[0] = ppMinWL;
                     ppExps[0] = expcur;
+                    ppExps_ref[0] = expcur2;
                 }
                 else if (ppWls[0] > ppMinWL)
                 {
                     double expcur = ppExps[1] - ((ppExps[1] - ppExps[0]) / (double)(ppWls[1] - ppWls[0])) * ((double)(ppWls[1] - ppMinWL));
+                    double expcur2 = ppExps_ref[1] - ((ppExps_ref[1] - ppExps_ref[0]) / (double)(ppWls[1] - ppWls[0])) * ((double)(ppWls[1] - ppMinWL));
                     ppWls.Insert(0, ppMinWL);
                     ppExps.Insert(0, expcur);
+                    ppExps_ref.Insert(0, expcur2);
                 }
             }
             else
@@ -120,16 +150,20 @@ namespace LDZ_Code
                     int a = ppWls.Count - 1;
                     int b = ppWls.Count - 2;
                     double expcur = ppExps[a] - ((ppExps[a] - ppExps[b]) / (double)(ppWls[a] - ppWls[b])) * ((double)(ppWls[a] - ppMaxWL));
+                    double expcur2 = ppExps_ref[a] - ((ppExps_ref[a] - ppExps_ref[b]) / (double)(ppWls[a] - ppWls[b])) * ((double)(ppWls[a] - ppMaxWL));
                     ppWls.Add(ppMaxWL);
                     ppExps.Add(expcur);
+                    ppExps_ref.Add(expcur2);
                 }
                 else if ((ppWls[ppWls.Count - 1] > ppMaxWL) && ((ppWls.IndexOf(ppMaxWL) == -1)))
                 {
                     int a = ppWls.Count - 1;
                     int b = ppWls.Count - 2;
                     double expcur = ppExps[a] - ((ppExps[a] - ppExps[b]) / (double)(ppWls[a] - ppWls[b])) * ((double)(ppWls[a] - ppMaxWL));
+                    double expcur2 = ppExps_ref[a] - ((ppExps_ref[a] - ppExps_ref[b]) / (double)(ppWls[a] - ppWls[b])) * ((double)(ppWls[a] - ppMaxWL));
                     ppWls[a] = ppMaxWL;
                     ppExps[a] = expcur;
+                    ppExps_ref[a] = expcur2;
                 }
             }
             else
@@ -149,19 +183,22 @@ namespace LDZ_Code
                 {
                     ppWls.Insert(i + 1, ppWls[i] + j);
                     ppExps.Insert(i + 1, ppExps[i + 1 + NeedToAdd - j] + (ppExps[i] - ppExps[i + 1 + NeedToAdd - j]) * ((double)(NeedToAdd + 1 - j) / (double)(NeedToAdd + 1)));
+                    ppExps_ref.Insert(i + 1, ppExps_ref[i + 1 + NeedToAdd - j] + (ppExps_ref[i] - ppExps_ref[i + 1 + NeedToAdd - j]) * ((double)(NeedToAdd + 1 - j) / (double)(NeedToAdd + 1)));
                 }
                 IndWithWLs[NextWL] = i + 1 + NeedToAdd;
                 i += NeedToAdd;
             }
         }
-        private static void CutValues(int ppStartWL, int ppFinishWL, int ppStep, ref List<int> ppWls, ref List<double> ppExps)
+        private static void CutValues(int ppStartWL, int ppFinishWL, int ppStep, ref List<int> ppWls, ref List<double> ppExps,ref List<double> ppExpsRef)
         {
 
             int ValuesAdded = 0;
             List<int> NewWls = new List<int>();
             List<double> NewExps = new List<double>();
+            List<double> NewExpsRef = new List<double>();
             List<int> IndToAdd = new List<int>();
             bool EndWlNeed = (((ppFinishWL - ppStartWL) % ppStep) == 0) ? false : true;
+
             for (int i = 0; i < ppWls.Count; i++)
             {
                 if ((ppWls[i] == ppStartWL + ppStep * ValuesAdded) || (ppWls[i] == ppFinishWL))
@@ -175,9 +212,11 @@ namespace LDZ_Code
             {
                 NewWls.Add(ppWls[IndToAdd[i]]);
                 NewExps.Add(ICSpec.Form1.PerfectRounding(ppExps[IndToAdd[i]], 5));
+                NewExpsRef.Add(ICSpec.Form1.PerfectRounding(ppExpsRef[IndToAdd[i]], 5));
             }
             ppWls = NewWls;
             ppExps = NewExps;
+            ppExpsRef = NewExpsRef;
         }
 
         public static void CreateCurve(ref System.ComponentModel.BackgroundWorker pBackWorker, ref System.ComponentModel.DoWorkEventArgs pE,
@@ -313,6 +352,8 @@ namespace LDZ_Code
             for (int i = 0; i < format.Count(); i++)
             {
                 if (format[i].IndexOf('.') != -1)
+                    format[i] = format[i].Remove(format[i].IndexOf('.'), 1);
+                if (format[i].IndexOf('*') != -1)
                     format[i] = format[i].Remove(format[i].IndexOf('.'), 1);
                 format[i] = String.Format(format[i].ToUpper() + " Files(*.{0}) |*.{0}|", format[i].ToLower());
             }
@@ -571,6 +612,20 @@ namespace LDZ_Code
                     result = false;
                 }
                 return result;
+            }
+            public static string XML_CutFromEdges(string target)
+            {
+                try
+                {
+                    int startind = target.IndexOf('>');
+                    int finishind = target.LastIndexOf('<');
+                    string val = target.Substring(startind + 1, finishind - startind - 1);
+                    return val;
+                }
+                catch
+                {
+                    return "1";
+                }
             }
             public static List<int> List_Sort_viaLastNumber(ref List<string> FullImageWays, string ext)
             {
