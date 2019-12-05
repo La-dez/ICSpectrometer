@@ -52,7 +52,7 @@ namespace LDZ_Code
             ResortValues(ref pWls, ref pExps, ref pRealExps_byRef); //отсортируем
             InterpolateValues(pMinWL, pMaxhWL, ref pWls, ref pExps, ref pRealExps_byRef); //проинтерполируем с шагом 1
            // ICSpec.Form1.ShowStringDelegate obj = null;
-           // WriteCurveToFile(path, pWls, pExps, pGain, pFPS, ref obj, true);
+            //WriteCurveToFile(path, pWls, pExps, pGain, pFPS, ref obj, true);
             CutValues(pStWL, pFinWL, pStep, ref pWls, ref pExps,ref pRealExps_byRef);
         }
         public static void Get_WlExpCurveFromDirectory(string path, 
@@ -289,7 +289,7 @@ namespace LDZ_Code
                 pMesShowDel.Invoke(message3);
                 if (pBackWorker.CancellationPending) { pE.Cancel = true; return; }
                 //  LB.BeginInvoke(pMesShowDel, new object[] { message3 });
-                WriteCurveToFile(filename, Wls, Exps, pCurGain, pFPS, ref pMesShowDel, false);
+                //WriteCurveToFile(filename, Wls, Exps, pCurGain, pFPS, ref pMesShowDel, false);
 
             }
             catch (Exception exc)

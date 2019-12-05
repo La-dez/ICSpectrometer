@@ -1308,7 +1308,6 @@ namespace ICSpec
                     double Gain = 0, FPS = 0;
                     ExpCurve.Get_Interpolated_WlExpCurveFromDirectory(WayToCurv_exp, MinimumWL, MaximumWL, (int)AO_MinimumWL, (int)AO_MaximumWL, (int)AO_StepWL, 
                         ref wls, ref exps,ref exps_ref, ref Gain, ref FPS, ref reference_exposure);
-
                     LogMessage("Перестройка по кривой включена.");
                 }
             }
@@ -1318,7 +1317,7 @@ namespace ICSpec
                 WayToCurv_exp = "";
                 LogMessage("Перестройка по кривой отключена.");
             }
-            TSMI_Tuning_Exposure.Checked = !TSMI_Tuning_Exposure.Checked;
+            TSMI_Load_EXWL_C.Checked = !TSMI_Load_EXWL_C.Checked;
         }
 
         private void startTuningToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -1944,9 +1943,15 @@ namespace ICSpec
                 int toslide = 0;
                 toslide = Exposure_real2slide((double)(NUD_ExposureVal.Value));
                 if ((toslide < (TrBExposureVal.Maximum + 1)) && (toslide > (TrBExposureVal.Minimum - 1)))
+                {
                     TrBExposureVal.Value = toslide;
+                    TrBExposureVal_Scroll(null, null);
+                }
                 else
+                {
                     TrBExposureVal.Value = Exposure_real2slide(AbsValExp.Default);
+                    TrBExposureVal_Scroll(null, null);
+                }
             }
         }
 
@@ -1963,9 +1968,34 @@ namespace ICSpec
             }
         }
 
-        private void TSMI_UseRefExpFromFile_Click(object sender, EventArgs e)
+        private void TSMI_UseFileExpAsRef_Click(object sender, EventArgs e)
         {
-            TSMI_UseRefExpFromFile.Checked = !TSMI_UseRefExpFromFile.Checked;
+            if(!TSMI_UseFileExpAsRef.Checked)
+            {
+                TSMI_UseFileExpAsRef.Checked = true;
+                TSMI_UseCurrentExpAsRef.Checked = false;
+                TSMI_UseAbsExposure.Checked = false;
+            }
+        }
+
+        private void TSMI_UseCurrentExpAsRef_Click(object sender, EventArgs e)
+        {
+            if (!TSMI_UseCurrentExpAsRef.Checked)
+            {
+                TSMI_UseFileExpAsRef.Checked = false;
+                TSMI_UseCurrentExpAsRef.Checked = true;
+                TSMI_UseAbsExposure.Checked = false;
+            }
+        }
+
+        private void TSMI_UseAbsExposure_Click(object sender, EventArgs e)
+        {
+            if (!TSMI_UseAbsExposure.Checked)
+            {
+                TSMI_UseFileExpAsRef.Checked = false;
+                TSMI_UseCurrentExpAsRef.Checked = false;
+                TSMI_UseAbsExposure.Checked = true;
+            }
         }
 
         private void tests()

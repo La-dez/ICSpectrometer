@@ -706,7 +706,7 @@ namespace ICSpec
                 List<int> wls = new List<int>();
                 List<double> exps = new List<double>();
                 List<double> exps_ref = new List<double>();
-                double Exposure_ref_use_file = (TSMI_UseRefExpFromFile.Checked) ? -1 : AbsValExp.Value; 
+                double Exposure_ref_use_file = (TSMI_UseFileExpAsRef.Checked) ? -1 : AbsValExp.Value; 
                 if (IsNeeded_ExpCurve)
                 {
                     LDZ_Code.ExpCurve.Get_Interpolated_WlExpCurveFromDirectory(WayToCurv_exp, (int)Filter.WL_Min, (int)Filter.WL_Max,
@@ -751,7 +751,7 @@ namespace ICSpec
                         codeerr = Filter.Set_Wl(pStartWL);//, AOFSimulatorActivated);
                         if (IsNeeded_ExpCurve)
                         {
-                            double exposure2use = (TSMI_UseRefExpFromFile.Checked) ? exps_ref[0] : exps[0];
+                            double exposure2use = (TSMI_UseAbsExposure.Checked) ?  exps[0] : exps_ref[0];
                             LoadExposure_ToCam(ref AbsValExp, exposure2use);
                             LoadGain(ref vcdProp, Gain);
                         }
@@ -778,7 +778,7 @@ namespace ICSpec
                          }*/
                         if (IsNeeded_ExpCurve)
                         {
-                            double exposure2use = (TSMI_UseRefExpFromFile.Checked) ? exps_ref[i] : exps[i];
+                            double exposure2use = (TSMI_UseAbsExposure.Checked) ? exps[i] : exps_ref[i];
                             LoadExposure_ToCam(ref AbsValExp, exposure2use);
                         }
 

@@ -1,7 +1,7 @@
 <device_state libver="3.4" filemajor="1" fileminor="0">
     <device name="DFK 72AUC02" base_name="DFK 72AUC02" unique_name="DFK 72AUC02 45710426">
-        <videoformat>RGB32 (2592x1944)</videoformat>
-        <fps>5.9870022181843216558</fps>
+        <videoformat>RGB32 (640x480)</videoformat>
+        <fps>50.</fps>
         <vcdpropertyitems>
             <item guid="{284C0E06-010B-45BF-8291-09D90A459B28}" name="Brightness">
                 <element guid="{B57D3000-0AC6-4819-A609-272A33140ACA}" name="Value">
@@ -46,7 +46,7 @@
                     <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" value="0" />
                 </element>
                 <element guid="{B57D3000-0AC6-4819-A609-272A33140ACA}" name="Value">
-                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E03}" value="36" />
+                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E03}" value="4" />
                 </element>
             </item>
             <item guid="{90D5702E-E43B-4366-AAEB-7A7A10B448B4}" name="Exposure">
@@ -54,7 +54,7 @@
                     <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" value="0" />
                 </element>
                 <element guid="{B57D3000-0AC6-4819-A609-272A33140ACA}" name="Value">
-                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E08}" value="1.26999999999999994837462935493e-02" />
+                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E08}" value="1.89999999999999995281552145343e-02" />
                 </element>
                 <element guid="{65190390-1AD8-4E91-9021-66D64090CC85}" name="Auto">
                     <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" value="1" />
