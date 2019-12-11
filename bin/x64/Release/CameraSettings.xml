@@ -95,22 +95,10 @@
             </item>
             <item guid="{3D505AC4-1A28-428B-83E5-85AA8EB441C1}" name="Tone Mapping">
                 <element guid="{B57D3001-0AC6-4819-A609-272A33140ACA}" name="Auto">
-                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" value="0" />
+                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" value="1" />
                 </element>
                 <element guid="{B57D3000-0AC6-4819-A609-272A33140ACA}" name="Enable">
                     <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" value="0" />
-                </element>
-                <element guid="{8A1A5755-A562-470B-9842-97B08791144C}" name="b">
-                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E08}" value="-64.6996002197265625" />
-                </element>
-                <element guid="{0634AEA5-2A19-4292-97BC-7D228AE4C60F}" name="lum_avg">
-                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E08}" value="6.265954673290252685546875e-02" />
-                </element>
-                <element guid="{E6D1FED4-C28A-431D-B9EC-0FCE3566235A}" name="c">
-                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E08}" value="0.300000011920928955078125" />
-                </element>
-                <element guid="{48D2D5F5-0BED-4D5A-AA7C-B8A8C41C1179}" name="a">
-                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E08}" value="414.792510986328125" />
                 </element>
             </item>
             <item guid="{2CED6FD6-AB4D-4C74-904C-D682E53B9CC5}" name="Partial scan">
