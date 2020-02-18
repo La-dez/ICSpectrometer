@@ -86,7 +86,9 @@ namespace ICSpec
         string data_of_start = null;
         string data_NOW = null;
         bool isTimeSesNeeded = false;
-
+        bool isDftTurnedOn = false;
+        DFTForm DFTWindow = null;
+        Bitmap ImForDft = null;
         List<dynamic> IMG_buffers_mass = new List<dynamic>();
 
 
@@ -1766,6 +1768,16 @@ namespace ICSpec
                         }
                 }
             }
+            else if(isDftTurnedOn)
+            {
+                if (DFTWindow != null)
+                {
+                    ImForDft = new Bitmap(icImagingControl1.ImageBuffers[0].Bitmap);
+                  //  ImForDft = new Bitmap("tests.jpg");
+                    DFTWindow.DFTFromMat(ImForDft);
+                   // isDftTurnedOn = false;
+                }
+            }
         }
         bool precalculating_mode = true;
         List<byte[]> ByteMass_precalculated_list = new List<byte[]>();
@@ -1996,6 +2008,22 @@ namespace ICSpec
                 TSMI_UseCurrentExpAsRef.Checked = false;
                 TSMI_UseAbsExposure.Checked = true;
             }
+        }
+
+        private void TSMI_DFTWindowCall_Click(object sender, EventArgs e)
+        {
+            icImagingControl1.LiveCaptureContinuous = true;
+            isDftTurnedOn = true;
+            Action WinClosing = new Action(() =>
+            {
+                icImagingControl1.LiveCaptureContinuous = false;
+                isDftTurnedOn = false;
+               // DFTWindow.Close();
+            });
+            DFTWindow = new DFTForm(this, icImagingControl1.ImageWidth, icImagingControl1.ImageHeight, WinClosing);
+            ImForDft = new Bitmap(icImagingControl1.ImageWidth, icImagingControl1.ImageHeight);
+            DFTWindow.Show();
+
         }
 
         private void tests()

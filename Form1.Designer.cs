@@ -178,6 +178,7 @@
             this.Pan_FPS = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_DFTWindowCall = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_TuneSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.specialSeriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2361,15 +2362,23 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMI_DFTWindowCall,
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(50, 29);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // TSMI_DFTWindowCall
+            // 
+            this.TSMI_DFTWindowCall.Name = "TSMI_DFTWindowCall";
+            this.TSMI_DFTWindowCall.Size = new System.Drawing.Size(310, 30);
+            this.TSMI_DFTWindowCall.Text = "Show DFT Transform (beta)";
+            this.TSMI_DFTWindowCall.Click += new System.EventHandler(this.TSMI_DFTWindowCall_Click);
+            // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(123, 30);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(310, 30);
             this.quitToolStripMenuItem.Text = "Exit";
             // 
             // TSMI_TuneSettings
@@ -2389,7 +2398,7 @@
             this.TSMI_Tuning_Irregular,
             this.TSMI_Tuning_Pereodical});
             this.specialSeriesToolStripMenuItem.Name = "specialSeriesToolStripMenuItem";
-            this.specialSeriesToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.specialSeriesToolStripMenuItem.Size = new System.Drawing.Size(243, 30);
             this.specialSeriesToolStripMenuItem.Text = "Special series";
             // 
             // TSMI_Tuning_Exposure
@@ -2466,7 +2475,7 @@
             this.curvesCreatingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSMI_CurveCreating_ExposureWL});
             this.curvesCreatingToolStripMenuItem.Name = "curvesCreatingToolStripMenuItem";
-            this.curvesCreatingToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.curvesCreatingToolStripMenuItem.Size = new System.Drawing.Size(243, 30);
             this.curvesCreatingToolStripMenuItem.Text = "Curves creating";
             // 
             // TSMI_CurveCreating_ExposureWL
@@ -2479,7 +2488,7 @@
             // TSMI_MThreadSave
             // 
             this.TSMI_MThreadSave.Name = "TSMI_MThreadSave";
-            this.TSMI_MThreadSave.Size = new System.Drawing.Size(252, 30);
+            this.TSMI_MThreadSave.Size = new System.Drawing.Size(243, 30);
             this.TSMI_MThreadSave.Text = "Multithread saving";
             this.TSMI_MThreadSave.Click += new System.EventHandler(this.TSMI_MThreadSave_Click);
             // 
@@ -2814,6 +2823,7 @@
         private System.Windows.Forms.ToolStripMenuItem TSMI_UseFileExpAsRef;
         private System.Windows.Forms.ToolStripMenuItem TSMI_UseCurrentExpAsRef;
         private System.Windows.Forms.ToolStripMenuItem TSMI_UseAbsExposure;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_DFTWindowCall;
     }
 }
 
