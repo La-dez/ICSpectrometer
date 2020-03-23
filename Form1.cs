@@ -20,7 +20,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.45 Beta";
+        string Cur_Version = "v2.52 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -60,7 +60,7 @@ namespace ICSpec
 
         // Все для работы АО
         bool AO_WL_Controlled_byslider = false;
-        double AO_WL_precision = 100.0;
+        double AO_WL_precision = 1000.0;
         double AO_HZ_precision = 1000.0;
 
         //Все для sweep
@@ -69,6 +69,7 @@ namespace ICSpec
         double AO_TimeDeviation = 10;
         bool AO_Sweep_Needed = false;
         float[,] AO_All_CurveSweep_Params = new float[0, 0];
+
         bool AO_Sweep_CurveTuning_isEnabled = false;
         bool AO_Sweep_CurveTuning_inProgress = false;
         bool AO_Sweep_CurveTuning_StopFlag = false;
@@ -358,14 +359,22 @@ namespace ICSpec
 
         private void BStartS_Click(object sender, EventArgs e)
         {
-            int stepss = CalculateSteps();
-            DisableFlipButtons();
             if (!TSMI_Load_UDWL_Curve.Checked)
             {
                 WLs_toTune = null;
             }
-            New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
-            EnableFlipButtons();
+            DisableFlipButtons();
+            if (RB_Series_WLMode.Checked)
+            {
+                int stepss = CalculateSteps_viaWLs();
+                New_SnapAndSaveMassive_viaWLs(AO_StartWL, AO_EndWL, stepss, WLs_toTune);
+            }
+            else
+            {
+                int stepss = CalculateSteps_viaMHzs();
+                New_SnapAndSaveMassive_viaFrequencies(AO_StartFreq, AO_EndFreq, stepss);
+            }
+                EnableFlipButtons();
         }
 
         private void BDevOpen_Click(object sender, EventArgs e)
@@ -402,16 +411,11 @@ namespace ICSpec
 
             AO_FreqDeviation_Max_byTime = AO_TimeDeviation / (1000.0f / Filter.AO_ExchangeRate_Min);
             InitializeComponents_byVariables();
-            //Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min,1 /*(decimal)AbsValExp.Value*/,8/*(decimal)AbsValExp.RangeMax*/, 0);
             try { Load_properties_for_WL_ctrls((decimal)Filter.WL_Max, (decimal)Filter.WL_Min, (decimal)AbsValExp.Value, (decimal)AbsValExp.RangeMax, 0); }
             catch
             {
                 
             }
-        }
-
-        private void BPower_Click(object sender, EventArgs e)
-        {
         }
 
         private void BFolderOpen_Click(object sender, EventArgs e)
@@ -425,18 +429,14 @@ namespace ICSpec
             if (DependenceTrBWL && !LoadingAOFValues)
             { SetInactiveDependence(3); TrBWL_OnScroll(); SetInactiveDependence(0); }
         }
-        private void TrBWLNumber_Scroll(object sender, EventArgs e)
+        private void TrB_CurrentMHz_Scroll(object sender, EventArgs e)
         {
             if (DependenceTrBWN && !LoadingAOFValues)
             {
-                SetInactiveDependence(4); TrBWN_OnScroll(); SetInactiveDependence(0);
+                SetInactiveDependence(4); TrB_MHz_OnScroll(); SetInactiveDependence(0);
             }
         }
-        private void TBwl_TextChanged(object sender, EventArgs e)
-        {
-            if (DependenceTBWL && !LoadingAOFValues) { SetInactiveDependence(1); TBWLTextChanged(); SetInactiveDependence(0); }
-        }
-
+       
      
         private void SetInactiveDependence(int state)
         {
@@ -851,7 +851,7 @@ namespace ICSpec
                     wasAutomation = vcdProp.Automation[ChangeVCDID];
 
                     ExpCurve.CreateCurve(ref worker, ref e, ref icImagingControl1, ref vcdProp, ref ptrExp,
-                           MinimumWL, MaximumWL, (int)AO_StartL, (int)AO_EndL, (int)AO_StepWL, CurGain, CurFPS, MessageDelegate, wasAutomation,Filter);
+                           MinimumWL, MaximumWL, (int)AO_StartWL, (int)AO_EndWL, (int)AO_StepWL, CurGain, CurFPS, MessageDelegate, wasAutomation,Filter);
                     vcdProp.Automation[ChangeVCDID] = wasAutomation;
                 }
                 catch (Exception exc)
@@ -969,7 +969,7 @@ namespace ICSpec
                     {
                         var state = Filter.Set_Wl(data_CurrentWL);
                         if (state != 0) throw new Exception(Filter.Implement_Error(state));
-                        Log.Message("Перестройка на длину волны " + data_CurrentWL.ToString() + " нм прошла успешно!");
+                        Log.Message("Перестройка на " + data_CurrentWL.ToString() + " нм / " +Filter.HZ_Current.ToString() + " MHz прошла успешно!");
                     }
                     catch (Exception exc)
                     {
@@ -1043,19 +1043,16 @@ namespace ICSpec
 
         }
 
-        private void NUD_CurrentWN_ValueChanged(object sender, EventArgs e)
-        {
-            if (DependenceTBWN && !LoadingAOFValues) { SetInactiveDependence(2); TBWN_onValueChanged(); SetInactiveDependence(0); }
-        }
+      
 
         private void NUD_StartL_ValueChanged(object sender, EventArgs e)
         {
-            AO_StartL = (float)NUD_StartL.Value;
+            AO_StartWL = (float)NUD_StartL.Value;
         }
 
         private void NUD_FinishL_ValueChanged(object sender, EventArgs e)
         {
-            AO_EndL = (float)NUD_FinishL.Value;
+            AO_EndWL = (float)NUD_FinishL.Value;
         }
 
         private void NUD_StepL_ValueChanged(object sender, EventArgs e)
@@ -1124,10 +1121,10 @@ namespace ICSpec
                     if (Secs_total_elapsed >= TimeOfTuning_inSeconds)
                     {
                         data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now); //обнуление, по факту
-                        int stepss = CalculateSteps();
+                        int stepss = CalculateSteps_viaWLs();
                         DisableFlipButtons();
                         if (!TSMI_Load_EXWL_C.Checked) { WLs_toTune = null; }
-                        New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
+                        New_SnapAndSaveMassive_viaWLs(AO_StartWL, AO_EndWL, stepss, WLs_toTune);
                         EnableFlipButtons();
                     }
                 }
@@ -1144,11 +1141,11 @@ namespace ICSpec
             if (!TSMI_Tuning_Pereodical.Checked)
             {
                 isTimeSesNeeded = true;
-                int stepss = CalculateSteps();
+                int stepss = CalculateSteps_viaWLs();
                 DisableFlipButtons();
                 if (!TSMI_Load_UDWL_Curve.Checked) { WLs_toTune = null; }
                 data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
-                New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
+                New_SnapAndSaveMassive_viaWLs(AO_StartWL, AO_EndWL, stepss, WLs_toTune);
                 EnableFlipButtons();
             }
             else
@@ -1169,8 +1166,8 @@ namespace ICSpec
             {
                 TSMI_CurveCreating_ExposureWL.Checked = true;
                 TSMI_CurveCreating_ExposureWL.Text = "Exposure - WL curve (creating...)";
-                AO_StartL = Convert.ToInt32(NUD_StartL.Text);
-                AO_EndL = Convert.ToInt32(NUD_FinishL.Text);
+                AO_StartWL = Convert.ToInt32(NUD_StartL.Text);
+                AO_EndWL = Convert.ToInt32(NUD_FinishL.Text);
                 AO_StepWL = Convert.ToInt16(NUD_StepL.Text);
                 BkGrWorker_forExpCurveBuilding.RunWorkerAsync();
             }
@@ -1280,10 +1277,10 @@ namespace ICSpec
         private void TSMI_Start_UDWL_tune_Click(object sender, EventArgs e)
         {
             data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
-            int stepss = CalculateSteps();
+            int stepss = CalculateSteps_viaWLs();
             DisableFlipButtons();
             if (!TSMI_Load_UDWL_Curve.Checked) { WLs_toTune = null; }
-            New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, WLs_toTune);
+            New_SnapAndSaveMassive_viaWLs(AO_StartWL, AO_EndWL, stepss, WLs_toTune);
             EnableFlipButtons();
         }
 
@@ -1325,10 +1322,10 @@ namespace ICSpec
         private void startTuningToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             data_of_start = string.Format("{0:yyyy-MM-dd HH:mm:ss.fff}", DateTime.Now);
-            int stepss = CalculateSteps();
+            int stepss = CalculateSteps_viaWLs();
             DisableFlipButtons();
             if (!TSMI_Load_UDWL_Curve.Checked) { WLs_toTune = null; }
-            New_SnapAndSaveMassive((int)AO_StartL, (int)AO_EndL, stepss, null);
+            New_SnapAndSaveMassive_viaWLs((int)AO_StartWL, (int)AO_EndWL, stepss, null);
             EnableFlipButtons();
         }
 
@@ -2026,6 +2023,39 @@ namespace ICSpec
 
         }
 
+        private void RB_Series_FreqMode_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NUD_FreqStep_ValueChanged(object sender, EventArgs e)
+        {
+            AO_StepFreq = (float)NUD_FreqStep.Value;
+        }
+
+        private void NUD_FreqFin_ValueChanged(object sender, EventArgs e)
+        {
+            AO_EndFreq = (float)NUD_FreqFin.Value;
+        }
+
+        private void NUD_FreqStart_ValueChanged(object sender, EventArgs e)
+        {
+            AO_StartFreq = (float)NUD_FreqStart.Value;
+        }
+
+        private void RB_Series_WLMode_CheckedChanged(object sender, EventArgs e)
+        {
+          
+                NUD_StepL.Enabled = RB_Series_WLMode.Checked;
+                NUD_StartL.Enabled = RB_Series_WLMode.Checked;
+                NUD_FinishL.Enabled = RB_Series_WLMode.Checked;
+
+                NUD_FreqStart.Enabled = !RB_Series_WLMode.Checked;
+                NUD_FreqFin.Enabled = !RB_Series_WLMode.Checked;
+                NUD_FreqStep.Enabled = !RB_Series_WLMode.Checked;
+
+        }
+
         private void tests()
         {
 
@@ -2061,34 +2091,24 @@ namespace ICSpec
                 TrB_CurrentWL.Minimum = (int)(Filter.WL_Min * AO_WL_precision);       
                 TrB_CurrentWL.Value = (int)(data_CurWL * AO_WL_precision);
 
-                NUD_CurrentWN.Maximum = (decimal)ConvertWL2WN(Filter.WL_Min);
-                NUD_CurrentWN.Minimum = (decimal)ConvertWL2WN(Filter.WL_Max);
-                NUD_CurrentWN.Value = (decimal)ConvertWL2WN(data_CurWL);
+                NUD_CurrentMHz.Maximum = (decimal)(Filter.HZ_Max);
+                NUD_CurrentMHz.Minimum = (decimal)(Filter.HZ_Min);
+                NUD_CurrentMHz.Value = (decimal)(Filter.HZ_Current);
 
-                TrB_CurrentWN.Maximum = (int)(ConvertWL2WN(Filter.WL_Min) * AO_WL_precision);
-                TrB_CurrentWN.Minimum = (int)(ConvertWL2WN(Filter.WL_Max) * AO_WL_precision);
-                TrB_CurrentWN.Value = (int)(ConvertWL2WN(data_CurWL) * AO_WL_precision);
+                TrB_CurrentMHz.Maximum = (int)((double)NUD_CurrentMHz.Maximum * AO_HZ_precision);
+                TrB_CurrentMHz.Minimum = (int)((double)NUD_CurrentMHz.Minimum * AO_HZ_precision);
+                TrB_CurrentMHz.Value = (int)((double)NUD_CurrentMHz.Value * AO_HZ_precision);
 
                 NUD_StartL.Minimum = NUD_FinishL.Minimum = NUD_StartL.Value = (decimal)Filter.WL_Min;
                 NUD_StartL.Maximum = NUD_FinishL.Maximum = NUD_FinishL.Value = (decimal)Filter.WL_Max;
                 NUD_StepL.Minimum = 1;
                 NUD_StepL.Maximum =(decimal)(Filter.WL_Max - Filter.WL_Min);
-               // NUD_StepL.
-                /*   ChB_SweepEnabled.Checked = Filter.is_inSweepMode;
-                   Pan_SweepControls.Enabled = Filter.is_inSweepMode;
 
-                   var AOFWind_FreqDeviation_bkp = AO_FreqDeviation; // ибо AO_FreqDeviation изменяется, если изменяются максимумы
-                   //NUD_FreqDeviation.Minimum = (decimal)Filter.AO_FreqDeviation_Min;
-                   //NUD_FreqDeviation.Maximum = (decimal)
-                   //    (AO_FreqDeviation_Max_byTime < Filter.AO_FreqDeviation_Max ? AO_FreqDeviation_Max_byTime : Filter.AO_FreqDeviation_Max);
-
-                   var AOFWind_TimeDeviation_bkp = AO_TimeDeviation; // ибо AOFWind_TimeDeviation изменяется, если изменяются максимумы
-                   //NUD_TimeFdev.Minimum = (decimal)Filter.AO_TimeDeviation_Min;
-                   //NUD_TimeFdev.Maximum = (decimal)Filter.AO_TimeDeviation_Max;
-
-
-                   NUD_TimeFdev.Value = (decimal)AOFWind_TimeDeviation_bkp;
-                   NUD_FreqDeviation.Value = (decimal)AOFWind_FreqDeviation_bkp > NUD_FreqDeviation.Maximum ? NUD_FreqDeviation.Maximum : (decimal)AO_FreqDeviation;*/
+                NUD_FreqStart.Minimum = NUD_FreqFin.Minimum = NUD_FreqStart.Value = (decimal)Filter.HZ_Min;
+                NUD_FreqStart.Maximum = NUD_FreqFin.Maximum = NUD_FreqFin.Value = (decimal)Filter.HZ_Max;
+                NUD_FreqStep.Minimum = (decimal)0.05;
+                NUD_FreqStep.Maximum = (decimal)(Filter.HZ_Max - Filter.HZ_Min);
+                
 
                 ChB_Power.Enabled = true;
 
@@ -2100,12 +2120,7 @@ namespace ICSpec
             }
         }
 
-        private void SetWL_everywhere(int pwl)
-        {
-
-            NUD_CurrentWL.Value = pwl;
-            TrB_CurrentWL.Value = pwl;
-        }
+        
         private void ReSweep(float p_data_CurrentWL)
         {
             Filter.Set_Sweep_off();

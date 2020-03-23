@@ -16,7 +16,9 @@ namespace ICSpec
 {
     public partial class Form1
     {
-        float AO_MinimumWL = 740, AO_MaximumWL = 1000, AO_StepWL = 10, AO_CurrentWL = 0, AO_StartL = 0, AO_EndL = 0;
+        float AO_MinimumWL = 740, AO_MaximumWL = 1000, AO_CurrentWL = 0;
+        float AO_StepWL = 10, AO_StartWL = 0, AO_EndWL = 0;
+        float AO_StepFreq = 10, AO_StartFreq = 0, AO_EndFreq = 0;
         bool ACenterAvailible = false;
         bool ScanXOffsetAvailible = false;
         bool ScanYOffsetAvailible = false;
@@ -678,22 +680,207 @@ namespace ICSpec
             NUD_CurrentWL.Text = AO_CurrentWL.ToString();
             SetInactiveDependence(0);
         }
-        private void New_SnapAndSaveMassive(int pStartWL, int pFinishWL, int pSteps,float[] WLVals = null)
+        private void New_SnapAndSaveMassive_viaFrequencies(float pStart_MHz, float pFinish_MHz, int MHz_Steps, float[] MHz_Vals = null)
         {
 
             string date = GetDateString();
-            /*  if (!curfhs.SnapMode)
-              {
-                  try
-                  {
-                    curfhs.SnapMode = true;
-                }
-                catch
+
+            string NameDirectory = GetFullDateString() + "\\";
+            int level = 0;
+            try
+            {
+                TIS.Imaging.ImageBuffer[] rval = new TIS.Imaging.ImageBuffer[MHz_Steps + 1];
+                ReadAllSettingsFromFile(false);
+                int codeerr = 0;
+                bool IsNeeded_ExpCurve = TSMI_Load_EXWL_C.Checked;
+                double Gain = 0, FPS = 0;
+                List<int> wls = new List<int>();
+                List<double> exps = new List<double>();
+                List<double> exps_ref = new List<double>();
+                double Exposure_ref_use_file = (TSMI_UseFileExpAsRef.Checked) ? -1 : AbsValExp.Value;
+
+                List<float> allvalues = new List<float>();
+                List<double> Times2SetWL = new List<double>();
+                List<double> Times2SnapImage = new List<double>();
+                List<double> Times2CopyImage = new List<double>();
+                //List<double> Times2CopyImage = new List<double>();
+                level = 1;
+                if (MHz_Vals == null)
                 {
-                    Log.Message("Ошибка при отключении постоянной регистрации кадров. Прерывание...");
-                    return;
+                    for (int i = 0; i < MHz_Steps; i++)
+                    {
+                        float AO_CurrentHZ = pStart_MHz + i * AO_StepFreq;
+                        allvalues.Add(AO_CurrentHZ);
+                    }
+                    allvalues.Add(pFinish_MHz);
+                    if (allvalues[MHz_Steps] == allvalues[MHz_Steps - 1]) allvalues.RemoveAt(MHz_Steps);
                 }
-            }*/
+                else
+                {
+                    allvalues = new List<float>(MHz_Vals);
+                }
+                int psteps2 = allvalues.Count;
+                if (icImagingControl1.ImageRingBufferSize < allvalues.Count)
+                {
+                    icImagingControl1.LiveStop();
+                    icImagingControl1.ImageRingBufferSize = allvalues.Count;
+                    icImagingControl1.LiveStart();
+                }
+                level = 2;
+                if (WarningofImage) { level = 3; LogError(WarningofImgMessage); }
+                else
+                {
+                    try
+                    {
+                        codeerr = Filter.Set_Hz(pStart_MHz);//, AOFSimulatorActivated);
+                        if (IsNeeded_ExpCurve)
+                        {
+                            double exposure2use = (TSMI_UseAbsExposure.Checked) ? exps[0] : exps_ref[0];
+                            LoadExposure_ToCam(ref AbsValExp, exposure2use);
+                            LoadGain(ref vcdProp, Gain);
+                        }
+                        Thread.Sleep(500);
+                        if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); };
+                    }
+                    catch (Exception ex)
+                    {
+                        LogError(ex.Message);
+                    }
+                    // System.Threading.Thread.Sleep(20);             
+                    Stopwatch SessionDone = new Stopwatch(); SessionDone.Start();
+                    level = 4;
+                    for (int i = 0; i < psteps2; i++)
+                    {
+
+                        if (IsNeeded_ExpCurve)
+                        {
+                            double exposure2use = (TSMI_UseAbsExposure.Checked) ? exps[i] : exps_ref[i];
+                            LoadExposure_ToCam(ref AbsValExp, exposure2use);
+                        }
+
+                        Stopwatch swl = new Stopwatch(); swl.Start();
+                        //AOF.AOM_SetWL(allvalues[i], AOFSimulatorActivated);
+                        Filter.Set_Hz(allvalues[i]);//, AOFSimulatorActivated);
+
+
+                        swl.Stop();
+                        Times2SetWL.Add(swl.Elapsed.TotalMilliseconds);
+
+                        Stopwatch swl2 = new Stopwatch();
+                        swl2.Start();
+                        curfhs.SnapImage();
+                        swl2.Stop();
+                        Times2SnapImage.Add(swl2.Elapsed.TotalMilliseconds);
+
+                        Stopwatch swl3 = new Stopwatch(); swl3.Start();
+                        rval[i] = curfhs.LastAcquiredBuffer;
+                        swl3.Stop();
+                        Times2CopyImage.Add(swl3.Elapsed.TotalMilliseconds);
+
+                    }
+                    SessionDone.Stop();
+
+                    level = 5;
+                    double MediumTime2SWL = 0;
+                    double MediumTime2SI = 0;
+                    double MediumTime2CI = 0;
+                    for (int i = 0; i < Times2SetWL.Count; i++) { MediumTime2SWL += Times2SetWL[i]; }
+                    for (int i = 0; i < Times2SnapImage.Count; i++) { MediumTime2SI += Times2SnapImage[i]; }
+                    for (int i = 0; i < Times2CopyImage.Count; i++) { MediumTime2CI += Times2CopyImage[i]; }
+                    MediumTime2SWL /= Times2SetWL.Count;
+                    MediumTime2SI /= Times2SnapImage.Count;
+                    MediumTime2CI /= Times2CopyImage.Count;
+                    LogMessage("Среднее время на перестройку: " + MediumTime2SWL.ToString());
+                    LogMessage("Среднее время на захват: " + MediumTime2SI.ToString());
+                    LogMessage("Среднее время на копирование:  " + MediumTime2CI.ToString());
+                    LogMessage("Захват кадров завершен. Прошедшее время: " + SessionDone.Elapsed.ToString());
+                    LogMessage("Заявленное FPS: " + icImagingControl1.DeviceFrameRate);
+                    LogMessage("Реальное   FPS: " + (((double)(psteps2)) / SessionDone.Elapsed.TotalSeconds).ToString());
+                    level = 6;
+                }
+                level = 7;
+                string SCRName = CheckScreenShotBasicName();
+                Directory.CreateDirectory(SnapImageStyle.Directory + NameDirectory);
+                if (!TSMI_MThreadSave.Checked)
+                {
+                    for (int i = 0; i < psteps2; i++)
+                    {
+                        try
+                        {
+                            string local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
+                                allvalues[i].ToString().Replace(',', '.') + SnapImageStyle.Extension;
+                            if (File.Exists(local))
+                            {
+                                int num = 1;
+                                while (File.Exists(local))
+                                {
+                                    num++;
+                                    local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
+                                allvalues[i].ToString().Replace(',','.') + "_" + num.ToString() + SnapImageStyle.Extension;
+                                }
+                            }
+                            rval[i].SaveAsTiff(local);
+                            // LogMessage("Формат пикселей: " + Massive2Save[i].PixelFormat.ToString());
+                        }
+                        catch (Exception e3)
+                        {
+                            LogError("Сохранение " + i.ToString() + " не произошло.");
+                            LogError("ORIGINAL: " + e3.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    List<dynamic> Frames_and_Names_cur = new List<dynamic>();
+                    for (int i = 0; i < psteps2; i++)
+                    {
+                        try
+                        {
+                            string local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
+                                allvalues[i].ToString().Replace(',', '.') + SnapImageStyle.Extension;
+                            if (File.Exists(local))
+                            {
+                                int num = 1;
+                                while (File.Exists(local))
+                                {
+                                    num++;
+                                    local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
+                                allvalues[i].ToString().Replace(',', '.') + "_" + num.ToString() + SnapImageStyle.Extension;
+                                }
+                            }
+                            Frames_and_Names_cur.Add(new { Buffer = rval[i], Name = local });
+                            // Frames_and_Names_cur[0].Buffer.Dispose();
+
+                            // LogMessage("Формат пикселей: " + Massive2Save[i].PixelFormat.ToString());
+                        }
+                        catch (Exception e3)
+                        {
+                            LogError("Сохранение " + i.ToString() + " не произошло.");
+                            LogError("ORIGINAL: " + e3.Message);
+                        }
+                    }
+
+                    IMG_buffers_mass.Add(new { Frames_and_Names = new List<dynamic>(Frames_and_Names_cur), Dir_name = NameDirectory.Substring(0, NameDirectory.Count() - 1) });
+                    if (!BGW_Saver.IsBusy) BGW_Saver.RunWorkerAsync();
+                }
+                //rval = null;
+                level = 8;
+                SetInactiveDependence(1);
+                NUD_CurrentWL.Text = AO_CurrentWL.ToString();
+                SetInactiveDependence(0);
+                level = 9;
+            }
+            catch (Exception e)
+            {
+                Log.Error("Произошла ошибка во время захвата или сохранения. Этап выполнения функции:" + level.ToString());
+                Log.Error("ORIGINAL: " + e.Message);
+            }
+        }
+        private void New_SnapAndSaveMassive_viaWLs(float pStartWL, float pFinishWL, int pSteps,float[] WLVals = null)
+        {
+
+            string date = GetDateString();
+
             string NameDirectory = GetFullDateString() + "\\";
             int level = 0;
             try
@@ -710,7 +897,7 @@ namespace ICSpec
                 if (IsNeeded_ExpCurve)
                 {
                     LDZ_Code.ExpCurve.Get_Interpolated_WlExpCurveFromDirectory(WayToCurv_exp, (int)Filter.WL_Min, (int)Filter.WL_Max,
-                        pStartWL, pFinishWL, (int)AO_StepWL,
+                        (int)pStartWL, (int)pFinishWL, (int)AO_StepWL,
                         ref wls, ref exps, ref exps_ref,
                         ref Gain, ref FPS,ref Exposure_ref_use_file);
                 }
@@ -767,15 +954,7 @@ namespace ICSpec
                     level = 4;
                     for (int i = 0; i < psteps2; i++)
                     {
-                        /* try
-                         {
-                             codeerr = AOF.AOM_SetWL(allvalues[i], AOFSimulatorActivated);
-                             if (codeerr != 0) { throw new Exception(AOF.AOM_IntErr(codeerr)); };
-                         }
-                         catch (Exception ex)
-                         {
-                             LogError(ex.Message);
-                         }*/
+                       
                         if (IsNeeded_ExpCurve)
                         {
                             double exposure2use = (TSMI_UseAbsExposure.Checked) ? exps[i] : exps_ref[i];
@@ -803,6 +982,7 @@ namespace ICSpec
 
                     }
                     SessionDone.Stop();
+
                     level = 5;
                     double MediumTime2SWL = 0;
                     double MediumTime2SI = 0;
@@ -1132,9 +1312,7 @@ namespace ICSpec
         {
             int codeerr = 0;
             float wl_current = 0;
-            wl_current = (float)(TrB_CurrentWL.Value/AO_WL_precision);
-            NUD_CurrentWL.Value = (decimal)wl_current;
-            NUD_CurrentWN.Value = (decimal)ConvertWL2WN(wl_current);           
+            wl_current = (float)(TrB_CurrentWL.Value/AO_WL_precision);      
             if(AutoSetActivated)
             try
             {
@@ -1147,53 +1325,35 @@ namespace ICSpec
             {
                 LogError(ex.Message);
             }
+
+            NUD_CurrentWL.Value = (decimal)wl_current;
+            NUD_CurrentMHz.Value = (decimal)Filter.Get_HZ_via_WL(wl_current);
+            TrB_CurrentMHz.Value =(int)((double)NUD_CurrentMHz.Value * AO_HZ_precision);
         }
-        private void TrBWN_OnScroll()
+        private void TrB_MHz_OnScroll()
         {
             int codeerr = 0;
-            float current_WN = 0;
-            current_WN = TrB_CurrentWN.Value / (float)AO_WL_precision;
-            NUD_CurrentWN.Value = (decimal)(current_WN);
-            NUD_CurrentWL.Value = (decimal)(Math.Round(ConvertWN2WL(current_WN) * AO_WL_precision)/ AO_WL_precision);
-            TrB_CurrentWL.Value = (int)(ConvertWN2WL(current_WN)*AO_WL_precision);
+            float current_MHz = 0;
+            current_MHz = TrB_CurrentMHz.Value / (float)AO_HZ_precision;
+            
             if (AutoSetActivated)
                 try
                 {
-                    codeerr = Filter.Set_Wl(ConvertWN2WL(current_WN));//, AOFSimulatorActivated);
+                    codeerr = Filter.Set_Hz(current_MHz);//, AOFSimulatorActivated);
                     if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); }
-                    else LogMessage(NUD_CurrentWL.Text + " wave lenght has been set!");
+                    else LogMessage(NUD_CurrentMHz.Text + " sound frequency has been set!");
                 }
                 catch (Exception ex)
                 {
                     LogError(ex.Message);
                 }
-        }
-        private void TBWLTextChanged()
-        {
-            ChB_AutoSetWL.Checked = false;
-            try
-            { 
-            int curWL = Convert.ToInt16(NUD_CurrentWL.Text);
-            NUD_CurrentWN.Text = ConvertWL2WN(curWL).ToString();
-            
-            TrB_CurrentWL.Value = curWL;
-            TrB_CurrentWN.Value = (int)ConvertWL2WN(curWL);
-            }
-            catch { LogError("Указанное значение находится вне диапазона"); }
 
+            NUD_CurrentMHz.Value = (decimal)(current_MHz);
+            NUD_CurrentWL.Value = (decimal)(Filter.Get_WL_via_HZ(current_MHz));
+            TrB_CurrentWL.Value = (int)((double)NUD_CurrentWL.Value * AO_WL_precision);
+           
         }
-        private void TBWN_onValueChanged()
-        {
-            ChB_AutoSetWL.Checked = false;
-            try
-            {
-                int curWN = Convert.ToInt16(NUD_CurrentWN.Value);
-                NUD_CurrentWL.Value = (decimal)ConvertWN2WL(curWN);
-                TrB_CurrentWL.Value = (int)(ConvertWN2WL(curWN) * AO_WL_precision);
-                TrB_CurrentWN.Value = (int)(curWN * AO_WL_precision);
-            }
-            catch { LogError("Указанное значение находится вне диапазона"); }
-        }
+       
         private void BSetWLOnClick()
         {
             int codeerr = 0;
@@ -1215,13 +1375,20 @@ namespace ICSpec
             if ((TBNamePrefix.Text != "") && (TBNamePrefix.Text != null)) result = TBNamePrefix.Text;
             return result;
         }
-        private int CalculateSteps()
+        private int CalculateSteps_viaWLs()
         {
             AO_StepWL = Convert.ToInt16(NUD_StepL.Value);
-            AO_CurrentWL = Convert.ToInt16(NUD_CurrentWL.Value);
-            AO_StartL = Convert.ToInt32(NUD_StartL.Value);
-            AO_EndL = Convert.ToInt32(NUD_FinishL.Value);
-            int steps = (int)((AO_EndL - AO_StartL) / AO_StepWL) + 1;
+            AO_StartWL = Convert.ToInt32(NUD_StartL.Value);
+            AO_EndWL = Convert.ToInt32(NUD_FinishL.Value);
+            int steps = (int)((AO_EndWL - AO_StartWL) / AO_StepWL) + 1;
+            return steps;
+        }
+        private int CalculateSteps_viaMHzs()
+        {
+            AO_StepFreq = (float)NUD_FreqStep.Value;
+            AO_StartFreq = (float)NUD_FreqStart.Value;
+            AO_EndFreq = (float)NUD_FreqFin.Value;
+            int steps = (int)((AO_EndFreq - AO_StartFreq) / AO_StepFreq) + 1;
             return steps;
         }
         private void DisableAlltheShit()
@@ -1230,9 +1397,10 @@ namespace ICSpec
             TBROIWidth.Enabled = false;
             TBROIPointX.Enabled = false;
             TBROIPointY.Enabled = false;
-            TBStartN.Enabled = false;
+
+           /* TBStartN.Enabled = false;
             TBFinishN.Enabled = false;
-            textBox3.Enabled = false;
+            textBox3.Enabled = false;*/
 
             CBFinalPixelFormat.Enabled = false;
 
@@ -1243,6 +1411,7 @@ namespace ICSpec
         }
         private float ConvertWL2WN(float WL) {  return 10000000.0f / (WL); }
         private float ConvertWN2WL(float WN) { return 10000000.0f / (WN); }
+
         private void TestAvailability(bool Visual)
         {
             if(Visual) LogMessage(DateTime.Today.ToString());                

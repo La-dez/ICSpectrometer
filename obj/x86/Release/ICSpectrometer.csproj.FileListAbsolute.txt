@@ -131,9 +131,6 @@ E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\x86\cvextern.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\x86\msvcp140.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\x86\vcruntime140.dll
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.45 Beta.exe.config
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.45 Beta.exe
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.45 Beta.pdb
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\Emgu.CV.UI.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\Emgu.CV.World.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\TIS.Imaging.ICImagingControl34.dll
@@ -161,7 +158,10 @@ E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.GenerateResource.cache
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.CoreCompileInputs.cache
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.CopyComplete
-E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.45 Beta.exe
-E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.45 Beta.pdb
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\x86\opencv_ffmpeg343.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csprojAssemblyReference.cache
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.52 Beta.exe.config
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.52 Beta.exe
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.52 Beta.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.52 Beta.exe
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.52 Beta.pdb
