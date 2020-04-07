@@ -160,8 +160,8 @@ E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csproj.CopyComplete
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\x86\opencv_ffmpeg343.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\ICSpectrometer.csprojAssemblyReference.cache
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.52 Beta.exe.config
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.52 Beta.exe
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer v2.52 Beta.pdb
-E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.52 Beta.exe
-E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer v2.52 Beta.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer.exe.config
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer.exe
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x86\Release\IC Spectrometer.pdb
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer.exe
+E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x86\Release\IC Spectrometer.pdb

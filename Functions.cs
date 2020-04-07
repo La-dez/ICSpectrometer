@@ -807,8 +807,9 @@ namespace ICSpec
                     {
                         try
                         {
+                            string value_local = String.Format("{0:0.000}", allvalues[i]).Replace(',', '.');
                             string local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
-                                allvalues[i].ToString().Replace(',', '.') + SnapImageStyle.Extension;
+                                value_local + SnapImageStyle.Extension;
                             if (File.Exists(local))
                             {
                                 int num = 1;
@@ -816,7 +817,7 @@ namespace ICSpec
                                 {
                                     num++;
                                     local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
-                                allvalues[i].ToString().Replace(',','.') + "_" + num.ToString() + SnapImageStyle.Extension;
+                                value_local + "_" + num.ToString() + SnapImageStyle.Extension;
                                 }
                             }
                             rval[i].SaveAsTiff(local);
@@ -836,8 +837,9 @@ namespace ICSpec
                     {
                         try
                         {
+                            string value_local = String.Format("{0:0.000}", allvalues[i]).Replace(',', '.');
                             string local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
-                                allvalues[i].ToString().Replace(',', '.') + SnapImageStyle.Extension;
+                                value_local + SnapImageStyle.Extension;
                             if (File.Exists(local))
                             {
                                 int num = 1;
@@ -845,7 +847,7 @@ namespace ICSpec
                                 {
                                     num++;
                                     local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
-                                allvalues[i].ToString().Replace(',', '.') + "_" + num.ToString() + SnapImageStyle.Extension;
+                                value_local + "_" + num.ToString() + SnapImageStyle.Extension;
                                 }
                             }
                             Frames_and_Names_cur.Add(new { Buffer = rval[i], Name = local });
