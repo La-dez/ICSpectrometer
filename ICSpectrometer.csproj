@@ -154,7 +154,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AOF.cs" />
     <Compile Include="DFTForm.cs">
       <SubType>Form</SubType>
     </Compile>

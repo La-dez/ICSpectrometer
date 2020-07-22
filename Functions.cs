@@ -375,6 +375,7 @@ namespace ICSpec
                 ChBExposureAuto.Enabled = true;
                 vcdProp.Automation[ChangeVCDID] = false;
             }
+
             if (!vcdProp.AutoAvailable(ChangeVCDID2))//если невозможна автоматическая регулировка,отключить возможность ее включения
             {
                 ChBGainAuto.Enabled = false;
@@ -385,7 +386,7 @@ namespace ICSpec
                 vcdProp.Automation[ChangeVCDID2] = false;
             }
 
-            if (!vcdProp.Available(ChangeVCDID))
+            if (!vcdProp.Available(ChangeVCDID))//если невозможна  регулировка,отключить
             {
                 TrBExposureVal.Enabled = false;
                 NUD_ExposureVal.Enabled = false;
@@ -402,13 +403,18 @@ namespace ICSpec
                 NUD_ExposureVal.Minimum = (decimal)AbsValExp.RangeMin;
                 NUD_ExposureVal.Maximum = (decimal)AbsValExp.RangeMax;
 
+                double CentralValue_onSlider = 0.25;
+                //22072020 было решено определять середину слайдера, как 1/8 от всего диапазона
+                if((decimal)CentralValue_onSlider <= NUD_ExposureVal.Minimum || (decimal)CentralValue_onSlider >= NUD_ExposureVal.Maximum)
+                    CentralValue_onSlider = (double)(NUD_ExposureVal.Minimum + (NUD_ExposureVal.Maximum - NUD_ExposureVal.Minimum) / (decimal)8.0);
+
                 TrBExposureVal.Enabled = true;
                 NUD_ExposureVal.Enabled = true;
                 int Az = TrBExposureVal.Minimum = (int)PerfectRounding((double)(AbsValExp.RangeMin * zF),0);
                 int Bz = TrBExposureVal.Maximum = (int)PerfectRounding((double)(AbsValExp.RangeMax * zF),0);
-                alpha = (AbsValExp.RangeMin*AbsValExp.RangeMax - 0.25*0.25) / (AbsValExp.RangeMin + AbsValExp.RangeMax - 2*0.25);
+                alpha = (AbsValExp.RangeMin*AbsValExp.RangeMax - CentralValue_onSlider * CentralValue_onSlider) / (AbsValExp.RangeMin + AbsValExp.RangeMax - 2* CentralValue_onSlider);
                 xenta = Math.Pow((AbsValExp.RangeMax - alpha) / (AbsValExp.RangeMin - alpha), (zF / ((Bz - Az))));               
-                beta = (0.25 - alpha) / Math.Pow(xenta, (Bz + Az) / (2 * zF));
+                beta = (CentralValue_onSlider - alpha) / Math.Pow(xenta, (Bz + Az) / (2 * zF));
                 int val1slide = Az;              
                 double val1real = Exposure_Slide2real(val1slide);
                 int val2slide = Exposure_real2slide(val1real);
@@ -424,7 +430,7 @@ namespace ICSpec
                 NUD_ExposureVal.Value = (decimal)(PerfectRounding(AbsValExp.Value, NUD_ExposureVal.DecimalPlaces));
                 ChangingActivatedTextBoxExp = true;
             }
-            if (!vcdProp.Available(ChangeVCDID2))
+            if (!vcdProp.Available(ChangeVCDID2))//если невозможна  регулировка,отключить
             {
                 TrBGainVal.Enabled = false;
                 NUD_GainVal.Enabled = false;

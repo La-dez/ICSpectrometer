@@ -785,7 +785,14 @@ namespace ICSpec
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            icImagingControl1.SaveDeviceStateToFile("CameraSettings.xml");
+            try
+            {
+                icImagingControl1.SaveDeviceStateToFile("CameraSettings.xml");
+            }
+            catch
+            {
+
+            }
         }
 
         private void CBoxPixelFormat_SelectedIndexChanged(object sender, EventArgs e)
@@ -1922,13 +1929,13 @@ namespace ICSpec
         private void BGW_Saver_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             AllSeriesIsSaved = IMG_buffers_mass.Count == 0 ? true : false; //на всякий случай проверим, нет ли еще серий в памяти
-            if (AllSeriesIsSaved) BGW_Saver.RunWorkerAsync();
+            if (!AllSeriesIsSaved) BGW_Saver.RunWorkerAsync();
         }
 
         private void BGW_Saver_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            AllSeriesIsSaved = IMG_buffers_mass.Count == 0 ? true : false;
             Log.Message("Данные в директории " + lastSavedBuf_name + " сохранены! Осталось серий в памяти: " + IMG_buffers_mass.Count.ToString());
+            AllSeriesIsSaved = IMG_buffers_mass.Count == 0 ? true : false;
         }
 
       
@@ -1971,9 +1978,15 @@ namespace ICSpec
                 decimal toslide = 0;
                 toslide = NUD_GainVal.Value;
                 if ((toslide < (TrBGainVal.Maximum + 1)) && (toslide > (TrBGainVal.Minimum - 1)))
+                {
                     TrBGainVal.Value = (int)toslide;
+                    TrBGainVal_Scroll(null, null);
+                }
                 else
+                {
                     TrBGainVal.Value = vcdProp.DefaultValue(VCDIDs.VCDID_Gain);
+                    TrBGainVal_Scroll(null, null);
+                }
             }
         }
 
