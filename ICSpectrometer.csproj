@@ -126,7 +126,7 @@
   <ItemGroup>
     <Reference Include="AO_Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\АО\AO_Lib\bin\x86\Release\AO_Lib.dll</HintPath>
+      <HintPath>..\..\AOD and AOF\AO_Lib\bin\x86\Release\AO_Lib.dll</HintPath>
     </Reference>
     <Reference Include="Emgu.CV.UI, Version=3.4.3.3016, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <HintPath>packages\EMGU.CV.3.4.3.3016\lib\net35\Emgu.CV.UI.dll</HintPath>
