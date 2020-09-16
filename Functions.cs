@@ -101,9 +101,9 @@ namespace ICSpec
         private void SwitchOverlay(TIS.Imaging.OverlayBitmap ob, bool flag)
         {
             icImagingControl1.OverlayBitmapPosition = TIS.Imaging.PathPositions.Display;
-            icImagingControl1.OverlayBitmapAtPath[PathPositions.Device].ColorMode  = OverlayColorModes.Grayscale;
-            icImagingControl1.OverlayBitmapAtPath[PathPositions.Display].ColorMode = OverlayColorModes.Grayscale;
-            icImagingControl1.OverlayBitmapAtPath[PathPositions.Sink].ColorMode = OverlayColorModes.Grayscale;
+            icImagingControl1.OverlayBitmapAtPath[PathPositions.Device].ColorMode  = OverlayColorModes.Color;
+            icImagingControl1.OverlayBitmapAtPath[PathPositions.Display].ColorMode = OverlayColorModes.Color;
+            icImagingControl1.OverlayBitmapAtPath[PathPositions.Sink].ColorMode = OverlayColorModes.Color;
 
             ob.Enable = flag;
             ob.DropOutColor = Color.Magenta;
@@ -1755,11 +1755,7 @@ namespace ICSpec
                 TrBGainVal.Enabled = !ChBGainAuto.Checked;
             }
         }
-        private void RefreshROIControls(bool CausedByChangingFormatByUser)
-        {
-            RefreshROIControls(CausedByChangingFormatByUser, false);
-        }
-
+       
         private void SetMaxValuesToROIControls()
         {
             TBROIWidth.Text = MaxMWidth.ToString();
@@ -1767,7 +1763,7 @@ namespace ICSpec
             TBROIPointX.Text = "0";
             TBROIPointY.Text = "0";
         }
-        private void RefreshROIControls(bool CausedByChangingFormatByUser, bool WasError)
+        private void RefreshROIControls(bool CausedByChangingFormatByUser, bool WasError = false)
         {
             var ic = icImagingControl1;
             if (CBMResolution.SelectedIndex == 0) CbBinning.Enabled = true; else CbBinning.Enabled = false;

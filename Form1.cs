@@ -744,6 +744,7 @@ namespace ICSpec
             if (ChBVisualiseROI.Checked)
             {
                 UserROIVisualFlag = true; CbBinning.Enabled = false;
+                
             }
             else
             {
