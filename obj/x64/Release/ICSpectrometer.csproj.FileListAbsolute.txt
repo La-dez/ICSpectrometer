@@ -3,14 +3,9 @@ D:\Работа\Программы (мои разработки)\Спектро�
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x64\Release\ICSpec.SaveDialog.resources
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x64\Release\ICSpectrometer.csproj.GenerateResource.Cache
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x64\Release\ICSpectrometer.csprojResolveAssemblyReference.cache
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\IC Spectrometer v2.45 Beta.exe.config
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\AO_Lib.dll
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\AO_Lib.pdb
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\IC Spectrometer v2.45 Beta.exe
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\IC Spectrometer v2.45 Beta.pdb
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\TIS.Imaging.ICImagingControl34.dll
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x64\Release\IC Spectrometer v2.45 Beta.exe
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x64\Release\IC Spectrometer v2.45 Beta.pdb
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\x64\concrt140.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\x64\cvextern.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\x64\msvcp140.dll
@@ -51,3 +46,33 @@ E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x64\Release
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x64\Release\ICSpectrometer.csproj.CopyComplete
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x64\Release\IC Spectrometer.exe
 E:\Работа Саша\Спектрометры\ICSpectrometer\obj\x64\Release\IC Spectrometer.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\IC Spectrometer.exe.config
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x64\Release\IC Spectrometer.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x64\Release\IC Spectrometer.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\x64\concrt140.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\x64\cvextern.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\x64\msvcp140.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\x64\opencv_ffmpeg343_64.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\x64\vcruntime140.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\IC Spectrometer.exe
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\IC Spectrometer.pdb
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\Emgu.CV.UI.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\Emgu.CV.World.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\ZedGraph.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\Emgu.CV.UI.xml
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\Emgu.CV.World.xml
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\ZedGraph.xml
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\de\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\es\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\fr\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\hu\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\it\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\ja\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\pt\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\ru\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\sk\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\sv\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\tr\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\zh-cn\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\zh-tw\ZedGraph.resources.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x64\Release\ICSpec.DFTForm.resources
