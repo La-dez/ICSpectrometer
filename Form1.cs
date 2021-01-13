@@ -99,7 +99,7 @@ namespace ICSpec
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-           
+            LogMessage("0");
             //this.Text = "Перестраиваемый источник " + version;
             Log = new UI.Log.Logger(LBConsole);
             Log.Message(" - текущее время");
@@ -119,7 +119,7 @@ namespace ICSpec
              ExpCurve.GetCurveFromDirectory("TestCurv3.expcurv", ref wls, ref exps);
              ExpCurve.GetNiceCurve(450,740, 500, 621,15, ref wls, ref exps);
              LogMessage("Done!");*/
-
+            LogMessage("1");
             try
             {
                 if (!icImagingControl1.DeviceValid)
@@ -129,7 +129,7 @@ namespace ICSpec
                     //icImagingControl1.Sink = data_sink;
                     try
                     {
-                        icImagingControl1.LoadDeviceStateFromFile("CameraSettings.xml",true);
+                        icImagingControl1.LoadDeviceStateFromFile("CameraSettings.xml", true);
                     }
                     catch
                     {
@@ -140,14 +140,18 @@ namespace ICSpec
                     {
                         MessageBox.Show("Не было выбрано ни одного устройства", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Application.Exit();
+                        return;
                     }
                     else
                     {
                         CreateAttachmentFactor(ref AttachmentFactor, LBConsole);
-                        this.Text = "IC Spectrometer "+Cur_Version;
+                        this.Text = "IC Spectrometer " + Cur_Version;
                         fileName = Application.StartupPath + @"\SettingsOfWriting.txt";
                         TrBZoomOfImage.Value = (int)(icImagingControl1.LiveDisplayZoomFactor * 100.00f);
+                        LogMessage("2.2");
                         vcdProp = new VCDSimpleProperty(icImagingControl1.VCDPropertyItems);
+                        LogMessage(vcdProp==null? "vcdProp==null" : "vcdProp!=null");
+                        LogMessage("2.3");
                         icImagingControl1.ScrollbarsEnabled = true;
                         TrBZoomOfImage.Value = (int)(icImagingControl1.LiveDisplayZoomFactor * 100);
                         L_Zoom.Text = TrBZoomOfImage.Value.ToString() + "%";
@@ -157,7 +161,7 @@ namespace ICSpec
                         ContTransAfterSnapshot.Visible = false;
                         GrBAOFWlSet.Enabled = false;
                     }
-
+                    LogMessage("3");
                     CreateAttachmentFactor(ref AttachmentFactor, LBConsole);
                     TestAvailability(false);
                     Init_Gain_Exposure_Sliders();
@@ -183,7 +187,7 @@ namespace ICSpec
                         SwitchOverlay(icImagingControl1.OverlayBitmapAtPath[PathPositions.Display], true);
                     }
                     catch { }
-
+                    LogMessage("4");
                     try
                     {
                         icImagingControl1.LiveDisplayDefault = false;
@@ -199,9 +203,9 @@ namespace ICSpec
                     DisableAlltheShit();
                     FormatAdaptation();
                     m_oldSink = New_SetSelectedCamera_SignalStream_Format();
-
+                    LogMessage("5");
                     //вырубим триггер
-                    if (icImagingControl1.DeviceTriggerAvailable) 
+                    if (icImagingControl1.DeviceTriggerAvailable)
                         if (icImagingControl1.DeviceTrigger) icImagingControl1.DeviceTrigger = false;
 
                     //создание контекстного меню
@@ -223,7 +227,12 @@ namespace ICSpec
             {
                 MessageBox.Show(ext.Message);
             }
-            finally { if (icImagingControl1.DeviceValid) icImagingControl1.LiveStart(); timer_for_FPS.Start(); }
+            finally
+            {
+                if (icImagingControl1.DeviceValid)
+                { icImagingControl1.LiveStart(); timer_for_FPS.Start(); }
+                LogMessage("6");
+            }
         }//функция предзагрузки окна для динамической инициализации некоторых элементов управления 
 
         private void ExitBut_Click(object sender, EventArgs e)//функция выхода из приложения
