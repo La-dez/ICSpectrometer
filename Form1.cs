@@ -464,6 +464,10 @@ namespace ICSpec
             float data_CurrentWL = (float)(TrB_CurrentWL.Value / AO_WL_precision);
             CurrentWL_Change();
         }
+        private void B_SetHZ_Click(object sender, EventArgs e)
+        {
+            CurrentHZ_Change();
+        }
 
         private void BSetROI_Click(object sender, EventArgs e)
         {
@@ -987,6 +991,36 @@ namespace ICSpec
                         var state = Filter.Set_Wl(data_CurrentWL);
                         if (state != 0) throw new Exception(Filter.Implement_Error(state));
                         Log.Message("Перестройка на " + data_CurrentWL.ToString() + " нм / " +Filter.HZ_Current.ToString() + " MHz прошла успешно!");
+                    }
+                    catch (Exception exc)
+                    {
+                        Log.Error(exc.Message);
+                    }
+                }
+            }
+        }
+
+        private void CurrentHZ_Change()
+        {
+            float data_CurrentHZ = (float)System.Math.Round(((double)((int)(NUD_CurrentMHz.Value * 1000)) / 1000.0f),3);
+            if (AO_WL_Controlled_byslider)
+            {
+                if (AO_Sweep_Needed)
+                {
+                    /*if (!timer_for_sweep.IsRunning || timer_for_sweep.ElapsedMilliseconds > 500)
+                    {
+                        timer_for_sweep.Restart();
+                        //  Timer_Sweep.Enabled = true;
+                        ReSweep(data_CurrentWL);
+                    }*/
+                }
+                else
+                {
+                    try
+                    {
+                        var state = Filter.Set_Hz(data_CurrentHZ);
+                        if (state != 0) throw new Exception(Filter.Implement_Error(state));
+                        Log.Message("Перестройка на " + data_CurrentHZ.ToString() + " MHz / " + Filter.HZ_Current.ToString() + " MHz прошла успешно!");
                     }
                     catch (Exception exc)
                     {
@@ -2065,6 +2099,7 @@ namespace ICSpec
         {
             AO_StartFreq = (float)NUD_FreqStart.Value;
         }
+        
 
         private void RB_Series_WLMode_CheckedChanged(object sender, EventArgs e)
         {

@@ -108,6 +108,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.GrBAOFWlSet = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.B_SetHZ = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.TrB_CurrentMHz = new System.Windows.Forms.TrackBar();
             this.label29 = new System.Windows.Forms.Label();
@@ -1144,11 +1145,11 @@
             // BSetWL
             // 
             this.BSetWL.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BSetWL.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.BSetWL.Location = new System.Drawing.Point(246, 3);
             this.BSetWL.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.BSetWL.Name = "BSetWL";
-            this.tableLayoutPanel5.SetRowSpan(this.BSetWL, 2);
-            this.BSetWL.Size = new System.Drawing.Size(42, 51);
+            this.BSetWL.Size = new System.Drawing.Size(42, 22);
             this.BSetWL.TabIndex = 5;
             this.BSetWL.Text = "Set WL";
             this.BSetWL.UseVisualStyleBackColor = true;
@@ -1240,12 +1241,12 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28531F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28531F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28816F));
+            this.tableLayoutPanel5.Controls.Add(this.B_SetHZ, 6, 1);
             this.tableLayoutPanel5.Controls.Add(this.label20, 6, 3);
             this.tableLayoutPanel5.Controls.Add(this.TrB_CurrentMHz, 0, 3);
             this.tableLayoutPanel5.Controls.Add(this.label6, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.label29, 5, 1);
             this.tableLayoutPanel5.Controls.Add(this.label21, 5, 0);
-            this.tableLayoutPanel5.Controls.Add(this.BSetWL, 6, 0);
             this.tableLayoutPanel5.Controls.Add(this.ChB_AutoSetWL, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.SnapshotBut, 0, 4);
             this.tableLayoutPanel5.Controls.Add(this.SaveImageBut, 2, 4);
@@ -1254,6 +1255,7 @@
             this.tableLayoutPanel5.Controls.Add(this.label13, 6, 2);
             this.tableLayoutPanel5.Controls.Add(this.TrB_CurrentWL, 0, 2);
             this.tableLayoutPanel5.Controls.Add(this.NUD_CurrentWL, 3, 0);
+            this.tableLayoutPanel5.Controls.Add(this.BSetWL, 6, 0);
             this.tableLayoutPanel5.Controls.Add(this.NUD_CurrentMHz, 3, 1);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 16);
@@ -1282,6 +1284,19 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(288, 461);
             this.tableLayoutPanel5.TabIndex = 75;
+            // 
+            // B_SetHZ
+            // 
+            this.B_SetHZ.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_SetHZ.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.B_SetHZ.Location = new System.Drawing.Point(246, 31);
+            this.B_SetHZ.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.B_SetHZ.Name = "B_SetHZ";
+            this.B_SetHZ.Size = new System.Drawing.Size(42, 23);
+            this.B_SetHZ.TabIndex = 108;
+            this.B_SetHZ.Text = "Set HZ";
+            this.B_SetHZ.UseVisualStyleBackColor = true;
+            this.B_SetHZ.Click += new System.EventHandler(this.B_SetHZ_Click);
             // 
             // label20
             // 
@@ -1707,7 +1722,7 @@
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel8.Controls.Add(this.L_Num, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.label36, 1, 0);
             this.tableLayoutPanel8.Controls.Add(this.label37, 2, 0);
@@ -2793,6 +2808,7 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TrackBar TrB_CurrentMHz;
         private System.Windows.Forms.NumericUpDown NUD_CurrentMHz;
+        private System.Windows.Forms.Button B_SetHZ;
     }
 }
 
