@@ -1087,6 +1087,228 @@ namespace ICSpec
                 Log.Error("ORIGINAL: " + e.Message);
             }
         }
+        private void New_SnapAndSaveMassive_viaWLs_08022021(float pStartWL, float pFinishWL, int pSteps, float[] WLVals = null)
+        {
+
+            string date = GetDateString();
+
+            string NameDirectory = GetFullDateString() + "\\";
+            int level = 0;
+            try
+            {
+                string SCRName = CheckScreenShotBasicName();
+                Directory.CreateDirectory(SnapImageStyle.Directory + NameDirectory);
+
+                Queue<TIS.Imaging.ImageBuffer> rval = new Queue<TIS.Imaging.ImageBuffer>();
+                Queue<string> names = new Queue<string>();
+                ReadAllSettingsFromFile(false);
+                int codeerr = 0;
+                bool IsNeeded_ExpCurve = TSMI_Load_EXWL_C.Checked;
+                double Gain = 0, FPS = 0;
+                List<int> wls = new List<int>();
+                List<double> exps = new List<double>();
+                List<double> exps_ref = new List<double>();
+                double Exposure_ref_use_file = (TSMI_UseFileExpAsRef.Checked) ? -1 : AbsValExp.Value;
+                if (IsNeeded_ExpCurve)
+                {
+                    LDZ_Code.ExpCurve.Get_Interpolated_WlExpCurveFromDirectory(WayToCurv_exp, (int)Filter.WL_Min, (int)Filter.WL_Max,
+                        (int)pStartWL, (int)pFinishWL, (int)AO_StepWL,
+                        ref wls, ref exps, ref exps_ref,
+                        ref Gain, ref FPS, ref Exposure_ref_use_file);
+                }
+
+                List<float> allvalues = new List<float>();
+                List<double> Times2SetWL = new List<double>();
+                List<double> Times2SnapImage = new List<double>();
+                List<double> Times2CopyImage = new List<double>();
+                //List<double> Times2CopyImage = new List<double>();
+                level = 1;
+                if (WLVals == null)
+                {
+                    for (int i = 0; i < pSteps; i++)
+                    {
+                        AO_CurrentWL = pStartWL + i * AO_StepWL;
+                        allvalues.Add(AO_CurrentWL);
+                    }
+                    allvalues.Add(pFinishWL);
+                    if (allvalues[pSteps] == allvalues[pSteps - 1]) allvalues.RemoveAt(pSteps);
+                }
+                else
+                {
+                    allvalues = new List<float>(WLVals);
+                }
+                int psteps2 = allvalues.Count;
+                if (icImagingControl1.ImageRingBufferSize < allvalues.Count)
+                {
+                    icImagingControl1.LiveStop();
+                    icImagingControl1.ImageRingBufferSize = allvalues.Count;
+                    icImagingControl1.LiveStart();
+                }
+                level = 2;
+                if (WarningofImage) { level = 3; LogError(WarningofImgMessage); }
+                else
+                {
+                    try
+                    {
+                        codeerr = Filter.Set_Wl(pStartWL);//, AOFSimulatorActivated);
+                        if (IsNeeded_ExpCurve)
+                        {
+                            double exposure2use = (TSMI_UseAbsExposure.Checked) ? exps[0] : exps_ref[0];
+                            LoadExposure_ToCam(ref AbsValExp, exposure2use);
+                            LoadGain(ref vcdProp, Gain);
+                        }
+                        Thread.Sleep(500);
+                        if (codeerr != 0) { throw new Exception(Filter.Implement_Error(codeerr)); };
+                    }
+                    catch (Exception ex)
+                    {
+                        LogError(ex.Message);
+                    }
+                    // System.Threading.Thread.Sleep(20);             
+                    Stopwatch SessionDone = new Stopwatch(); SessionDone.Start();
+                    level = 4;
+
+                    LDZ_Code.MultiThreadSaver MSaver = new LDZ_Code.MultiThreadSaver();
+                    
+                    for (int i = 0; i < psteps2; i++)
+                    {
+
+                        if (IsNeeded_ExpCurve)
+                        {
+                            double exposure2use = (TSMI_UseAbsExposure.Checked) ? exps[i] : exps_ref[i];
+                            LoadExposure_ToCam(ref AbsValExp, exposure2use);
+                        }
+//
+                        Stopwatch swl = new Stopwatch(); swl.Start();
+                        Filter.Set_Wl(allvalues[i]);//, AOFSimulatorActivated);                   
+                        swl.Stop();
+                        Times2SetWL.Add(swl.Elapsed.TotalMilliseconds);
+                        //
+                        Stopwatch swl2 = new Stopwatch();
+                        swl2.Start();
+                        curfhs.SnapImage();
+                        swl2.Stop();
+                        Times2SnapImage.Add(swl2.Elapsed.TotalMilliseconds);
+                        //
+                        Stopwatch swl3 = new Stopwatch(); swl3.Start();
+                        
+                        swl3.Stop();
+                        Times2CopyImage.Add(swl3.Elapsed.TotalMilliseconds);
+                        //
+                        string local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
+                                ((int)allvalues[i]).ToString() + SnapImageStyle.Extension;
+                        if (File.Exists(local))
+                        {
+                            int num = 1;
+                            while (File.Exists(local))
+                            {
+                                num++;
+                                local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
+                            ((int)allvalues[i]).ToString() + "_" + num.ToString() + SnapImageStyle.Extension;
+                            }
+                        }
+
+                        MSaver.EnqueFrame(curfhs.LastAcquiredBuffer, local);
+                    }
+                    MSaver.CloseAfterSaving();
+
+                    SessionDone.Stop();
+
+                    level = 5;
+                    double MediumTime2SWL = 0;
+                    double MediumTime2SI = 0;
+                    double MediumTime2CI = 0;
+                    for (int i = 0; i < Times2SetWL.Count; i++) { MediumTime2SWL += Times2SetWL[i]; }
+                    for (int i = 0; i < Times2SnapImage.Count; i++) { MediumTime2SI += Times2SnapImage[i]; }
+                    for (int i = 0; i < Times2CopyImage.Count; i++) { MediumTime2CI += Times2CopyImage[i]; }
+                    MediumTime2SWL /= Times2SetWL.Count;
+                    MediumTime2SI /= Times2SnapImage.Count;
+                    MediumTime2CI /= Times2CopyImage.Count;
+                    LogMessage("Среднее время на перестройку: " + MediumTime2SWL.ToString());
+                    LogMessage("Среднее время на захват: " + MediumTime2SI.ToString());
+                    LogMessage("Среднее время на копирование:  " + MediumTime2CI.ToString());
+                    LogMessage("Захват кадров завершен. Прошедшее время: " + SessionDone.Elapsed.ToString());
+                    LogMessage("Заявленное FPS: " + icImagingControl1.DeviceFrameRate);
+                    LogMessage("Реальное   FPS: " + (((double)(psteps2)) / SessionDone.Elapsed.TotalSeconds).ToString());
+                    level = 6;
+                }
+                level = 7;
+                
+                if (!TSMI_MThreadSave.Checked)
+                {
+                    for (int i = 0; i < psteps2; i++)
+                    {
+                        try
+                        {
+                            string local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
+                                ((int)allvalues[i]).ToString() + SnapImageStyle.Extension;
+                            if (File.Exists(local))
+                            {
+                                int num = 1;
+                                while (File.Exists(local))
+                                {
+                                    num++;
+                                    local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
+                                ((int)allvalues[i]).ToString() + "_" + num.ToString() + SnapImageStyle.Extension;
+                                }
+                            }
+                      //      rval[i].SaveAsTiff(local);
+                            // LogMessage("Формат пикселей: " + Massive2Save[i].PixelFormat.ToString());
+                        }
+                        catch (Exception e3)
+                        {
+                            LogError("Сохранение " + i.ToString() + " не произошло.");
+                            LogError("ORIGINAL: " + e3.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    List<dynamic> Frames_and_Names_cur = new List<dynamic>();
+                    for (int i = 0; i < psteps2; i++)
+                    {
+                        try
+                        {
+                            string local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
+                                ((int)allvalues[i]).ToString() + SnapImageStyle.Extension;
+                            if (File.Exists(local))
+                            {
+                                int num = 1;
+                                while (File.Exists(local))
+                                {
+                                    num++;
+                                    local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
+                                ((int)allvalues[i]).ToString() + "_" + num.ToString() + SnapImageStyle.Extension;
+                                }
+                            }
+                        //    Frames_and_Names_cur.Add(new { Buffer = rval[i], Name = local });
+                            // Frames_and_Names_cur[0].Buffer.Dispose();
+
+                            // LogMessage("Формат пикселей: " + Massive2Save[i].PixelFormat.ToString());
+                        }
+                        catch (Exception e3)
+                        {
+                            LogError("Сохранение " + i.ToString() + " не произошло.");
+                            LogError("ORIGINAL: " + e3.Message);
+                        }
+                    }
+
+                    IMG_buffers_mass.Add(new { Frames_and_Names = new List<dynamic>(Frames_and_Names_cur), Dir_name = NameDirectory.Substring(0, NameDirectory.Count() - 1) });
+                    if (!BGW_Saver.IsBusy) BGW_Saver.RunWorkerAsync();
+                }
+                //rval = null;
+                level = 8;
+                SetInactiveDependence(1);
+                NUD_CurrentWL.Text = AO_CurrentWL.ToString();
+                SetInactiveDependence(0);
+                level = 9;
+            }
+            catch (Exception e)
+            {
+                Log.Error("Произошла ошибка во время захвата или сохранения. Этап выполнения функции:" + level.ToString());
+                Log.Error("ORIGINAL: " + e.Message);
+            }
+        }
         private void SaveMassive(Bitmap[] Massive2Save)
         {
             string SCRName = CheckScreenShotBasicName();

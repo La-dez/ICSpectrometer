@@ -6,6 +6,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using AO_Lib;
+using TIS.Imaging;
 
 
 namespace LDZ_Code
@@ -16,6 +17,37 @@ namespace LDZ_Code
         public int Quality { set; get; }
         public string Directory { set; get; }
     }
+
+    public class Queue_with_change<T>
+    {
+        private readonly Queue<T> queue = new Queue<T>();
+        public event EventHandler Changed;
+        public event EventHandler Queid ;
+
+        protected virtual void OnChanged()
+        {
+            if (Changed != null) Changed(this, EventArgs.Empty);
+        }
+        protected virtual void OnQuied()
+        {
+            if (Queid != null) Queid(this, EventArgs.Empty);
+        }
+        public virtual void Enqueue(T item)
+        {
+            queue.Enqueue(item);
+            OnChanged();
+            OnQuied();
+        }
+        public int Count { get { return queue.Count; } }
+
+        public virtual T Dequeue()
+        {
+            T item = queue.Dequeue();
+            OnChanged();
+            return item;
+        }
+    }
+
     public class ExpCurve
     {
         int StartWL = 0;
@@ -333,6 +365,7 @@ namespace LDZ_Code
             }
         }
     }
+
     public static class Files
     {
         public static string OpenDirectory()
@@ -1471,6 +1504,36 @@ namespace LDZ_Code
 
             }
         }
+    }
+
+    public class MultiThreadSaver
+    {
+        Queue_with_change<TIS.Imaging.ImageBuffer> buffer = new Queue_with_change<TIS.Imaging.ImageBuffer>();
+        Queue_with_change<string> names = new Queue_with_change<string>();
+        
+        bool SavingStarted = false;
+
+        public MultiThreadSaver()
+        {
+           
+        }
+
+        public void EnqueFrame(ImageBuffer frame, string name)
+        {
+            SavingStarted = true;
+            names.Enqueue(name);
+            buffer.Enqueue(frame);
+        }
+        public void CloseAfterSaving()
+        {
+            SavingStarted = false;
+        }
+
+        public int GetNumberOfFrames()
+        {
+            return buffer.Count;
+        }
+
     }
 }
         

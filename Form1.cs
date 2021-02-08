@@ -91,7 +91,7 @@ namespace ICSpec
         DFTForm DFTWindow = null;
         Bitmap ImForDft = null;
         List<dynamic> IMG_buffers_mass = new List<dynamic>();
-
+        Queue<dynamic> IMG_buffers_queue= new Queue<dynamic>();
 
         public Form1()
         {
