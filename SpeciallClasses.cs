@@ -26,7 +26,7 @@ namespace LDZ_Code
 
         protected virtual void OnChanged()
         {
-            if (Changed != null) Changed(this, EventArgs.Empty);
+            Changed?.Invoke(this, EventArgs.Empty);
         }
         protected virtual void OnQuied()
         {
@@ -1513,17 +1513,77 @@ namespace LDZ_Code
         
         bool SavingStarted = false;
 
-        public MultiThreadSaver()
+        int counter_gotten_frames = 0;
+        int counter_saved_frames = 0;
+        int counter_series = 0;
+
+        Queue<int> SeriePlans = new Queue<int>();
+        Queue<int> SerieStarts = new Queue<int>();
+        Queue<int> SerieFinishes = new Queue<int>();
+
+        System.ComponentModel.BackgroundWorker Saver = new System.ComponentModel.BackgroundWorker();
+        Action<string> Log;
+
+        public MultiThreadSaver(Action<string> logger = null)
         {
-           
+            Saver.DoWork += Saver_DoWork;
+            Saver.RunWorkerAsync();
+            Log = logger;
+        }
+
+        private void Saver_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            while(true)
+            {
+                if(buffer.Count!=0)
+                    using (var frame = buffer.Dequeue())
+                    {
+                        frame.SaveAsTiff(names.Dequeue());
+                        counter_saved_frames++;
+                    }
+                if(SeriePlans.Count!=0)
+                if (counter_saved_frames >= SeriePlans.Peek())
+                {
+                    counter_saved_frames -= SeriePlans.Peek();
+                    counter_gotten_frames -= SeriePlans.Dequeue();
+                    Log?.Invoke("Серия сохранена!");
+                }
+            }
+        }
+
+        public void SerieStarted()
+        {
+
+        }
+        public void SerieSaved()
+        {
+
         }
 
         public void EnqueFrame(ImageBuffer frame, string name)
         {
             SavingStarted = true;
             names.Enqueue(name);
-            buffer.Enqueue(frame);
+            buffer.Enqueue(frame.);
+            counter_gotten_frames++;
         }
+        public void OpenSerie(int Num_of_Frames2Save)
+        {
+            SerieStarts.Enqueue(counter_gotten_frames);
+
+        }
+        public void CloseSerie()
+        {
+            SerieFinishes.Enqueue(counter_gotten_frames);
+            SeriePlans.Enqueue((SerieFinishes.Peek() - SerieStarts.Peek()));
+            if (counter_saved_frames >= SeriePlans.Peek())
+            {
+                Log?.Invoke("Серия сохранена!");
+                SeriePlans.Dequeue();
+                counter_saved_frames = 0;
+            }
+        }
+
         public void CloseAfterSaving()
         {
             SavingStarted = false;

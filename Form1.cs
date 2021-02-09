@@ -92,6 +92,7 @@ namespace ICSpec
         Bitmap ImForDft = null;
         List<dynamic> IMG_buffers_mass = new List<dynamic>();
         Queue<dynamic> IMG_buffers_queue= new Queue<dynamic>();
+        LDZ_Code.MultiThreadSaver MSaver;
 
         public Form1()
         {
@@ -232,6 +233,7 @@ namespace ICSpec
                 if (icImagingControl1.DeviceValid)
                 { icImagingControl1.LiveStart(); timer_for_FPS.Start(); }
                 LogMessage("6");
+                MSaver = new LDZ_Code.MultiThreadSaver();
             }
         }//функция предзагрузки окна для динамической инициализации некоторых элементов управления 
 
@@ -376,7 +378,7 @@ namespace ICSpec
             if (RB_Series_WLMode.Checked)
             {
                 int stepss = CalculateSteps_viaWLs();
-                New_SnapAndSaveMassive_viaWLs(AO_StartWL, AO_EndWL, stepss, WLs_toTune);
+                New_SnapAndSaveMassive_viaWLs_08022021(AO_StartWL, AO_EndWL, stepss, WLs_toTune);
             }
             else
             {

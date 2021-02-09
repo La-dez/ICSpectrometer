@@ -1121,7 +1121,6 @@ namespace ICSpec
                 List<double> Times2SetWL = new List<double>();
                 List<double> Times2SnapImage = new List<double>();
                 List<double> Times2CopyImage = new List<double>();
-                //List<double> Times2CopyImage = new List<double>();
                 level = 1;
                 if (WLVals == null)
                 {
@@ -1144,6 +1143,7 @@ namespace ICSpec
                     icImagingControl1.ImageRingBufferSize = allvalues.Count;
                     icImagingControl1.LiveStart();
                 }
+
                 level = 2;
                 if (WarningofImage) { level = 3; LogError(WarningofImgMessage); }
                 else
@@ -1168,8 +1168,8 @@ namespace ICSpec
                     Stopwatch SessionDone = new Stopwatch(); SessionDone.Start();
                     level = 4;
 
-                    LDZ_Code.MultiThreadSaver MSaver = new LDZ_Code.MultiThreadSaver();
-                    
+
+                    MSaver.OpenSerie(allvalues.Count());
                     for (int i = 0; i < psteps2; i++)
                     {
 
@@ -1210,7 +1210,7 @@ namespace ICSpec
 
                         MSaver.EnqueFrame(curfhs.LastAcquiredBuffer, local);
                     }
-                    MSaver.CloseAfterSaving();
+                    MSaver.CloseSerie();
 
                     SessionDone.Stop();
 
@@ -1234,68 +1234,7 @@ namespace ICSpec
                 }
                 level = 7;
                 
-                if (!TSMI_MThreadSave.Checked)
-                {
-                    for (int i = 0; i < psteps2; i++)
-                    {
-                        try
-                        {
-                            string local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
-                                ((int)allvalues[i]).ToString() + SnapImageStyle.Extension;
-                            if (File.Exists(local))
-                            {
-                                int num = 1;
-                                while (File.Exists(local))
-                                {
-                                    num++;
-                                    local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
-                                ((int)allvalues[i]).ToString() + "_" + num.ToString() + SnapImageStyle.Extension;
-                                }
-                            }
-                      //      rval[i].SaveAsTiff(local);
-                            // LogMessage("Формат пикселей: " + Massive2Save[i].PixelFormat.ToString());
-                        }
-                        catch (Exception e3)
-                        {
-                            LogError("Сохранение " + i.ToString() + " не произошло.");
-                            LogError("ORIGINAL: " + e3.Message);
-                        }
-                    }
-                }
-                else
-                {
-                    List<dynamic> Frames_and_Names_cur = new List<dynamic>();
-                    for (int i = 0; i < psteps2; i++)
-                    {
-                        try
-                        {
-                            string local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
-                                ((int)allvalues[i]).ToString() + SnapImageStyle.Extension;
-                            if (File.Exists(local))
-                            {
-                                int num = 1;
-                                while (File.Exists(local))
-                                {
-                                    num++;
-                                    local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
-                                ((int)allvalues[i]).ToString() + "_" + num.ToString() + SnapImageStyle.Extension;
-                                }
-                            }
-                        //    Frames_and_Names_cur.Add(new { Buffer = rval[i], Name = local });
-                            // Frames_and_Names_cur[0].Buffer.Dispose();
 
-                            // LogMessage("Формат пикселей: " + Massive2Save[i].PixelFormat.ToString());
-                        }
-                        catch (Exception e3)
-                        {
-                            LogError("Сохранение " + i.ToString() + " не произошло.");
-                            LogError("ORIGINAL: " + e3.Message);
-                        }
-                    }
-
-                    IMG_buffers_mass.Add(new { Frames_and_Names = new List<dynamic>(Frames_and_Names_cur), Dir_name = NameDirectory.Substring(0, NameDirectory.Count() - 1) });
-                    if (!BGW_Saver.IsBusy) BGW_Saver.RunWorkerAsync();
-                }
                 //rval = null;
                 level = 8;
                 SetInactiveDependence(1);

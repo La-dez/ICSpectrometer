@@ -238,7 +238,7 @@
     <Content Include="LogoSTC.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AOD and AOF\AO_Lib\AO_Lib.csproj">
+    <ProjectReference Include="..\..\АО\AO_Lib\AO_Lib.csproj">
       <Project>{1eb39a18-8a1c-4c19-af0b-39809ad6606f}</Project>
       <Name>AO_Lib</Name>
     </ProjectReference>

@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1082
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSpectrometer", "ICSpectrometer.csproj", "{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1EB39A18-8A1C-4C19-AF0B-39809AD6606F} = {1EB39A18-8A1C-4C19-AF0B-39809AD6606F}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AO_Lib", "..\..\AOD and AOF\AO_Lib\AO_Lib.csproj", "{1EB39A18-8A1C-4C19-AF0B-39809AD6606F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AO_Lib", "..\..\АО\AO_Lib\AO_Lib.csproj", "{1EB39A18-8A1C-4C19-AF0B-39809AD6606F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
