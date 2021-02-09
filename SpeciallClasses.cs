@@ -1508,8 +1508,8 @@ namespace LDZ_Code
 
     public class MultiThreadSaver
     {
-        Queue_with_change<TIS.Imaging.ImageBuffer> buffer = new Queue_with_change<TIS.Imaging.ImageBuffer>();
-        Queue_with_change<string> names = new Queue_with_change<string>();
+        Queue<TIS.Imaging.ImageBuffer> buffer = new Queue<TIS.Imaging.ImageBuffer>();
+        Queue<string> names = new Queue<string>();
         
         bool SavingStarted = false;
 
@@ -1535,12 +1535,12 @@ namespace LDZ_Code
         {
             while(true)
             {
-                if(buffer.Count!=0)
+               /* if(buffer.Count!=0)
                     using (var frame = buffer.Dequeue())
                     {
                         frame.SaveAsTiff(names.Dequeue());
                         counter_saved_frames++;
-                    }
+                    }*/
                 if(SeriePlans.Count!=0)
                 if (counter_saved_frames >= SeriePlans.Peek())
                 {
@@ -1564,7 +1564,7 @@ namespace LDZ_Code
         {
             SavingStarted = true;
             names.Enqueue(name);
-            buffer.Enqueue(frame.);
+            buffer.Enqueue(frame);
             counter_gotten_frames++;
         }
         public void OpenSerie(int Num_of_Frames2Save)
