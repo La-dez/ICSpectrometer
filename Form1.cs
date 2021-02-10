@@ -234,7 +234,7 @@ namespace ICSpec
                 if (icImagingControl1.DeviceValid)
                 { icImagingControl1.LiveStart(); timer_for_FPS.Start(); }
                 LogMessage("6");
-                MSaver = new LDZ_Code.MultiThreadSaver();
+                MSaver = new LDZ_Code.MultiThreadSaver(LogMessage);
             }
         }//функция предзагрузки окна для динамической инициализации некоторых элементов управления 
 

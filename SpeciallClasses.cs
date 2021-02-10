@@ -1508,7 +1508,161 @@ namespace LDZ_Code
     
  
     
+    public class HyperSpectralGrabber
+    {
+        List<float> wls = new List<float>();
+        List<double> Times2SetWL = new List<double>();
+        List<double> Times2SnapImage = new List<double>();
+        List<double> Times2CopyImage = new List<double>();
+        System.ComponentModel.BackgroundWorker BGW;
+        string TargetPath = null;
+        string TargetPrefix = null;
+        string TargetExtension = null;
+        FrameSnapSink FFS = null;
+        AO_Lib.AO_Devices.AO_Filter AOF = null;
+        MultiThreadSaver Saver;
+        Action<string> Log;
 
+        public delegate void ProgressChanged(int message);
+        public event ProgressChanged OnProgressChanged;
+
+        public HyperSpectralGrabber(FrameSnapSink pFFS, AO_Lib.AO_Devices.AO_Filter pAOF, List<float> pWls,string Path,string Prefix)
+        {
+            wls = pWls;
+            TargetPath = Path;
+            TargetPrefix = Prefix;
+            FFS = pFFS;
+            AOF = pAOF;
+
+            BGW.WorkerReportsProgress = true;
+            BGW.WorkerSupportsCancellation = true;
+            BGW.DoWork += BGW_DoWork;
+            BGW.ProgressChanged += BGW_ProgressChanged;
+           // new { Buffer = rval[i], Name = local }
+        }
+        public HyperSpectralGrabber(dynamic ControllableObjects, dynamic SerieParams)
+        {
+            wls = SerieParams.WLS;
+            TargetPath = SerieParams.PATH;
+            TargetPrefix = SerieParams.PREFIX;
+            TargetExtension = SerieParams.EXTENSION;
+
+            FFS = ControllableObjects.FFS;
+            AOF = ControllableObjects.AOF;
+            Log = ControllableObjects.LOG;
+            Saver = ControllableObjects.SAVER;
+
+            BGW.WorkerReportsProgress = true;
+            BGW.WorkerSupportsCancellation = true;
+            BGW.DoWork += BGW_DoWork;
+            BGW.ProgressChanged += BGW_ProgressChanged;
+            // new { Buffer = rval[i], Name = local }
+        }
+
+        private void BGW_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            OnProgressChanged?.Invoke(e.ProgressPercentage);
+        }
+        private string GetTodayDate()
+        {
+            try
+            {
+                string res = DateTime.Today.ToString();
+                return ((res.Substring(0, res.IndexOf(' '))).Remove(res.IndexOf('.'), 1)).Remove(res.LastIndexOf('.') - 1, 1);
+            }
+            catch { return  "date"; }
+        }
+        private void BGW_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+
+
+
+            int Steps = wls.Count;
+            int Error = 0;
+            string date = GetTodayDate();
+
+
+
+            try
+            {
+                Error = AOF.Set_Wl(wls[0]);//, AOFSimulatorActivated);
+                System.Threading.Thread.Sleep(500);
+                if (Error != 0) { throw new Exception(AOF.Implement_Error(Error)); };
+            }
+            catch (Exception ex)
+            {
+                Log(ex.Message);
+            }
+            // System.Threading.Thread.Sleep(20);             
+            System.Diagnostics.Stopwatch SessionDone = new System.Diagnostics.Stopwatch(); SessionDone.Start();
+
+            string FullPrefix = Path.Combine(TargetPath, TargetPrefix + "_" + date + "_");
+            Saver.OpenSerie(wls.Count());
+            for (int i = 0; i < Steps; i++)
+            {
+                //Вычисление нового имени
+                string local = FullPrefix + ((int)wls[i]).ToString() + TargetExtension;
+                if (File.Exists(local))
+                {
+                    int num = 1;
+                    while (File.Exists(local))
+                    {
+                        num++;
+                        local = FullPrefix + ((int)wls[i]).ToString() + "_" + num.ToString() + TargetExtension;
+                    }
+                }
+
+                System.Diagnostics.Stopwatch swl = new System.Diagnostics.Stopwatch(); swl.Start();
+                AOF.Set_Wl(wls[i]);//, AOFSimulatorActivated);                   
+                swl.Stop();
+                Times2SetWL.Add(swl.Elapsed.TotalMilliseconds);
+                //
+                System.Diagnostics.Stopwatch swl2 = new System.Diagnostics.Stopwatch();
+                swl2.Start();
+                //curfhs.SnapImage();
+                swl2.Stop();
+                Times2SnapImage.Add(swl2.Elapsed.TotalMilliseconds);
+                //
+                System.Diagnostics.Stopwatch swl3 = new System.Diagnostics.Stopwatch(); swl3.Start();
+
+                swl3.Stop();
+                Times2CopyImage.Add(swl3.Elapsed.TotalMilliseconds);
+
+
+                Saver.EnqueFrame(FFS.SnapSingle(TimeSpan.FromSeconds(30)), local);
+
+                //Bitmap data_bmp = curfhs.LastAcquiredBuffer.
+
+            }
+            Saver.CloseSerie();
+
+            SessionDone.Stop();
+
+
+            double MediumTime2SWL = 0;
+            double MediumTime2SI = 0;
+            double MediumTime2CI = 0;
+
+            for (int i = 0; i < Times2SetWL.Count; i++) { MediumTime2SWL += Times2SetWL[i]; }
+            for (int i = 0; i < Times2SnapImage.Count; i++) { MediumTime2SI += Times2SnapImage[i]; }
+            for (int i = 0; i < Times2CopyImage.Count; i++) { MediumTime2CI += Times2CopyImage[i]; }
+            MediumTime2SWL /= Times2SetWL.Count;
+            MediumTime2SI /= Times2SnapImage.Count;
+            MediumTime2CI /= Times2CopyImage.Count;
+            Log("Среднее время на перестройку: " + MediumTime2SWL.ToString());
+            Log("Среднее время на захват: " + MediumTime2SI.ToString());
+            Log("Среднее время на копирование:  " + MediumTime2CI.ToString());
+            Log("Захват кадров завершен. Прошедшее время: " + SessionDone.Elapsed.ToString());
+            Log("Реальное   FPS: " + (((double)(Steps)) / SessionDone.Elapsed.TotalSeconds).ToString());
+
+
+        }
+
+        public void StartGrabbing()
+        {
+            BGW.RunWorkerAsync();
+        }
+    }
 
     public class MultiThreadSaver
     {

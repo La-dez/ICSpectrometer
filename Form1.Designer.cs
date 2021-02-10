@@ -136,6 +136,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.RB_Series_WLMode = new System.Windows.Forms.RadioButton();
             this.RB_Series_FreqMode = new System.Windows.Forms.RadioButton();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.TabP_2_SpectralImg = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.L_Num = new System.Windows.Forms.Label();
@@ -1455,6 +1456,7 @@
             this.tableLayoutPanel7.Controls.Add(this.label14, 7, 3);
             this.tableLayoutPanel7.Controls.Add(this.RB_Series_WLMode, 0, 1);
             this.tableLayoutPanel7.Controls.Add(this.RB_Series_FreqMode, 0, 3);
+            this.tableLayoutPanel7.Controls.Add(this.progressBar1, 0, 6);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(0);
@@ -1775,6 +1777,16 @@
             this.RB_Series_FreqMode.TabIndex = 107;
             this.RB_Series_FreqMode.UseVisualStyleBackColor = true;
             this.RB_Series_FreqMode.CheckedChanged += new System.EventHandler(this.RB_Series_FreqMode_CheckedChanged);
+            // 
+            // progressBar1
+            // 
+            this.tableLayoutPanel7.SetColumnSpan(this.progressBar1, 8);
+            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.progressBar1.Location = new System.Drawing.Point(3, 226);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(3, 7, 3, 3);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(420, 40);
+            this.progressBar1.TabIndex = 108;
             // 
             // TabP_2_SpectralImg
             // 
@@ -2911,6 +2923,7 @@
         private System.Windows.Forms.TrackBar TrB_CurrentMHz;
         private System.Windows.Forms.NumericUpDown NUD_CurrentMHz;
         private System.Windows.Forms.Button B_SetHZ;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

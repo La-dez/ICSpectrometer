@@ -1087,6 +1087,51 @@ namespace ICSpec
                 Log.Error("ORIGINAL: " + e.Message);
             }
         }
+        private void New_SnapAndSaveMassive_viaWLs_10022021(float pStartWL, float pFinishWL, int pSteps, float[] WLVals = null)
+        {
+            ReadAllSettingsFromFile(false);
+            string date = GetDateString();
+            string NameDirectory = GetFullDateString() + "\\";
+            string SCRName = CheckScreenShotBasicName();
+            Directory.CreateDirectory(SnapImageStyle.Directory + NameDirectory); //Read directories
+            NameDirectory = Path.Combine(SnapImageStyle.Directory, NameDirectory);
+
+
+
+
+            try
+            {
+
+                List<float> WLs = new List<float>();
+                if (WLVals == null) //Calculate WLs
+                {
+                    for (int i = 0; i < pSteps; i++)                  
+                        WLs.Add(pStartWL + i * AO_StepWL);                   
+                    WLs.Add(pFinishWL);
+                    if (WLs[pSteps] == WLs[pSteps - 1]) WLs.RemoveAt(pSteps);
+                }
+                else
+                {
+                    WLs = new List<float>(WLVals);
+                }
+
+                LDZ_Code.HyperSpectralGrabber HSGrabber = new LDZ_Code.HyperSpectralGrabber(
+                    new { WLS = WLs, PATH = NameDirectory, PREFIX = SCRName, TargetExtension = SnapImageStyle.Extension},
+                    new { FFS = MSaver, AOF = Filter, SAVER = MSaver, LOG = new Action<string>((message)=>LogMessage(message)) });
+
+
+                HSGrabber.StartGrabbing();
+               
+                SetInactiveDependence(1);
+                NUD_CurrentWL.Text = AO_CurrentWL.ToString();
+                SetInactiveDependence(0);
+            }
+            catch (Exception e)
+            {
+               // Log.Error("Произошла ошибка во время захвата или сохранения. Этап выполнения функции:" + level.ToString());
+                Log.Error("ORIGINAL: " + e.Message);
+            }
+        }
         private void New_SnapAndSaveMassive_viaWLs_08022021(float pStartWL, float pFinishWL, int pSteps, float[] WLVals = null)
         {
 
