@@ -1152,10 +1152,10 @@
             // 
             this.tableLayoutPanel7.SetColumnSpan(this.B_StartS, 8);
             this.B_StartS.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.B_StartS.Location = new System.Drawing.Point(0, 245);
+            this.B_StartS.Location = new System.Drawing.Point(0, 274);
             this.B_StartS.Margin = new System.Windows.Forms.Padding(0, 5, 0, 5);
             this.B_StartS.Name = "B_StartS";
-            this.B_StartS.Size = new System.Drawing.Size(426, 42);
+            this.B_StartS.Size = new System.Drawing.Size(426, 35);
             this.B_StartS.TabIndex = 1;
             this.B_StartS.Text = "Tuning (simple)";
             this.B_StartS.UseVisualStyleBackColor = true;
@@ -1226,7 +1226,7 @@
             this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label23.AutoSize = true;
             this.tableLayoutPanel7.SetColumnSpan(this.label23, 2);
-            this.label23.Location = new System.Drawing.Point(44, 78);
+            this.label23.Location = new System.Drawing.Point(44, 71);
             this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(85, 20);
@@ -1238,7 +1238,7 @@
             this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label24.AutoSize = true;
             this.tableLayoutPanel7.SetColumnSpan(this.label24, 2);
-            this.label24.Location = new System.Drawing.Point(154, 78);
+            this.label24.Location = new System.Drawing.Point(154, 71);
             this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(79, 20);
@@ -1250,7 +1250,7 @@
             this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label25.AutoSize = true;
             this.tableLayoutPanel7.SetColumnSpan(this.label25, 2);
-            this.label25.Location = new System.Drawing.Point(264, 78);
+            this.label25.Location = new System.Drawing.Point(264, 71);
             this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(47, 20);
@@ -1446,7 +1446,7 @@
             this.tableLayoutPanel7.Controls.Add(this.label23, 1, 2);
             this.tableLayoutPanel7.Controls.Add(this.label24, 3, 2);
             this.tableLayoutPanel7.Controls.Add(this.label25, 5, 2);
-            this.tableLayoutPanel7.Controls.Add(this.B_StartS, 0, 6);
+            this.tableLayoutPanel7.Controls.Add(this.B_StartS, 0, 7);
             this.tableLayoutPanel7.Controls.Add(this.TLP_Sweep_EasyMode, 0, 5);
             this.tableLayoutPanel7.Controls.Add(this.NUD_FreqStart, 1, 3);
             this.tableLayoutPanel7.Controls.Add(this.NUD_FreqFin, 3, 3);
@@ -1459,13 +1459,14 @@
             this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
-            this.tableLayoutPanel7.RowCount = 8;
+            this.tableLayoutPanel7.RowCount = 9;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel7.Size = new System.Drawing.Size(426, 437);
@@ -1558,20 +1559,20 @@
             this.TLP_Sweep_EasyMode.Controls.Add(this.label33, 0, 0);
             this.TLP_Sweep_EasyMode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_Sweep_EasyMode.Enabled = false;
-            this.TLP_Sweep_EasyMode.Location = new System.Drawing.Point(0, 188);
+            this.TLP_Sweep_EasyMode.Location = new System.Drawing.Point(0, 174);
             this.TLP_Sweep_EasyMode.Margin = new System.Windows.Forms.Padding(0);
             this.TLP_Sweep_EasyMode.Name = "TLP_Sweep_EasyMode";
             this.TLP_Sweep_EasyMode.RowCount = 2;
             this.TLP_Sweep_EasyMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TLP_Sweep_EasyMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TLP_Sweep_EasyMode.Size = new System.Drawing.Size(426, 52);
+            this.TLP_Sweep_EasyMode.Size = new System.Drawing.Size(426, 45);
             this.TLP_Sweep_EasyMode.TabIndex = 93;
             // 
             // label28
             // 
             this.label28.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(368, 3);
+            this.label28.Location = new System.Drawing.Point(368, 1);
             this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(54, 20);
@@ -1583,7 +1584,7 @@
             // 
             this.label30.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(370, 29);
+            this.label30.Location = new System.Drawing.Point(370, 23);
             this.label30.Margin = new System.Windows.Forms.Padding(6, 0, 4, 0);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(52, 20);
@@ -1621,7 +1622,7 @@
             // 
             this.NUD_TimeFdev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_TimeFdev.DecimalPlaces = 3;
-            this.NUD_TimeFdev.Location = new System.Drawing.Point(247, 31);
+            this.NUD_TimeFdev.Location = new System.Drawing.Point(247, 27);
             this.NUD_TimeFdev.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.NUD_TimeFdev.Maximum = new decimal(new int[] {
             40,
@@ -1647,7 +1648,7 @@
             // 
             this.label31.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(217, 3);
+            this.label31.Location = new System.Drawing.Point(217, 1);
             this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(22, 20);
@@ -1659,7 +1660,7 @@
             // 
             this.label32.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(4, 29);
+            this.label32.Location = new System.Drawing.Point(4, 23);
             this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(178, 20);
@@ -1670,7 +1671,7 @@
             // 
             this.label33.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(4, 3);
+            this.label33.Location = new System.Drawing.Point(4, 1);
             this.label33.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(205, 20);
@@ -1682,7 +1683,7 @@
             this.tableLayoutPanel7.SetColumnSpan(this.NUD_FreqStart, 2);
             this.NUD_FreqStart.DecimalPlaces = 3;
             this.NUD_FreqStart.Enabled = false;
-            this.NUD_FreqStart.Location = new System.Drawing.Point(44, 103);
+            this.NUD_FreqStart.Location = new System.Drawing.Point(44, 96);
             this.NUD_FreqStart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.NUD_FreqStart.Maximum = new decimal(new int[] {
             1500,
@@ -1699,7 +1700,7 @@
             this.tableLayoutPanel7.SetColumnSpan(this.NUD_FreqFin, 2);
             this.NUD_FreqFin.DecimalPlaces = 3;
             this.NUD_FreqFin.Enabled = false;
-            this.NUD_FreqFin.Location = new System.Drawing.Point(154, 103);
+            this.NUD_FreqFin.Location = new System.Drawing.Point(154, 96);
             this.NUD_FreqFin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.NUD_FreqFin.Maximum = new decimal(new int[] {
             1500,
@@ -1716,7 +1717,7 @@
             this.tableLayoutPanel7.SetColumnSpan(this.NUD_FreqStep, 2);
             this.NUD_FreqStep.DecimalPlaces = 3;
             this.NUD_FreqStep.Enabled = false;
-            this.NUD_FreqStep.Location = new System.Drawing.Point(264, 103);
+            this.NUD_FreqStep.Location = new System.Drawing.Point(264, 96);
             this.NUD_FreqStep.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.NUD_FreqStep.Maximum = new decimal(new int[] {
             1500,
@@ -1732,7 +1733,7 @@
             // 
             this.ChB_SweepEnabled.AutoSize = true;
             this.tableLayoutPanel7.SetColumnSpan(this.ChB_SweepEnabled, 4);
-            this.ChB_SweepEnabled.Location = new System.Drawing.Point(4, 155);
+            this.ChB_SweepEnabled.Location = new System.Drawing.Point(4, 141);
             this.ChB_SweepEnabled.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChB_SweepEnabled.Name = "ChB_SweepEnabled";
             this.ChB_SweepEnabled.Size = new System.Drawing.Size(128, 24);
@@ -1744,7 +1745,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(374, 106);
+            this.label14.Location = new System.Drawing.Point(374, 99);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 8, 4, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(42, 20);
@@ -1767,7 +1768,7 @@
             // RB_Series_FreqMode
             // 
             this.RB_Series_FreqMode.AutoSize = true;
-            this.RB_Series_FreqMode.Location = new System.Drawing.Point(4, 106);
+            this.RB_Series_FreqMode.Location = new System.Drawing.Point(4, 99);
             this.RB_Series_FreqMode.Margin = new System.Windows.Forms.Padding(4, 8, 4, 3);
             this.RB_Series_FreqMode.Name = "RB_Series_FreqMode";
             this.RB_Series_FreqMode.Size = new System.Drawing.Size(21, 20);

@@ -1,7 +1,7 @@
-<device_state libver="3.4" filemajor="1" fileminor="0">
+<device_state libver="3.5" filemajor="1" fileminor="0">
     <device name="DFK 72AUC02" base_name="DFK 72AUC02" unique_name="DFK 72AUC02 45710426">
-        <videoformat>Y800 (640x480)</videoformat>
-        <fps>50.</fps>
+        <videoformat>Y800 (1920x1080)</videoformat>
+        <fps>10.000000</fps>
         <vcdpropertyitems>
             <item guid="{284C0E06-010B-45BF-8291-09D90A459B28}" name="Brightness">
                 <element guid="{B57D3000-0AC6-4819-A609-272A33140ACA}" name="Value">
@@ -54,7 +54,7 @@
                     <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" value="0" />
                 </element>
                 <element guid="{B57D3000-0AC6-4819-A609-272A33140ACA}" name="Value">
-                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E08}" value="1.26999999999999994837462935493e-02" />
+                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E08}" value="0.012700" />
                 </element>
                 <element guid="{65190390-1AD8-4E91-9021-66D64090CC85}" name="Auto">
                     <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" value="1" />

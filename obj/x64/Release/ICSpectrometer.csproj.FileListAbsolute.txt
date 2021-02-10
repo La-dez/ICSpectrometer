@@ -17,7 +17,6 @@ E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\AO_Lib.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\Emgu.CV.UI.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\Emgu.CV.World.dll
-E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\TIS.Imaging.ICImagingControl34.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\ZedGraph.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\AO_Lib.pdb
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\Emgu.CV.UI.xml
@@ -76,3 +75,4 @@ D:\Работа\Программы (мои разработки)\Спектро�
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\zh-cn\ZedGraph.resources.dll
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\zh-tw\ZedGraph.resources.dll
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x64\Release\ICSpec.DFTForm.resources
+E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\TIS.Imaging.ICImagingControl35.dll

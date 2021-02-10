@@ -1137,12 +1137,6 @@ namespace ICSpec
                     allvalues = new List<float>(WLVals);
                 }
                 int psteps2 = allvalues.Count;
-                if (icImagingControl1.ImageRingBufferSize < allvalues.Count)
-                {
-                    icImagingControl1.LiveStop();
-                    icImagingControl1.ImageRingBufferSize = allvalues.Count;
-                    icImagingControl1.LiveStart();
-                }
 
                 level = 2;
                 if (WarningofImage) { level = 3; LogError(WarningofImgMessage); }
@@ -1168,7 +1162,7 @@ namespace ICSpec
                     Stopwatch SessionDone = new Stopwatch(); SessionDone.Start();
                     level = 4;
 
-
+                    string FullPrefix = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_";
                     MSaver.OpenSerie(allvalues.Count());
                     for (int i = 0; i < psteps2; i++)
                     {
@@ -1178,7 +1172,18 @@ namespace ICSpec
                             double exposure2use = (TSMI_UseAbsExposure.Checked) ? exps[i] : exps_ref[i];
                             LoadExposure_ToCam(ref AbsValExp, exposure2use);
                         }
-//
+                        //Вычисление нового имени
+                        string local = FullPrefix + ((int)allvalues[i]).ToString() + SnapImageStyle.Extension;
+                        if (File.Exists(local))
+                        {
+                            int num = 1;
+                            while (File.Exists(local))
+                            {
+                                num++;
+                                local = FullPrefix + ((int)allvalues[i]).ToString() + "_" + num.ToString() + SnapImageStyle.Extension;
+                            }
+                        }
+
                         Stopwatch swl = new Stopwatch(); swl.Start();
                         Filter.Set_Wl(allvalues[i]);//, AOFSimulatorActivated);                   
                         swl.Stop();
@@ -1186,7 +1191,7 @@ namespace ICSpec
                         //
                         Stopwatch swl2 = new Stopwatch();
                         swl2.Start();
-                        curfhs.SnapImage();
+                        //curfhs.SnapImage();
                         swl2.Stop();
                         Times2SnapImage.Add(swl2.Elapsed.TotalMilliseconds);
                         //
@@ -1194,21 +1199,12 @@ namespace ICSpec
                         
                         swl3.Stop();
                         Times2CopyImage.Add(swl3.Elapsed.TotalMilliseconds);
-                        //
-                        string local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
-                                ((int)allvalues[i]).ToString() + SnapImageStyle.Extension;
-                        if (File.Exists(local))
-                        {
-                            int num = 1;
-                            while (File.Exists(local))
-                            {
-                                num++;
-                                local = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_" +
-                            ((int)allvalues[i]).ToString() + "_" + num.ToString() + SnapImageStyle.Extension;
-                            }
-                        }
+                        
 
-                        MSaver.EnqueFrame(curfhs.LastAcquiredBuffer, local);
+                        MSaver.EnqueFrame(CurFSS.SnapSingle(TimeSpan.FromSeconds(AbsValExp.RangeMax)), local);
+
+                        //Bitmap data_bmp = curfhs.LastAcquiredBuffer.
+
                     }
                     MSaver.CloseSerie();
 
@@ -2134,6 +2130,8 @@ namespace ICSpec
                 LogError(e.Message);
             }
         }
+
+        IFrameQueueBuffer test_frame;
         private TIS.Imaging.BaseSink New_SetSelectedCamera_SignalStream_Format() 
         {
             var ic = icImagingControl1;
@@ -2163,6 +2161,7 @@ namespace ICSpec
             curfhs = new TIS.Imaging.FrameHandlerSink();
            // curfhs.SnapMode = true;
             curfhs.FrameTypes.Add(new TIS.Imaging.FrameType(realGuid));
+
             LoadFlipFilter();
             try
             {
@@ -2185,7 +2184,13 @@ namespace ICSpec
             }
             catch (Exception exf) { LogError("ORIGINAL: " + exf.Message); }
             ic.Sink = curfhs;
-            
+
+            ic.Sink = new TIS.Imaging.FrameSnapSink(realGuid);
+
+            CurFSS = ic.Sink as FrameSnapSink;
+            ic.LiveStart();
+            test_frame = CurFSS.SnapSingle(TimeSpan.FromSeconds(10));
+            ic.LiveStop();
             return oldSink;
         }
         private void SetSelectedPixelFormat()
@@ -2205,8 +2210,8 @@ namespace ICSpec
         private void FormatAdaptation()
         {
             var ic = icImagingControl1;
-            int WidthOfImage = ic.ImageWidth;
-            int HeightOfImage = ic.ImageHeight;
+            int WidthOfImage = test_frame.FrameType.Width;// ic.ImageWidth;
+            int HeightOfImage = test_frame.FrameType.Height;
             int ControlWidth = ic.Width;
             int ControlHeight = ic.Height;
             float ZFactWidth = (float)ControlWidth / (float)WidthOfImage;

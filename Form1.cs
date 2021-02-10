@@ -29,6 +29,7 @@ namespace ICSpec
         ImageStyle SnapImageStyle = new ImageStyle();
         TIS.Imaging.BaseSink m_oldSink;
         TIS.Imaging.FrameHandlerSink curfhs; // Инициализация текущего FramehandlerSink экземпляра для быстрого захвата кадров
+        FrameSnapSink CurFSS; // 10022021. Запил нового синка для правильного граба фреймов
         string filedatename = null;
         public string fileName = null;//Application.StartupPath + @"\\SettingsOfWriting.txt";
         public bool WarningofCapt = false;

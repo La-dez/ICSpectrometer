@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using AO_Lib;
 using TIS.Imaging;
-
+using DShowLib;
 
 namespace LDZ_Code
 {
@@ -22,7 +22,7 @@ namespace LDZ_Code
     {
         private readonly Queue<T> queue = new Queue<T>();
         public event EventHandler Changed;
-        public event EventHandler Queid ;
+        public event EventHandler Queid;
 
         protected virtual void OnChanged()
         {
@@ -54,18 +54,18 @@ namespace LDZ_Code
         int FinishWL = 0;
         public static void GetNiceCurve(int pRealMin, int pRealMax, int pStWL, int pFinWL, int pStep, List<int> pWls, List<double> pExps)
         {
-        /*    int pMinWL = pRealMin;
-            int pMaxhWL = pRealMax;
-            if (pWls.Count != pExps.Count)
-                throw new Exception("Некорректное содержимое файла для перестройки.");
-            ResortValues(ref pWls, ref pExps);
-            InterpolateValues(pMinWL, pMaxhWL, ref pWls, ref pExps);
-            CutValues(pStWL, pFinWL, pStep, ref pWls, ref pExps);*/
+            /*    int pMinWL = pRealMin;
+                int pMaxhWL = pRealMax;
+                if (pWls.Count != pExps.Count)
+                    throw new Exception("Некорректное содержимое файла для перестройки.");
+                ResortValues(ref pWls, ref pExps);
+                InterpolateValues(pMinWL, pMaxhWL, ref pWls, ref pExps);
+                CutValues(pStWL, pFinWL, pStep, ref pWls, ref pExps);*/
 
         }
-        public static void Get_Interpolated_WlExpCurveFromDirectory(string path, 
+        public static void Get_Interpolated_WlExpCurveFromDirectory(string path,
             int pWlRealMin, int pWlRealMax,
-            int pStWL, int pFinWL, int pStep, 
+            int pStWL, int pFinWL, int pStep,
             ref List<int> pWls, ref List<double> pExps, ref List<double> pRealExps_byRef,
             ref double pGain, ref double pFPS, ref double pExpRef)
         {
@@ -80,15 +80,15 @@ namespace LDZ_Code
             {
                 throw new Exception("Некорректное содержимое файла для перестройки.");
             }
-          //  if (UseReference_Exposure) pExps = RealExps_byRef;
+            //  if (UseReference_Exposure) pExps = RealExps_byRef;
             ResortValues(ref pWls, ref pExps, ref pRealExps_byRef); //отсортируем
             InterpolateValues(pMinWL, pMaxhWL, ref pWls, ref pExps, ref pRealExps_byRef); //проинтерполируем с шагом 1
-           // ICSpec.Form1.ShowStringDelegate obj = null;
-            //WriteCurveToFile(path, pWls, pExps, pGain, pFPS, ref obj, true);
-            CutValues(pStWL, pFinWL, pStep, ref pWls, ref pExps,ref pRealExps_byRef);
+                                                                                          // ICSpec.Form1.ShowStringDelegate obj = null;
+                                                                                          //WriteCurveToFile(path, pWls, pExps, pGain, pFPS, ref obj, true);
+            CutValues(pStWL, pFinWL, pStep, ref pWls, ref pExps, ref pRealExps_byRef);
         }
-        public static void Get_WlExpCurveFromDirectory(string path, 
-            ref List<int> pWls, ref List<double> pExps_fromfile, ref List<double> pExps_ref, 
+        public static void Get_WlExpCurveFromDirectory(string path,
+            ref List<int> pWls, ref List<double> pExps_fromfile, ref List<double> pExps_ref,
             ref double pGain, ref double pFPS, ref double pExposure_ref)
         {
             string[] readText = File.ReadAllLines(path);
@@ -113,20 +113,20 @@ namespace LDZ_Code
 
             pGain = Convert.ToDouble(Gain_str.Replace('.', ','));
             pFPS = Convert.ToDouble(Fps_str.Replace('.', ','));
-            if (pExposure_ref==-1) pExposure_ref = Convert.ToDouble(Exp_reference_str.Replace('.', ','));
+            if (pExposure_ref == -1) pExposure_ref = Convert.ToDouble(Exp_reference_str.Replace('.', ','));
 
             for (int i = StartPos; i < EndPos; i++)
             {
                 pWls.Add(Convert.ToInt32(readText[i].Substring(0, readText[i].IndexOf('\t'))));
                 //2nd num - real exp
-                string Real_exp_currrent = readText[i].Substring(readText[i].IndexOf('\t') + 1, readText[i].LastIndexOf('\t')- readText[i].IndexOf('\t')-1);
+                string Real_exp_currrent = readText[i].Substring(readText[i].IndexOf('\t') + 1, readText[i].LastIndexOf('\t') - readText[i].IndexOf('\t') - 1);
                 pExps_fromfile.Add(Convert.ToDouble(Real_exp_currrent.Replace('.', ',')));
                 //3d num - Multiplier
                 string Ref_exp_currrent = readText[i].Substring(readText[i].LastIndexOf('\t') + 1);
                 pExps_ref.Add(pExposure_ref * Convert.ToDouble(Ref_exp_currrent.Replace('.', ',')));
             }
         }
-        private static void ResortValues(ref List<int> ppWls, ref List<double> ppExps,ref List<double> ppExpsRef)//сортивка методом вставок
+        private static void ResortValues(ref List<int> ppWls, ref List<double> ppExps, ref List<double> ppExpsRef)//сортивка методом вставок
         {
             for (int i = 1; i < ppWls.Count; i++)
             {
@@ -146,7 +146,7 @@ namespace LDZ_Code
                 ppExpsRef[j] = cur_refexp;
             }
         }
-        private static void InterpolateValues(int ppMinWL, int ppMaxWL, ref List<int> ppWls, ref List<double> ppExps,ref List<double> ppExps_ref)
+        private static void InterpolateValues(int ppMinWL, int ppMaxWL, ref List<int> ppWls, ref List<double> ppExps, ref List<double> ppExps_ref)
         {
             int ValuesEdded = 0;
             bool StartWL_exists = false;
@@ -221,7 +221,7 @@ namespace LDZ_Code
                 i += NeedToAdd;
             }
         }
-        private static void CutValues(int ppStartWL, int ppFinishWL, int ppStep, ref List<int> ppWls, ref List<double> ppExps,ref List<double> ppExpsRef)
+        private static void CutValues(int ppStartWL, int ppFinishWL, int ppStep, ref List<int> ppWls, ref List<double> ppExps, ref List<double> ppExpsRef)
         {
 
             int ValuesAdded = 0;
@@ -1505,10 +1505,14 @@ namespace LDZ_Code
             }
         }
     }
+    
+ 
+    
+
 
     public class MultiThreadSaver
     {
-        Queue<TIS.Imaging.ImageBuffer> buffer = new Queue<TIS.Imaging.ImageBuffer>();
+        Queue<IFrameQueueBuffer> buffer = new Queue<IFrameQueueBuffer>();
         Queue<string> names = new Queue<string>();
         
         bool SavingStarted = false;
@@ -1535,19 +1539,30 @@ namespace LDZ_Code
         {
             while(true)
             {
-               /* if(buffer.Count!=0)
-                    using (var frame = buffer.Dequeue())
-                    {
-                        frame.SaveAsTiff(names.Dequeue());
-                        counter_saved_frames++;
-                    }*/
-                if(SeriePlans.Count!=0)
-                if (counter_saved_frames >= SeriePlans.Peek())
+                try
                 {
-                    counter_saved_frames -= SeriePlans.Peek();
-                    counter_gotten_frames -= SeriePlans.Dequeue();
-                    Log?.Invoke("Серия сохранена!");
+                    if (buffer.Count != 0)
+                    {
+                        using (var frame = buffer.Dequeue())
+                        {
+                            frame.SaveAsTiff(names.Dequeue());
+                            counter_saved_frames++;
+                        }
+                    
+                    }
                 }
+                catch
+                {
+
+                }
+                if(SeriePlans.Count!=0)
+                    if (counter_saved_frames >= SeriePlans.Peek())
+                    {
+                        counter_saved_frames -= SeriePlans.Peek();
+                        counter_gotten_frames -= SeriePlans.Dequeue();
+                        Log?.Invoke("Серия сохранена!");
+                        buffer.Clear();
+                    }
             }
         }
 
@@ -1560,7 +1575,7 @@ namespace LDZ_Code
 
         }
 
-        public void EnqueFrame(ImageBuffer frame, string name)
+        public void EnqueFrame(IFrameQueueBuffer frame, string name)
         {
             SavingStarted = true;
             names.Enqueue(name);
