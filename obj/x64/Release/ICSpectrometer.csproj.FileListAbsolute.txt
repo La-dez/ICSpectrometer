@@ -5,7 +5,6 @@ D:\Работа\Программы (мои разработки)\Спектро�
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x64\Release\ICSpectrometer.csprojResolveAssemblyReference.cache
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\AO_Lib.dll
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\AO_Lib.pdb
-D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\TIS.Imaging.ICImagingControl34.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\x64\concrt140.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\x64\cvextern.dll
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\x64\msvcp140.dll
@@ -76,3 +75,4 @@ D:\Работа\Программы (мои разработки)\Спектро�
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\zh-tw\ZedGraph.resources.dll
 D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\obj\x64\Release\ICSpec.DFTForm.resources
 E:\Работа Саша\Спектрометры\ICSpectrometer\bin\x64\Release\TIS.Imaging.ICImagingControl35.dll
+D:\Работа\Программы (мои разработки)\Спектрометры\IC Spectrometer NAU v1.X\ICSpectrometer\bin\x64\Release\TIS.Imaging.ICImagingControl35.dll

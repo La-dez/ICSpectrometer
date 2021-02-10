@@ -1510,10 +1510,9 @@ namespace LDZ_Code
     
     public class HyperSpectralGrabber
     {
-        List<float> wls = new List<float>();
+        List<float> WLs = new List<float>();
         List<double> Times2SetWL = new List<double>();
         List<double> Times2SnapImage = new List<double>();
-        List<double> Times2CopyImage = new List<double>();
         System.ComponentModel.BackgroundWorker BGW;
         string TargetPath = null;
         string TargetPrefix = null;
@@ -1528,7 +1527,7 @@ namespace LDZ_Code
 
         public HyperSpectralGrabber(FrameSnapSink pFFS, AO_Lib.AO_Devices.AO_Filter pAOF, List<float> pWls,string Path,string Prefix)
         {
-            wls = pWls;
+            WLs = pWls;
             TargetPath = Path;
             TargetPrefix = Prefix;
             FFS = pFFS;
@@ -1542,7 +1541,7 @@ namespace LDZ_Code
         }
         public HyperSpectralGrabber(dynamic ControllableObjects, dynamic SerieParams)
         {
-            wls = SerieParams.WLS;
+            WLs = SerieParams.WLS;
             TargetPath = SerieParams.PATH;
             TargetPrefix = SerieParams.PREFIX;
             TargetExtension = SerieParams.EXTENSION;
@@ -1552,6 +1551,7 @@ namespace LDZ_Code
             Log = ControllableObjects.LOG;
             Saver = ControllableObjects.SAVER;
 
+            BGW = new System.ComponentModel.BackgroundWorker();
             BGW.WorkerReportsProgress = true;
             BGW.WorkerSupportsCancellation = true;
             BGW.DoWork += BGW_DoWork;
@@ -1575,17 +1575,12 @@ namespace LDZ_Code
         private void BGW_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
 
-
-
-            int Steps = wls.Count;
+            int Steps = WLs.Count;
             int Error = 0;
             string date = GetTodayDate();
-
-
-
             try
             {
-                Error = AOF.Set_Wl(wls[0]);//, AOFSimulatorActivated);
+                Error = AOF.Set_Wl(WLs[0]);//, AOFSimulatorActivated);
                 System.Threading.Thread.Sleep(500);
                 if (Error != 0) { throw new Exception(AOF.Implement_Error(Error)); };
             }
@@ -1595,44 +1590,38 @@ namespace LDZ_Code
             }
             // System.Threading.Thread.Sleep(20);             
             System.Diagnostics.Stopwatch SessionDone = new System.Diagnostics.Stopwatch(); SessionDone.Start();
-
             string FullPrefix = Path.Combine(TargetPath, TargetPrefix + "_" + date + "_");
-            Saver.OpenSerie(wls.Count());
+            Saver.OpenSerie(WLs.Count());
+
+
             for (int i = 0; i < Steps; i++)
             {
                 //Вычисление нового имени
-                string local = FullPrefix + ((int)wls[i]).ToString() + TargetExtension;
+                string local = FullPrefix + ((int)WLs[i]).ToString() + TargetExtension;
                 if (File.Exists(local))
                 {
                     int num = 1;
                     while (File.Exists(local))
                     {
                         num++;
-                        local = FullPrefix + ((int)wls[i]).ToString() + "_" + num.ToString() + TargetExtension;
+                        local = FullPrefix + ((int)WLs[i]).ToString() + "_" + num.ToString() + TargetExtension;
                     }
                 }
 
                 System.Diagnostics.Stopwatch swl = new System.Diagnostics.Stopwatch(); swl.Start();
-                AOF.Set_Wl(wls[i]);//, AOFSimulatorActivated);                   
+                AOF.Set_Wl(WLs[i]);//, AOFSimulatorActivated);                   
                 swl.Stop();
                 Times2SetWL.Add(swl.Elapsed.TotalMilliseconds);
                 //
                 System.Diagnostics.Stopwatch swl2 = new System.Diagnostics.Stopwatch();
                 swl2.Start();
-                //curfhs.SnapImage();
+                Saver.EnqueFrame(FFS.SnapSingle(TimeSpan.FromSeconds(30)), local);
                 swl2.Stop();
                 Times2SnapImage.Add(swl2.Elapsed.TotalMilliseconds);
                 //
-                System.Diagnostics.Stopwatch swl3 = new System.Diagnostics.Stopwatch(); swl3.Start();
-
-                swl3.Stop();
-                Times2CopyImage.Add(swl3.Elapsed.TotalMilliseconds);
-
-
-                Saver.EnqueFrame(FFS.SnapSingle(TimeSpan.FromSeconds(30)), local);
-
+              
                 //Bitmap data_bmp = curfhs.LastAcquiredBuffer.
-
+                BGW.ReportProgress((int)(((float)i / (float)(Steps - 1))*100));
             }
             Saver.CloseSerie();
 
@@ -1645,13 +1634,10 @@ namespace LDZ_Code
 
             for (int i = 0; i < Times2SetWL.Count; i++) { MediumTime2SWL += Times2SetWL[i]; }
             for (int i = 0; i < Times2SnapImage.Count; i++) { MediumTime2SI += Times2SnapImage[i]; }
-            for (int i = 0; i < Times2CopyImage.Count; i++) { MediumTime2CI += Times2CopyImage[i]; }
             MediumTime2SWL /= Times2SetWL.Count;
             MediumTime2SI /= Times2SnapImage.Count;
-            MediumTime2CI /= Times2CopyImage.Count;
-            Log("Среднее время на перестройку: " + MediumTime2SWL.ToString());
-            Log("Среднее время на захват: " + MediumTime2SI.ToString());
-            Log("Среднее время на копирование:  " + MediumTime2CI.ToString());
+            Log("Среднее время на перестройку: " + MediumTime2SWL.ToString() + " мс");
+            Log("Среднее время на захват и копирование: " + MediumTime2SI.ToString() + " мс");
             Log("Захват кадров завершен. Прошедшее время: " + SessionDone.Elapsed.ToString());
             Log("Реальное   FPS: " + (((double)(Steps)) / SessionDone.Elapsed.TotalSeconds).ToString());
 
@@ -1662,6 +1648,10 @@ namespace LDZ_Code
         {
             BGW.RunWorkerAsync();
         }
+        public void StopGrabbing()
+        {
+
+        }
     }
 
     public class MultiThreadSaver
@@ -1669,18 +1659,24 @@ namespace LDZ_Code
         Queue<IFrameQueueBuffer> buffer = new Queue<IFrameQueueBuffer>();
         Queue<string> names = new Queue<string>();
         
-        bool SavingStarted = false;
+        bool AquisitionStarted = false;
+        bool AquisitionFinished = false;
 
         int counter_gotten_frames = 0;
         int counter_saved_frames = 0;
         int counter_series = 0;
 
+        string LastName = null;
         Queue<int> SeriePlans = new Queue<int>();
         Queue<int> SerieStarts = new Queue<int>();
         Queue<int> SerieFinishes = new Queue<int>();
 
         System.ComponentModel.BackgroundWorker Saver = new System.ComponentModel.BackgroundWorker();
         Action<string> Log;
+
+        public delegate void SerieReporter();
+        public event SerieReporter OnSerieSaved;
+        public event SerieReporter OnSerieStarted;
 
         public MultiThreadSaver(Action<string> logger = null)
         {
@@ -1699,7 +1695,8 @@ namespace LDZ_Code
                     {
                         using (var frame = buffer.Dequeue())
                         {
-                            frame.SaveAsTiff(names.Dequeue());
+                            LastName = names.Dequeue();
+                            frame.SaveAsTiff(LastName);
                             counter_saved_frames++;
                         }
                     
@@ -1709,53 +1706,67 @@ namespace LDZ_Code
                 {
 
                 }
-                if(SeriePlans.Count!=0)
-                    if (counter_saved_frames >= SeriePlans.Peek())
+                if (SeriePlans.Count != 0)
+                {
+                    try
                     {
-                        counter_saved_frames -= SeriePlans.Peek();
-                        counter_gotten_frames -= SeriePlans.Dequeue();
-                        Log?.Invoke("Серия сохранена!");
-                        buffer.Clear();
+                        if (counter_saved_frames >= SeriePlans.Peek())
+                        {
+                            int FramesSaved = SeriePlans.Dequeue();
+                           /* counter_saved_frames -= FramesSaved;
+                            counter_gotten_frames -= FramesSaved;*/
+                            Log?.Invoke(String.Format("Серия {0} сохранена! Сохранено кадров: {1} ", Path.GetFileName(Path.GetDirectoryName(LastName)), FramesSaved));
+                            //buffer.Clear();
+                            OnSerieSaved?.Invoke();
+                        }
                     }
+                    catch
+                    {
+
+                    }
+                }
+                else
+                {
+                    if (!AquisitionStarted && AquisitionFinished)
+                    {
+                        counter_gotten_frames = 0;
+                        counter_saved_frames = 0;
+                    }
+                }
             }
         }
 
         public void SerieStarted()
         {
-
-        }
-        public void SerieSaved()
-        {
-
         }
 
         public void EnqueFrame(IFrameQueueBuffer frame, string name)
         {
-            SavingStarted = true;
+            AquisitionStarted = true;
+            AquisitionFinished = false;
             names.Enqueue(name);
             buffer.Enqueue(frame);
             counter_gotten_frames++;
         }
         public void OpenSerie(int Num_of_Frames2Save)
         {
+            AquisitionStarted = true;
+            AquisitionFinished = false;
             SerieStarts.Enqueue(counter_gotten_frames);
-
+            OnSerieStarted?.Invoke();
         }
         public void CloseSerie()
         {
+            AquisitionFinished = true;
+            AquisitionStarted = false;
             SerieFinishes.Enqueue(counter_gotten_frames);
-            SeriePlans.Enqueue((SerieFinishes.Peek() - SerieStarts.Peek()));
-            if (counter_saved_frames >= SeriePlans.Peek())
-            {
-                Log?.Invoke("Серия сохранена!");
-                SeriePlans.Dequeue();
-                counter_saved_frames = 0;
-            }
+            SeriePlans.Enqueue((SerieFinishes.Dequeue() - SerieStarts.Dequeue()));
+
         }
 
         public void CloseAfterSaving()
         {
-            SavingStarted = false;
+            AquisitionStarted = false;
         }
 
         public int GetNumberOfFrames()

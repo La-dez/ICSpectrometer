@@ -1116,12 +1116,25 @@ namespace ICSpec
                 }
 
                 LDZ_Code.HyperSpectralGrabber HSGrabber = new LDZ_Code.HyperSpectralGrabber(
-                    new { WLS = WLs, PATH = NameDirectory, PREFIX = SCRName, TargetExtension = SnapImageStyle.Extension},
-                    new { FFS = MSaver, AOF = Filter, SAVER = MSaver, LOG = new Action<string>((message)=>LogMessage(message)) });
+                    
+                    new
+                    {
+                        FFS = CurFSS,
+                        AOF = Filter,
+                        SAVER = MSaver,
+                        LOG = new Action<string>((message) => LogMessage(message))
+                    },
+                    new
+                    {
+                        WLS = WLs,
+                        PATH = NameDirectory,
+                        PREFIX = SCRName,
+                        EXTENSION = SnapImageStyle.Extension
+                    });
 
-
+                HSGrabber.OnProgressChanged += HSGrabber_OnProgressChanged;
                 HSGrabber.StartGrabbing();
-               
+                Swith_interface_while_grabbing(false);
                 SetInactiveDependence(1);
                 NUD_CurrentWL.Text = AO_CurrentWL.ToString();
                 SetInactiveDependence(0);
@@ -1132,6 +1145,17 @@ namespace ICSpec
                 Log.Error("ORIGINAL: " + e.Message);
             }
         }
+
+        private void Swith_interface_while_grabbing(bool State)
+        {
+            tabControl1.Invoke(new Action(() => { tabControl1.Enabled = State; }));
+        }
+
+        private void HSGrabber_OnProgressChanged(int message)
+        {
+            PB_SeriesProgress.Value = message;
+        }
+
         private void New_SnapAndSaveMassive_viaWLs_08022021(float pStartWL, float pFinishWL, int pSteps, float[] WLVals = null)
         {
 

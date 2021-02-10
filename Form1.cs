@@ -235,8 +235,18 @@ namespace ICSpec
                 { icImagingControl1.LiveStart(); timer_for_FPS.Start(); }
                 LogMessage("6");
                 MSaver = new LDZ_Code.MultiThreadSaver(LogMessage);
+                PB_SeriesProgress.Visible = false;
+
+                MSaver.OnSerieStarted += (() => { this.Invoke( new Action(() => { PB_SeriesProgress.Value = 0; PB_SeriesProgress.Visible = true; })); });
+                MSaver.OnSerieSaved += (() => { this.Invoke(new Action(() => { PB_SeriesProgress.Visible = false; })); });
+                MSaver.OnSerieSaved += (()=>Swith_interface_while_grabbing(true));
+                //подошло бы, если бы не было управления из другого потока
+                //MSaver.OnSerieStarted += (() => {  PB_SeriesProgress.Visible = true; });
+                // MSaver.OnSerieSaved += (() => { PB_SeriesProgress.Visible = false; });
             }
         }//функция предзагрузки окна для динамической инициализации некоторых элементов управления 
+
+ 
 
         private void ExitBut_Click(object sender, EventArgs e)//функция выхода из приложения
         {
@@ -326,10 +336,6 @@ namespace ICSpec
             ContTransAfterSnapshot.Visible = false;
             SaveImageBut.Visible = false;
             EnableFlipButtons();
-            // if (FlipFilter.GetBoolParameter("Flip H")) FlipFilter.SetBoolParameter("Flip H", false);
-            // else FlipFilter.SetBoolParameter("Flip H", true);
-            /*  if (FlipFilterFHS.GetBoolParameter("Flip H")) FlipFilterFHS.SetBoolParameter("Flip H", false);
-            else FlipFilterFHS.SetBoolParameter("Flip H", true);*/
         }
 
 
@@ -379,7 +385,7 @@ namespace ICSpec
             if (RB_Series_WLMode.Checked)
             {
                 int stepss = CalculateSteps_viaWLs();
-                New_SnapAndSaveMassive_viaWLs_08022021(AO_StartWL, AO_EndWL, stepss, WLs_toTune);
+                New_SnapAndSaveMassive_viaWLs_10022021(AO_StartWL, AO_EndWL, stepss, WLs_toTune);
             }
             else
             {
@@ -2102,7 +2108,11 @@ namespace ICSpec
         {
             AO_StartFreq = (float)NUD_FreqStart.Value;
         }
-        
+
+        private void PB_SeriesProgress_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void RB_Series_WLMode_CheckedChanged(object sender, EventArgs e)
         {
