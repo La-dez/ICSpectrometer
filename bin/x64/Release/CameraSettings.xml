@@ -1,6 +1,6 @@
 <device_state libver="3.5" filemajor="1" fileminor="0">
     <device name="DMK 27AUP031" base_name="DMK 27AUP031" unique_name="DMK 27AUP031 25810206">
-        <videoformat>Y16 (2592x1944)</videoformat>
+        <videoformat>RGB24 (2592x1944)</videoformat>
         <fps>15.000015</fps>
         <vcdpropertyitems>
             <item guid="{284C0E06-010B-45BF-8291-09D90A459B28}" name="Brightness">
@@ -36,7 +36,7 @@
                     <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" value="0" />
                 </element>
                 <element guid="{B57D3000-0AC6-4819-A609-272A33140ACA}" name="Value">
-                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E08}" value="0.057465" />
+                    <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E08}" value="0.012871" />
                 </element>
                 <element guid="{65190390-1AD8-4E91-9021-66D64090CC85}" name="Auto">
                     <itf guid="{99B44940-BFE1-4083-ADA1-BE703F4B8E04}" value="1" />

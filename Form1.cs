@@ -20,7 +20,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.9 Beta";
+        string Cur_Version = "v2.73 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -235,18 +235,118 @@ namespace ICSpec
                 { icImagingControl1.LiveStart(); timer_for_FPS.Start(); }
                 LogMessage("6");
                 MSaver = new LDZ_Code.MultiThreadSaver(LogMessage);
-                PB_SeriesProgress.Visible = false;
+                TLP_Saving_of_Frames.Visible = false;
+                /*PB_SeriesProgress.Visible = false;
+                PB_Saving.Visible = false;*/
 
-                MSaver.OnSerieStarted += (() => { this.Invoke( new Action(() => { PB_SeriesProgress.Value = 0; PB_SeriesProgress.Visible = true; })); });
-                MSaver.OnSerieSaved += (() => { this.Invoke(new Action(() => { PB_SeriesProgress.Visible = false; })); });
-                MSaver.OnSerieSaved += (()=>Swith_interface_while_grabbing(true));
-                //подошло бы, если бы не было управления из другого потока
-                //MSaver.OnSerieStarted += (() => {  PB_SeriesProgress.Visible = true; });
-                // MSaver.OnSerieSaved += (() => { PB_SeriesProgress.Visible = false; });
+                MSaver.OnFrameSaved += MSaver_OnFrameSaved;
+                MSaver.OnSerieStarted += MSaver_OnSerieStarted;
+                MSaver.OnSerieSaved += MSaver_OnSerieSaved;
+                MSaver.OnAllFramesSaved += MSaver_OnAllFramesSaved;
+              
+                //MSaver.OnSerieStarted += (() => { this.Invoke(new Action(() => { PB_SeriesProgress.Value = 0; PB_SeriesProgress.Visible = true; })); });
+                //MSaver.OnSerieStarted += ((x) => { this.Invoke(new Action<string>((meow) => { PB_Saving.Value = 0; PB_Saving.Visible = true; })); });
+                //MSaver.OnSerieSaved += ((x) => { this.Invoke(new Action<string>((meow) => { PB_SeriesProgress.Visible = false; })); });
             }
         }//функция предзагрузки окна для динамической инициализации некоторых элементов управления 
 
- 
+        private void MSaver_OnAllFramesSaved(int frames_saved, int frames_gotten)
+        {
+
+            if (TLP_Saving_of_Frames.InvokeRequired)
+            {
+                TLP_Saving_of_Frames.Invoke(new Action(() => { TLP_Saving_of_Frames.Visible = false; }));
+            }
+            else
+            {
+                TLP_Saving_of_Frames.Visible = false;
+            }
+
+            if (PB_SeriesProgress.InvokeRequired)
+            {
+                PB_SeriesProgress.Invoke(new Action(() =>
+                {
+                    PB_SeriesProgress.Value = 0;
+                }));
+            }
+            else
+            {
+                PB_SeriesProgress.Value = 0;
+            }
+
+            if (PB_Saving.InvokeRequired)
+            {
+                PB_Saving.Invoke(new Action(() =>
+                {
+                    PB_Saving.Value = 0;
+                }));
+            }
+            else
+            {
+                PB_Saving.Value = 0;
+            }
+        }
+
+        private void MSaver_OnSerieSaved(string NameOfTheSerie,int Frames)
+        {
+            Log.Message(String.Format("Серия {0} сохранена! Сохранено кадров: {1} ", NameOfTheSerie, Frames));
+        }
+
+        private void MSaver_OnSerieStarted(string NameOfTheSerie)
+        {
+            
+
+            if (PB_SeriesProgress.InvokeRequired)
+            {
+                PB_SeriesProgress.Invoke(new Action(()=>
+                        {
+                            PB_SeriesProgress.Value = 0;
+                        }));
+            }
+            else
+            {
+                PB_SeriesProgress.Value = 0;
+            }
+            if(PB_Saving.InvokeRequired)
+            {
+                PB_Saving.Invoke(new Action(() =>
+                {
+                    PB_Saving.Value = 0;
+                }));               
+            }
+            else
+            {
+                PB_Saving.Value = 0;
+            }
+
+            if (TLP_Saving_of_Frames.InvokeRequired)
+            {
+                TLP_Saving_of_Frames.Invoke(new Action(() => { TLP_Saving_of_Frames.Visible = true; }));
+            }
+            else
+            {
+                TLP_Saving_of_Frames.Visible = true;
+            }
+
+        }
+
+        private void MSaver_OnFrameSaved(int frames_saved, int frames_gotten)
+        {
+            int PercProg = (int)(((float)frames_saved / (float)frames_gotten) * 100);
+            string data = String.Format("{0}/{1}", frames_saved, frames_gotten);
+
+            if (PB_Saving.InvokeRequired)
+            {
+                PB_Saving.Invoke(new Action(() => { PB_Saving.Value = PercProg; }));
+                L_Saved.Invoke(new Action(() => { L_Saved.Text = data; }));
+            }
+            else
+            {
+                PB_Saving.Value = PercProg;
+                L_Saved.Text = data;
+            }
+        }
+
 
         private void ExitBut_Click(object sender, EventArgs e)//функция выхода из приложения
         {
@@ -390,7 +490,7 @@ namespace ICSpec
             else
             {
                 int stepss = CalculateSteps_viaMHzs();
-                New_SnapAndSaveMassive_viaFrequencies(AO_StartFreq, AO_EndFreq, stepss);
+                New_SnapAndSaveMassive_viaFreqs_10022021(AO_StartFreq, AO_EndFreq, stepss);
             }
                 EnableFlipButtons();
         }
@@ -2075,16 +2175,16 @@ namespace ICSpec
 
         private void TSMI_DFTWindowCall_Click(object sender, EventArgs e)
         {
-            icImagingControl1.LiveCaptureContinuous = true;
+            //icImagingControl1.LiveCaptureContinuous = true;
             isDftTurnedOn = true;
             Action WinClosing = new Action(() =>
             {
-                icImagingControl1.LiveCaptureContinuous = false;
+               // icImagingControl1.LiveCaptureContinuous = false;
                 isDftTurnedOn = false;
                // DFTWindow.Close();
             });
-            DFTWindow = new DFTForm(this, icImagingControl1.ImageWidth, icImagingControl1.ImageHeight, WinClosing);
-            ImForDft = new Bitmap(icImagingControl1.ImageWidth, icImagingControl1.ImageHeight);
+            DFTWindow = new DFTForm(this, test_frame.FrameType.Width, test_frame.FrameType.Height, WinClosing);
+            ImForDft = new Bitmap(test_frame.FrameType.Width, test_frame.FrameType.Height);
             DFTWindow.Show();
 
         }

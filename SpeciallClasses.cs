@@ -1510,6 +1510,7 @@ namespace LDZ_Code
     
     public class HyperSpectralGrabber
     {
+        bool OnWls = true;
         List<float> WLs = new List<float>();
         List<double> Times2SetWL = new List<double>();
         List<double> Times2SnapImage = new List<double>();
@@ -1522,8 +1523,12 @@ namespace LDZ_Code
         MultiThreadSaver Saver;
         Action<string> Log;
 
-        public delegate void ProgressChanged(int message);
+        public delegate void ProgressChanged(int frames_gotten,int frames_to_got);
         public event ProgressChanged OnProgressChanged;
+
+        public delegate void Serie_state();
+        public event Serie_state OnSerieStarted;
+        public event Serie_state OnSerieFinished;
 
         public HyperSpectralGrabber(FrameSnapSink pFFS, AO_Lib.AO_Devices.AO_Filter pAOF, List<float> pWls,string Path,string Prefix)
         {
@@ -1536,7 +1541,6 @@ namespace LDZ_Code
             BGW.WorkerReportsProgress = true;
             BGW.WorkerSupportsCancellation = true;
             BGW.DoWork += BGW_DoWork;
-            BGW.ProgressChanged += BGW_ProgressChanged;
            // new { Buffer = rval[i], Name = local }
         }
         public HyperSpectralGrabber(dynamic ControllableObjects, dynamic SerieParams)
@@ -1545,6 +1549,7 @@ namespace LDZ_Code
             TargetPath = SerieParams.PATH;
             TargetPrefix = SerieParams.PREFIX;
             TargetExtension = SerieParams.EXTENSION;
+            OnWls = SerieParams.ONWLS;
 
             FFS = ControllableObjects.FFS;
             AOF = ControllableObjects.AOF;
@@ -1555,14 +1560,10 @@ namespace LDZ_Code
             BGW.WorkerReportsProgress = true;
             BGW.WorkerSupportsCancellation = true;
             BGW.DoWork += BGW_DoWork;
-            BGW.ProgressChanged += BGW_ProgressChanged;
             // new { Buffer = rval[i], Name = local }
         }
 
-        private void BGW_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
-        {
-            OnProgressChanged?.Invoke(e.ProgressPercentage);
-        }
+    
         private string GetTodayDate()
         {
             try
@@ -1580,7 +1581,9 @@ namespace LDZ_Code
             string date = GetTodayDate();
             try
             {
-                Error = AOF.Set_Wl(WLs[0]);//, AOFSimulatorActivated);
+                if (OnWls) Error = AOF.Set_Wl(WLs[0]);
+                else Error = AOF.Set_Hz(WLs[0]);//, AOFSimulatorActivated);
+                FFS.SnapSingle(TimeSpan.FromSeconds(30));
                 System.Threading.Thread.Sleep(500);
                 if (Error != 0) { throw new Exception(AOF.Implement_Error(Error)); };
             }
@@ -1589,27 +1592,32 @@ namespace LDZ_Code
                 Log(ex.Message);
             }
             // System.Threading.Thread.Sleep(20);             
-            System.Diagnostics.Stopwatch SessionDone = new System.Diagnostics.Stopwatch(); SessionDone.Start();
-            string FullPrefix = Path.Combine(TargetPath, TargetPrefix + "_" + date + "_");
-            Saver.OpenSerie(WLs.Count());
+            System.Diagnostics.Stopwatch SessionDone = new System.Diagnostics.Stopwatch(); SessionDone.Start();        
 
+            string FullPrefix = Path.Combine(TargetPath, TargetPrefix + "_" + date + "_");
+            string dirName_data = (TargetPath.Substring(0, TargetPath.Length - 1));
+            dirName_data =  dirName_data.Substring(dirName_data.LastIndexOf('\\')+1);
+            Saver.OpenSerie(WLs.Count(), dirName_data);
+            OnSerieStarted?.Invoke();
 
             for (int i = 0; i < Steps; i++)
             {
                 //Вычисление нового имени
-                string local = FullPrefix + ((int)WLs[i]).ToString() + TargetExtension;
+                string WL_cur = (WLs[i]).ToString();
+                string local = FullPrefix + WL_cur + TargetExtension;
                 if (File.Exists(local))
                 {
                     int num = 1;
                     while (File.Exists(local))
                     {
                         num++;
-                        local = FullPrefix + ((int)WLs[i]).ToString() + "_" + num.ToString() + TargetExtension;
+                        local = FullPrefix + WL_cur + "_" + num.ToString() + TargetExtension;
                     }
                 }
 
                 System.Diagnostics.Stopwatch swl = new System.Diagnostics.Stopwatch(); swl.Start();
-                AOF.Set_Wl(WLs[i]);//, AOFSimulatorActivated);                   
+                if (OnWls) AOF.Set_Wl(WLs[i]);
+                else AOF.Set_Hz(WLs[i]);
                 swl.Stop();
                 Times2SetWL.Add(swl.Elapsed.TotalMilliseconds);
                 //
@@ -1619,11 +1627,12 @@ namespace LDZ_Code
                 swl2.Stop();
                 Times2SnapImage.Add(swl2.Elapsed.TotalMilliseconds);
                 //
-              
+
                 //Bitmap data_bmp = curfhs.LastAcquiredBuffer.
-                BGW.ReportProgress((int)(((float)i / (float)(Steps - 1))*100));
+                OnProgressChanged?.Invoke(i, Steps);
             }
             Saver.CloseSerie();
+            
 
             SessionDone.Stop();
 
@@ -1641,7 +1650,7 @@ namespace LDZ_Code
             Log("Захват кадров завершен. Прошедшее время: " + SessionDone.Elapsed.ToString());
             Log("Реальное   FPS: " + (((double)(Steps)) / SessionDone.Elapsed.TotalSeconds).ToString());
 
-
+            OnSerieFinished?.Invoke();
         }
 
         public void StartGrabbing()
@@ -1664,6 +1673,7 @@ namespace LDZ_Code
 
         int counter_gotten_frames = 0;
         int counter_saved_frames = 0;
+        int counter_saved_frames_totally = 0;
         int counter_series = 0;
 
         string LastName = null;
@@ -1674,9 +1684,14 @@ namespace LDZ_Code
         System.ComponentModel.BackgroundWorker Saver = new System.ComponentModel.BackgroundWorker();
         Action<string> Log;
 
-        public delegate void SerieReporter();
-        public event SerieReporter OnSerieSaved;
-        public event SerieReporter OnSerieStarted;
+        public delegate void SerieSavedReporter(string NameOfTheSerie,int Frames);
+        public delegate void SerieInfoReporter(string NameOfTheSerie);
+        public event SerieSavedReporter OnSerieSaved;
+        public event SerieInfoReporter OnSerieStarted;
+
+        public delegate void ProgressReported(int frames_saved, int frames_gotten);
+        public event ProgressReported OnFrameSaved;
+        public event ProgressReported OnAllFramesSaved;
 
         public MultiThreadSaver(Action<string> logger = null)
         {
@@ -1698,26 +1713,25 @@ namespace LDZ_Code
                             LastName = names.Dequeue();
                             frame.SaveAsTiff(LastName);
                             counter_saved_frames++;
-                        }
-                    
+                            OnFrameSaved?.Invoke(counter_saved_frames, counter_gotten_frames);
+                        }                    
                     }
                 }
                 catch
                 {
 
                 }
-                if (SeriePlans.Count != 0)
+                if (SeriePlans.Count != 0 || (AquisitionStarted && !AquisitionFinished))
                 {
                     try
                     {
-                        if (counter_saved_frames >= SeriePlans.Peek())
+                        if (counter_saved_frames >= counter_saved_frames_totally+SeriePlans.Peek())
                         {
                             int FramesSaved = SeriePlans.Dequeue();
-                           /* counter_saved_frames -= FramesSaved;
-                            counter_gotten_frames -= FramesSaved;*/
-                            Log?.Invoke(String.Format("Серия {0} сохранена! Сохранено кадров: {1} ", Path.GetFileName(Path.GetDirectoryName(LastName)), FramesSaved));
-                            //buffer.Clear();
-                            OnSerieSaved?.Invoke();
+                            string lastSeriename = Path.GetFileName(Path.GetDirectoryName(LastName));
+                            // Log?.Invoke(String.Format("Серия {0} сохранена! Сохранено кадров: {1} ", lastSeriename, FramesSaved));
+                            counter_saved_frames_totally += FramesSaved;
+                            OnSerieSaved?.Invoke(lastSeriename, FramesSaved);
                         }
                     }
                     catch
@@ -1727,8 +1741,10 @@ namespace LDZ_Code
                 }
                 else
                 {
-                    if (!AquisitionStarted && AquisitionFinished)
+                    if (!AquisitionStarted && AquisitionFinished && SeriePlans.Count==0 && (counter_saved_frames == counter_gotten_frames ) && counter_gotten_frames!=0)
                     {
+                         OnAllFramesSaved?.Invoke(counter_saved_frames, counter_gotten_frames);
+                        counter_saved_frames_totally = 0;
                         counter_gotten_frames = 0;
                         counter_saved_frames = 0;
                     }
@@ -1748,19 +1764,20 @@ namespace LDZ_Code
             buffer.Enqueue(frame);
             counter_gotten_frames++;
         }
-        public void OpenSerie(int Num_of_Frames2Save)
+        public void OpenSerie(int Num_of_Frames2Save,string NameOfDir)
         {
             AquisitionStarted = true;
             AquisitionFinished = false;
             SerieStarts.Enqueue(counter_gotten_frames);
-            OnSerieStarted?.Invoke();
+            OnSerieStarted?.Invoke(NameOfDir);
         }
         public void CloseSerie()
         {
-            AquisitionFinished = true;
-            AquisitionStarted = false;
             SerieFinishes.Enqueue(counter_gotten_frames);
             SeriePlans.Enqueue((SerieFinishes.Dequeue() - SerieStarts.Dequeue()));
+            System.Threading.Thread.Sleep(500);
+            AquisitionFinished = true;
+            AquisitionStarted = false;
 
         }
 

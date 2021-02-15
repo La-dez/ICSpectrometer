@@ -1093,11 +1093,22 @@ namespace ICSpec
             string date = GetDateString();
             string NameDirectory = GetFullDateString() + "\\";
             string SCRName = CheckScreenShotBasicName();
-            Directory.CreateDirectory(SnapImageStyle.Directory + NameDirectory); //Read directories
+
             NameDirectory = Path.Combine(SnapImageStyle.Directory, NameDirectory);
+            
+            string LocalDir = NameDirectory;
+            if (Directory.Exists(NameDirectory))
+            {
+                int num = 1;
+                while (Directory.Exists(LocalDir))
+                {
+                    num++;
+                    LocalDir = NameDirectory.Substring(0, NameDirectory.Length - 3) + "(" + num.ToString() + ")" + "\\";
+                }
+            }
+            NameDirectory = LocalDir;
 
-
-
+            Directory.CreateDirectory(NameDirectory); //Read directories
 
             try
             {
@@ -1116,7 +1127,7 @@ namespace ICSpec
                 }
 
                 LDZ_Code.HyperSpectralGrabber HSGrabber = new LDZ_Code.HyperSpectralGrabber(
-                    
+
                     new
                     {
                         FFS = CurFSS,
@@ -1129,12 +1140,15 @@ namespace ICSpec
                         WLS = WLs,
                         PATH = NameDirectory,
                         PREFIX = SCRName,
-                        EXTENSION = SnapImageStyle.Extension
+                        EXTENSION = SnapImageStyle.Extension,
+                        ONWLS = true                       
                     });
 
                 HSGrabber.OnProgressChanged += HSGrabber_OnProgressChanged;
+                HSGrabber.OnSerieFinished += (()=> Swith_interface_while_grabbing(true));
+                HSGrabber.OnSerieStarted += (()=> Swith_interface_while_grabbing(false));
+
                 HSGrabber.StartGrabbing();
-                Swith_interface_while_grabbing(false);
                 SetInactiveDependence(1);
                 NUD_CurrentWL.Text = AO_CurrentWL.ToString();
                 SetInactiveDependence(0);
@@ -1146,14 +1160,100 @@ namespace ICSpec
             }
         }
 
+        private void New_SnapAndSaveMassive_viaFreqs_10022021(float pStart_MHz, float pFinish_MHz, int MHz_Steps, float[] MHz_Vals = null)
+        {
+            ReadAllSettingsFromFile(false);
+            string date = GetDateString();
+            string NameDirectory = GetFullDateString() + "\\";
+            string SCRName = CheckScreenShotBasicName();
+
+            NameDirectory = Path.Combine(SnapImageStyle.Directory, NameDirectory);
+
+            string LocalDir = NameDirectory;
+            if (Directory.Exists(NameDirectory))
+            {
+                int num = 1;
+                while (Directory.Exists(LocalDir))
+                {
+                    num++;
+                    LocalDir = NameDirectory.Substring(0, NameDirectory.Length - 3) + "(" + num.ToString() + ")" + "\\";
+                }
+            }
+            NameDirectory = LocalDir;
+
+            Directory.CreateDirectory(NameDirectory); //Read directories
+
+            try
+            {
+
+                List<float> Freqs = new List<float>();
+
+                if (MHz_Vals == null) //Calculate WLs
+                {
+                    for (int i = 0; i < MHz_Steps; i++)
+                        Freqs.Add(pStart_MHz + i * AO_StepFreq);
+                    Freqs.Add(pFinish_MHz);
+                    if (Freqs[MHz_Steps] == Freqs[MHz_Steps - 1]) Freqs.RemoveAt(MHz_Steps);
+                }
+                else
+                {
+                    Freqs = new List<float>(MHz_Vals);
+                }
+
+                LDZ_Code.HyperSpectralGrabber HSGrabber = new LDZ_Code.HyperSpectralGrabber(
+
+                    new
+                    {
+                        FFS = CurFSS,
+                        AOF = Filter,
+                        SAVER = MSaver,
+                        LOG = new Action<string>((message) => LogMessage(message))
+                    },
+                    new
+                    {
+                        WLS = Freqs,
+                        PATH = NameDirectory,
+                        PREFIX = SCRName,
+                        EXTENSION = SnapImageStyle.Extension,
+                        ONWLS = false
+                    });
+
+                HSGrabber.OnProgressChanged += HSGrabber_OnProgressChanged;
+                HSGrabber.OnSerieFinished += (() => Swith_interface_while_grabbing(true));
+                HSGrabber.OnSerieStarted += (() => Swith_interface_while_grabbing(false));
+
+                HSGrabber.StartGrabbing();
+                SetInactiveDependence(1);
+                NUD_CurrentWL.Text = AO_CurrentWL.ToString();
+                SetInactiveDependence(0);
+            }
+            catch (Exception e)
+            {
+                // Log.Error("Произошла ошибка во время захвата или сохранения. Этап выполнения функции:" + level.ToString());
+                Log.Error("ORIGINAL: " + e.Message);
+            }
+        }
+
         private void Swith_interface_while_grabbing(bool State)
         {
             tabControl1.Invoke(new Action(() => { tabControl1.Enabled = State; }));
         }
 
-        private void HSGrabber_OnProgressChanged(int message)
+        private void HSGrabber_OnProgressChanged(int frames_gotten,int frames_2_got)
         {
-            PB_SeriesProgress.Value = message;
+            int Progress = (int)(((float)frames_gotten/(float)(frames_2_got - 1))*100);
+            string data = String.Format("{0}/{1}", frames_gotten+1, frames_2_got);
+
+            if(PB_SeriesProgress.InvokeRequired)
+            {
+                PB_SeriesProgress.Invoke(new Action(() => { PB_SeriesProgress.Value = Progress; }));
+                L_Aquired.Invoke(new Action(() => { L_Aquired.Text = data; }));
+            }
+            else
+            {
+                PB_SeriesProgress.Value = Progress;
+                L_Aquired.Text = data;
+            }
         }
 
         private void New_SnapAndSaveMassive_viaWLs_08022021(float pStartWL, float pFinishWL, int pSteps, float[] WLVals = null)
@@ -1232,7 +1332,7 @@ namespace ICSpec
                     level = 4;
 
                     string FullPrefix = SnapImageStyle.Directory + NameDirectory + SCRName + "_" + date + "_";
-                    MSaver.OpenSerie(allvalues.Count());
+                    MSaver.OpenSerie(allvalues.Count(), NameDirectory);
                     for (int i = 0; i < psteps2; i++)
                     {
 
