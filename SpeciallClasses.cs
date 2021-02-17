@@ -1505,9 +1505,42 @@ namespace LDZ_Code
             }
         }
     }
-    
- 
-    
+
+    class FrameQueueSinkListener : IFrameQueueSinkListener
+    {
+        public Action<IFrameQueueBuffer> process;
+
+        public void SetImageProcessing(Action<IFrameQueueBuffer> procedure)
+        {
+            process = procedure;
+        }
+
+        public void SinkConnected(FrameQueueSink sink, FrameType frameType)
+        {
+            // here we allocate and queue 5 buffers which too already have the right type
+            sink.AllocAndQueueBuffers(5);
+        }
+        public void SinkDisconnected(FrameQueueSink sink, IFrameQueueBuffer[] dequeuedInputBuffers)
+        {
+            foreach (IFrameQueueBuffer buf in dequeuedInputBuffers)
+            {
+                // this is practically sink.PopInputQueueBuffers
+            }
+            // these are the already copied buffers for which we were not called for/didn't already pop
+            IFrameQueueBuffer[] outputBuffers = sink.PopAllOutputQueueBuffers();
+        }
+        public void FramesQueued(FrameQueueSink sink)
+        {
+            IFrameQueueBuffer[] buffers = sink.PopAllOutputQueueBuffers();
+            foreach (IFrameQueueBuffer buf in buffers)
+            {
+                process?.Invoke(buf);
+                sink.QueueBuffer(buf);
+            }
+            // we can exit here, because when new buffers arrived after we called PopAllOutputQueueBuffers, we are immediatly called again
+        }
+    }
+
     public class HyperSpectralGrabber
     {
         bool OnWls = true;

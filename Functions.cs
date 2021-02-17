@@ -2300,6 +2300,12 @@ namespace ICSpec
             }
         }
 
+        private void CreateNew_FQS(Guid FT)
+        {
+            Curlistener = new LDZ_Code.FrameQueueSinkListener();
+            CurFQS = new FrameQueueSink(Curlistener, FT);
+        }
+
         IFrameQueueBuffer test_frame;
         private TIS.Imaging.BaseSink New_SetSelectedCamera_SignalStream_Format() 
         {
@@ -2355,7 +2361,7 @@ namespace ICSpec
             ic.Sink = curfhs;
 
             ic.Sink = new TIS.Imaging.FrameSnapSink(realGuid);
-
+            CreateNew_FQS(realGuid);
             CurFSS = ic.Sink as FrameSnapSink;
             ic.LiveStart();
             test_frame = CurFSS.SnapSingle(TimeSpan.FromSeconds(10));

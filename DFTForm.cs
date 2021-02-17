@@ -62,6 +62,7 @@ namespace ICSpec
             CvInvoke.Add(outReal, outIm, outReal);  //Re^2+Im^2
             CvInvoke.Sqrt(outReal, outReal);        //sqrt(Re^2+Im^2)
             CvInvoke.Log(outReal, outReal);         //для нормального отображения
+            
 
             outReal.CopyTo(finalmatrix);
             finalmatrix = finalmatrix.Clone();

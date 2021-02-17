@@ -30,6 +30,9 @@ namespace ICSpec
         TIS.Imaging.BaseSink m_oldSink;
         TIS.Imaging.FrameHandlerSink curfhs; // Инициализация текущего FramehandlerSink экземпляра для быстрого захвата кадров
         FrameSnapSink CurFSS; // 10022021. Запил нового синка для правильного граба фреймов
+        FrameQueueSinkListener Curlistener;
+        FrameQueueSink CurFQS;
+
         string filedatename = null;
         public string fileName = null;//Application.StartupPath + @"\\SettingsOfWriting.txt";
         public bool WarningofCapt = false;
@@ -94,6 +97,7 @@ namespace ICSpec
         List<dynamic> IMG_buffers_mass = new List<dynamic>();
         Queue<dynamic> IMG_buffers_queue= new Queue<dynamic>();
         LDZ_Code.MultiThreadSaver MSaver;
+
 
         public Form1()
         {
@@ -234,19 +238,23 @@ namespace ICSpec
                 if (icImagingControl1.DeviceValid)
                 { icImagingControl1.LiveStart(); timer_for_FPS.Start(); }
                 LogMessage("6");
-                MSaver = new LDZ_Code.MultiThreadSaver(LogMessage);
-                TLP_Saving_of_Frames.Visible = false;
-                /*PB_SeriesProgress.Visible = false;
-                PB_Saving.Visible = false;*/
+                //saver initilizing
+                {
+                    MSaver = new LDZ_Code.MultiThreadSaver(LogMessage);
+                    TLP_Saving_of_Frames.Visible = false;
+                    /*PB_SeriesProgress.Visible = false;
+                    PB_Saving.Visible = false;*/
 
-                MSaver.OnFrameSaved += MSaver_OnFrameSaved;
-                MSaver.OnSerieStarted += MSaver_OnSerieStarted;
-                MSaver.OnSerieSaved += MSaver_OnSerieSaved;
-                MSaver.OnAllFramesSaved += MSaver_OnAllFramesSaved;
-              
+                    MSaver.OnFrameSaved += MSaver_OnFrameSaved;
+                    MSaver.OnSerieStarted += MSaver_OnSerieStarted;
+                    MSaver.OnSerieSaved += MSaver_OnSerieSaved;
+                    MSaver.OnAllFramesSaved += MSaver_OnAllFramesSaved;
+                }
                 //MSaver.OnSerieStarted += (() => { this.Invoke(new Action(() => { PB_SeriesProgress.Value = 0; PB_SeriesProgress.Visible = true; })); });
                 //MSaver.OnSerieStarted += ((x) => { this.Invoke(new Action<string>((meow) => { PB_Saving.Value = 0; PB_Saving.Visible = true; })); });
                 //MSaver.OnSerieSaved += ((x) => { this.Invoke(new Action<string>((meow) => { PB_SeriesProgress.Visible = false; })); });
+
+               
             }
         }//функция предзагрузки окна для динамической инициализации некоторых элементов управления 
 
@@ -2176,10 +2184,17 @@ namespace ICSpec
         private void TSMI_DFTWindowCall_Click(object sender, EventArgs e)
         {
             //icImagingControl1.LiveCaptureContinuous = true;
+            icImagingControl1.LiveStop();
+            icImagingControl1.Sink = CurFQS;
+            icImagingControl1.LiveStart();
+
+            Curlistener.SetImageProcessing(ProcessFrame);
             isDftTurnedOn = true;
             Action WinClosing = new Action(() =>
             {
-               // icImagingControl1.LiveCaptureContinuous = false;
+                icImagingControl1.LiveStop();
+                icImagingControl1.Sink = CurFSS;
+                icImagingControl1.LiveStart();
                 isDftTurnedOn = false;
                // DFTWindow.Close();
             });
@@ -2188,7 +2203,11 @@ namespace ICSpec
             DFTWindow.Show();
 
         }
-
+        private void ProcessFrame(IFrameQueueBuffer frame)
+        {
+            Log.Message("Кадр обработан!");
+            DFTWindow.DFTFromMat(frame.CreateBitmapWrap());
+        }
         private void RB_Series_FreqMode_CheckedChanged(object sender, EventArgs e)
         {
 
