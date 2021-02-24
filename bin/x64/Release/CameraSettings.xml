@@ -1,7 +1,7 @@
 <device_state libver="3.5" filemajor="1" fileminor="0">
     <device name="DMK 27AUP031" base_name="DMK 27AUP031" unique_name="DMK 27AUP031 25810206">
         <videoformat>RGB24 (2592x1944)</videoformat>
-        <fps>15.000015</fps>
+        <fps>8.000000</fps>
         <vcdpropertyitems>
             <item guid="{284C0E06-010B-45BF-8291-09D90A459B28}" name="Brightness">
                 <element guid="{B57D3000-0AC6-4819-A609-272A33140ACA}" name="Value">

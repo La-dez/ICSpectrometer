@@ -1132,7 +1132,7 @@ namespace ICSpec
                     {
                         FFS = CurFSS,
                         AOF = Filter,
-                        SAVER = MSaver,
+                        SAVER = TSMI_MThreadSave.Checked ? MSaver : null,
                         LOG = new Action<string>((message) => LogMessage(message))
                     },
                     new
@@ -1145,8 +1145,17 @@ namespace ICSpec
                     });
 
                 HSGrabber.OnProgressChanged += HSGrabber_OnProgressChanged;
-                HSGrabber.OnSerieFinished += (()=> Swith_interface_while_grabbing(true));
-                HSGrabber.OnSerieStarted += (()=> Swith_interface_while_grabbing(false));
+
+                if (TSMI_MThreadSave.Checked)
+                {
+                    HSGrabber.OnSerieFinished += (() => Swith_interface_while_grabbing(true));
+                    HSGrabber.OnSerieStarted += (() => Swith_interface_while_grabbing(false));
+                }
+                else
+                {
+                    HSGrabber.OnSerieFinished += (() => Swith_interface_while_grabbing(true, false, false));
+                    HSGrabber.OnSerieStarted += (() => Swith_interface_while_grabbing(false, false, true));
+                }
 
                 HSGrabber.StartGrabbing();
                 SetInactiveDependence(1);
@@ -1206,7 +1215,7 @@ namespace ICSpec
                     {
                         FFS = CurFSS,
                         AOF = Filter,
-                        SAVER = MSaver,
+                        SAVER = TSMI_MThreadSave.Checked ? MSaver : null,
                         LOG = new Action<string>((message) => LogMessage(message))
                     },
                     new
@@ -1219,8 +1228,16 @@ namespace ICSpec
                     });
 
                 HSGrabber.OnProgressChanged += HSGrabber_OnProgressChanged;
-                HSGrabber.OnSerieFinished += (() => Swith_interface_while_grabbing(true));
-                HSGrabber.OnSerieStarted += (() => Swith_interface_while_grabbing(false));
+                if (TSMI_MThreadSave.Checked)
+                {
+                    HSGrabber.OnSerieFinished += (() => Swith_interface_while_grabbing(true));
+                    HSGrabber.OnSerieStarted += (() => Swith_interface_while_grabbing(false));
+                }
+                else
+                {
+                    HSGrabber.OnSerieFinished += (() => Swith_interface_while_grabbing(true, false, false));
+                    HSGrabber.OnSerieStarted += (() => Swith_interface_while_grabbing(false, false, true));
+                }
 
                 HSGrabber.StartGrabbing();
                 SetInactiveDependence(1);
@@ -1234,9 +1251,29 @@ namespace ICSpec
             }
         }
 
-        private void Swith_interface_while_grabbing(bool State)
+        private void Swith_interface_while_grabbing(bool State, bool SavingVisible = true, bool AqVisible = true)
         {
             tabControl1.Invoke(new Action(() => { tabControl1.Enabled = State; }));
+
+            if (!(SavingVisible && AqVisible) || !State) //24022021. If we use manual control of visibility, it's necessary to show the panel here, not in saver
+            {
+                TLP_Saving_of_Frames.Invoke(new Action(() => { TLP_Saving_of_Frames.Visible = !State; }));
+
+
+                PB_Saving.Invoke(new Action(() => { PB_Saving.Visible = SavingVisible; }));
+                L_Saved.Invoke(new Action(() => { L_Saved.Visible = SavingVisible; }));
+                L_Info_Saved.Invoke(new Action(() => { L_Info_Saved.Visible = SavingVisible; }));
+
+                PB_SeriesProgress.Invoke(new Action(() => { PB_SeriesProgress.Visible = AqVisible; }));
+                L_Aquired.Invoke(new Action(() => { L_Aquired.Visible = AqVisible; }));
+                L_Info_Aquired.Invoke(new Action(() => { L_Info_Aquired.Visible = AqVisible; }));
+
+                if (!AqVisible)
+                { PB_SeriesProgress.Invoke(new Action(() => { PB_SeriesProgress.Value = 0; })); }
+                if (!SavingVisible)
+                { PB_Saving.Invoke(new Action(() => { PB_Saving.Value = 0; })); }
+            }
+            
         }
 
         private void HSGrabber_OnProgressChanged(int frames_gotten,int frames_2_got)

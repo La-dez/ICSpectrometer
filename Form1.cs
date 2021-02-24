@@ -20,7 +20,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.73 Beta";
+        string Cur_Version = "v2.74 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -260,7 +260,7 @@ namespace ICSpec
 
         private void MSaver_OnAllFramesSaved(int frames_saved, int frames_gotten)
         {
-
+            System.Threading.Thread.Sleep(1000);
             if (TLP_Saving_of_Frames.InvokeRequired)
             {
                 TLP_Saving_of_Frames.Invoke(new Action(() => { TLP_Saving_of_Frames.Visible = false; }));

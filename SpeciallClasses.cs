@@ -1555,13 +1555,14 @@ namespace LDZ_Code
         AO_Lib.AO_Devices.AO_Filter AOF = null;
         MultiThreadSaver Saver;
         Action<string> Log;
+        bool UseMultithreadSaving = true;
 
         public delegate void ProgressChanged(int frames_gotten,int frames_to_got);
-        public event ProgressChanged OnProgressChanged;
-
         public delegate void Serie_state();
+
         public event Serie_state OnSerieStarted;
         public event Serie_state OnSerieFinished;
+        public event ProgressChanged OnProgressChanged;
 
         public HyperSpectralGrabber(FrameSnapSink pFFS, AO_Lib.AO_Devices.AO_Filter pAOF, List<float> pWls,string Path,string Prefix)
         {
@@ -1593,6 +1594,8 @@ namespace LDZ_Code
             BGW.WorkerReportsProgress = true;
             BGW.WorkerSupportsCancellation = true;
             BGW.DoWork += BGW_DoWork;
+
+            UseMultithreadSaving = (Saver != null);
             // new { Buffer = rval[i], Name = local }
         }
 
@@ -1625,18 +1628,18 @@ namespace LDZ_Code
                 Log(ex.Message);
             }
             // System.Threading.Thread.Sleep(20);             
-            System.Diagnostics.Stopwatch SessionDone = new System.Diagnostics.Stopwatch(); SessionDone.Start();        
+            System.Diagnostics.Stopwatch SessionDone = new System.Diagnostics.Stopwatch(); SessionDone.Start();
 
             string FullPrefix = Path.Combine(TargetPath, TargetPrefix + "_" + date + "_");
             string dirName_data = (TargetPath.Substring(0, TargetPath.Length - 1));
-            dirName_data =  dirName_data.Substring(dirName_data.LastIndexOf('\\')+1);
-            Saver.OpenSerie(WLs.Count(), dirName_data);
+            dirName_data = dirName_data.Substring(dirName_data.LastIndexOf('\\') + 1);
+            if (UseMultithreadSaving) Saver.OpenSerie(WLs.Count(), dirName_data);
             OnSerieStarted?.Invoke();
 
             for (int i = 0; i < Steps; i++)
             {
                 //Вычисление нового имени
-                string WL_cur = (WLs[i]).ToString();
+                string WL_cur = (String.Format("{0:0.000}", WLs[i])).Replace(',','.');                
                 string local = FullPrefix + WL_cur + TargetExtension;
                 if (File.Exists(local))
                 {
@@ -1656,7 +1659,8 @@ namespace LDZ_Code
                 //
                 System.Diagnostics.Stopwatch swl2 = new System.Diagnostics.Stopwatch();
                 swl2.Start();
-                Saver.EnqueFrame(FFS.SnapSingle(TimeSpan.FromSeconds(30)), local);
+                if (UseMultithreadSaving) Saver.EnqueFrame(FFS.SnapSingle(TimeSpan.FromSeconds(30)), local);
+                else { (FFS.SnapSingle(TimeSpan.FromSeconds(30))).SaveAsTiff(local); }
                 swl2.Stop();
                 Times2SnapImage.Add(swl2.Elapsed.TotalMilliseconds);
                 //
@@ -1664,7 +1668,8 @@ namespace LDZ_Code
                 //Bitmap data_bmp = curfhs.LastAcquiredBuffer.
                 OnProgressChanged?.Invoke(i, Steps);
             }
-            Saver.CloseSerie();
+            if (UseMultithreadSaving) Saver.CloseSerie();
+            else { System.Threading.Thread.Sleep(1000); }
             
 
             SessionDone.Stop();
