@@ -2339,8 +2339,7 @@ namespace ICSpec
 
         private void CreateNew_FQS(Guid FT)
         {
-            Curlistener = new LDZ_Code.FrameQueueSinkListener();
-            CurFQS = new FrameQueueSink(Curlistener, FT);
+            CurFQS = new FrameQueueSink((FrameArg) => NewBufferCallback(FrameArg), new FrameType(FT),5);
         }
 
         IFrameQueueBuffer test_frame;

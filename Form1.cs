@@ -20,7 +20,7 @@ namespace ICSpec
 
     public partial class Form1 : Form
     {
-        string Cur_Version = "v2.74 Beta";
+        string Cur_Version = "v2.75 Beta";
         //Инициализация всех переменных, необходимых для работы
         private VCDSimpleProperty vcdProp = null;
         private VCDAbsoluteValueProperty AbsValExp = null;// специально для времени экспонирования [c]
@@ -30,7 +30,6 @@ namespace ICSpec
         TIS.Imaging.BaseSink m_oldSink;
         TIS.Imaging.FrameHandlerSink curfhs; // Инициализация текущего FramehandlerSink экземпляра для быстрого захвата кадров
         FrameSnapSink CurFSS; // 10022021. Запил нового синка для правильного граба фреймов
-        FrameQueueSinkListener Curlistener;
         FrameQueueSink CurFQS;
 
         string filedatename = null;
@@ -91,13 +90,15 @@ namespace ICSpec
         string data_of_start = null;
         string data_NOW = null;
         bool isTimeSesNeeded = false;
-        bool isDftTurnedOn = false;
-        DFTForm DFTWindow = null;
-        Bitmap ImForDft = null;
         List<dynamic> IMG_buffers_mass = new List<dynamic>();
         Queue<dynamic> IMG_buffers_queue= new Queue<dynamic>();
         LDZ_Code.MultiThreadSaver MSaver;
 
+        //03032021 DFT
+        bool StopRequeted = false;
+        bool isDftTurnedOn = false;
+        DFTForm DFTWindow = null;
+        Bitmap ImForDft = null;
 
         public Form1()
         {
@@ -1193,23 +1194,7 @@ namespace ICSpec
              else FlipFilterFHS.SetBoolParameter("Flip H", true);*/
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if ((e.KeyCode == Keys.Q) && e.Alt)
-            {
-                Application.Exit(); return;// RemovePointsInRect();
-            }
-            /*     else if ((e.KeyCode == Keys.D) && e.Control)
-                 {
-                     RemovePointsInRect();
-                 }
-                 else if ((e.KeyCode == Keys.F) && e.Alt)
-                 {
-                     if (FullScrin) { MinimizeWindow(); FullScrin = false; }
-                     else { MaximizeWindow(); FullScrin = true; }
-                 }*/
-
-        }
+      
 
       
 
@@ -2188,25 +2173,66 @@ namespace ICSpec
             icImagingControl1.Sink = CurFQS;
             icImagingControl1.LiveStart();
 
-            Curlistener.SetImageProcessing(ProcessFrame);
+            
             isDftTurnedOn = true;
-            Action WinClosing = new Action(() =>
-            {
-                icImagingControl1.LiveStop();
-                icImagingControl1.Sink = CurFSS;
-                icImagingControl1.LiveStart();
-                isDftTurnedOn = false;
-               // DFTWindow.Close();
-            });
-            DFTWindow = new DFTForm(this, test_frame.FrameType.Width, test_frame.FrameType.Height, WinClosing);
-            ImForDft = new Bitmap(test_frame.FrameType.Width, test_frame.FrameType.Height);
+            StopRequeted = false;
+            DFTWindow = new DFTForm(this, test_frame.FrameType.Width, test_frame.FrameType.Height);
+            //ImForDft = new Bitmap(test_frame.FrameType.Width, test_frame.FrameType.Height);//03032021 Больше нет необходимости инициализировать первый кадр
+            DFTWindow.FormClosed += DFTWindow_FormClosed;
             DFTWindow.Show();
 
+        }
+
+        private void DFTWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            StopRequeted = true;
+
+         /*   var InputCount = CurFQS.InputQueueSize;
+            var OutCount = CurFQS.OutputQueueSize;
+            var DroppedCount = CurFQS.CountOfFramesDropped;
+
+            CurFQS.PopAllInputQueueBuffers();
+            CurFQS.PopAllOutputQueueBuffers();
+
+            InputCount = CurFQS.InputQueueSize;
+            OutCount = CurFQS.OutputQueueSize;
+            DroppedCount = CurFQS.CountOfFramesDropped;*/
+
+            while(!frameProcessed)
+            {
+                Application.DoEvents(); //ждем обработки всех других кадров, не затормаживая основной поток
+            }
+
+            icImagingControl1.LiveStop();
+            PreviousFrame = null;
+            icImagingControl1.Sink = CurFSS;
+            icImagingControl1.LiveStart();
+        }
+
+        IFrameQueueBuffer PreviousFrame = null;
+
+
+        bool frameProcessed = false;
+        FrameQueuedResult NewBufferCallback(IFrameQueueBuffer frame)
+        {          
+            CurFQS.QueueBuffer(frame);
+            if (PreviousFrame != null && !StopRequeted)
+            {
+                frameProcessed = false;
+                ProcessFrame(PreviousFrame);
+                frameProcessed = true;
+            }
+            PreviousFrame = frame;
+            return FrameQueuedResult.SkipReQueue;
         }
         private void ProcessFrame(IFrameQueueBuffer frame)
         {
             Log.Message("Кадр обработан!");
-            DFTWindow.DFTFromMat(frame.CreateBitmapWrap());
+            var frame2 = frame.CreateBitmapWrap();
+            if (DFTWindow != null)
+            {
+                DFTWindow.DFTFromMat(frame2);
+            }
         }
         private void RB_Series_FreqMode_CheckedChanged(object sender, EventArgs e)
         {
@@ -2354,6 +2380,26 @@ namespace ICSpec
             else return DialogResult.Cancel;
         }
 
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyCode == Keys.Q) && e.Alt)
+            {
+                Application.Exit(); return;// RemovePointsInRect();
+            }
+            if ((e.KeyCode == Keys.S) && e.Alt)
+            {
+                if (icImagingControl1.LiveVideoRunning)
+                    icImagingControl1.LiveStop();
+                else
+                    icImagingControl1.LiveStart();
+            }
+          /*  if ((e.KeyCode == Keys.B) && e.Alt)
+            {
+                StopRequeted = !StopRequeted;
+                Log.Message(StopRequeted.ToString());
+            }*/
+
+        }
 
 
 

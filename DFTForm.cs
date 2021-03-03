@@ -19,8 +19,7 @@ namespace ICSpec
         int optCols = 0;
         Rectangle ROI;
         Matrix<float> finalmatrix;
-        Action onClosing = null;
-        public DFTForm(Form1 pOwner, int w, int h,Action p_onClosing)
+        public DFTForm(Form1 pOwner, int w, int h)
         {
             this.Owner = pOwner;
             InitializeComponent();
@@ -28,7 +27,6 @@ namespace ICSpec
             optCols = CvInvoke.GetOptimalDFTSize(w);
             ROI = new Rectangle(0, 0, w, h);
             finalmatrix = new Matrix<float>(optRows, optCols);
-            onClosing = p_onClosing;
         }
 
         private void DFTForm_Load(object sender, EventArgs e)
@@ -39,10 +37,8 @@ namespace ICSpec
         {
             Image<Bgr, Single> imageCV_spl = new Image<Bgr, Single>(Image); //приняли RGB
             Image<Gray, Single>[] imageCV = imageCV_spl.Split();            //разделили на 3 канала
-            Mat mat = imageCV[0].Mat; //This is your Image converted to Mat
-
-            var image = new Mat(mat, ROI);
-            //var image = new Mat(image2, new Rectangle((image2.Cols - image2.Rows) / 2, 0, image2.Rows, image2.Rows));
+            
+            var image = new Mat(imageCV[0].Mat, ROI);
            
             var extended = new Mat();
             CvInvoke.CopyMakeBorder(image, extended, 0, optRows - image.Rows, 0, optCols - image.Cols, BorderType.Constant);
@@ -99,7 +95,6 @@ namespace ICSpec
 
         private void DFTForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            onClosing();
         }
     }
 }

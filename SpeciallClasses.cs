@@ -1508,7 +1508,7 @@ namespace LDZ_Code
 
     class FrameQueueSinkListener : IFrameQueueSinkListener
     {
-        public Action<IFrameQueueBuffer> process;
+        protected Action<IFrameQueueBuffer> process;
 
         public void SetImageProcessing(Action<IFrameQueueBuffer> procedure)
         {
