@@ -1749,9 +1749,9 @@ namespace LDZ_Code
                         using (var frame = buffer.Dequeue())
                         {
                             LastName = names.Dequeue();
-                            frame.SaveAsTiff(LastName);
+                         //   frame.SaveAsTiff(LastName);
                             counter_saved_frames++;
-                            OnFrameSaved?.Invoke(counter_saved_frames, counter_gotten_frames);
+                           // OnFrameSaved?.Invoke(counter_saved_frames, counter_gotten_frames);
                         }                    
                     }
                 }
