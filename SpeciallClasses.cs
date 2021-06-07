@@ -1609,6 +1609,15 @@ namespace LDZ_Code
             }
             catch { return  "date"; }
         }
+        public void StartGrabbing()
+        {
+            BGW.RunWorkerAsync();
+        }
+        public void StopGrabbing()
+        {
+
+        }
+
         private void BGW_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
 
@@ -1656,7 +1665,9 @@ namespace LDZ_Code
                 else AOF.Set_Hz(WLs[i]);
                 swl.Stop();
                 Times2SetWL.Add(swl.Elapsed.TotalMilliseconds);
-                //
+                //Check for some lags //02.06.2021
+                System.Threading.Thread.Sleep(100);
+
                 System.Diagnostics.Stopwatch swl2 = new System.Diagnostics.Stopwatch();
                 swl2.Start();
                 if (UseMultithreadSaving) Saver.EnqueFrame(FFS.SnapSingle(TimeSpan.FromSeconds(30)), local);
@@ -1691,14 +1702,7 @@ namespace LDZ_Code
             OnSerieFinished?.Invoke();
         }
 
-        public void StartGrabbing()
-        {
-            BGW.RunWorkerAsync();
-        }
-        public void StopGrabbing()
-        {
 
-        }
     }
 
     public class MultiThreadSaver
@@ -1751,7 +1755,7 @@ namespace LDZ_Code
                             LastName = names.Dequeue();
                          //   frame.SaveAsTiff(LastName);
                             counter_saved_frames++;
-                           // OnFrameSaved?.Invoke(counter_saved_frames, counter_gotten_frames);
+                            OnFrameSaved?.Invoke(counter_saved_frames, counter_gotten_frames);
                         }                    
                     }
                 }
