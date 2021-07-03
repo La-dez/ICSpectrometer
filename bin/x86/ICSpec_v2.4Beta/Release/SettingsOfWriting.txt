@@ -1,8 +1,0 @@
-﻿Image Settings:
-      1.Directory::
-      2.Extension::.tiff
-      3.Quality::100
-Video Settings:
-      1.Directory::
-      1.Media Stream Container(extension)::
-      1.Codec::

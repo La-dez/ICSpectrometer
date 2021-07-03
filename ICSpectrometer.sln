@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSpectrometer", "ICSpectrometer.csproj", "{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -12,9 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AO_Lib", "..\..\AOD and AOF
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Config 1|Any CPU = Config 1|Any CPU
-		Config 1|x64 = Config 1|x64
-		Config 1|x86 = Config 1|x86
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
@@ -23,12 +20,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}.Config 1|Any CPU.ActiveCfg = Config 1|Any CPU
-		{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}.Config 1|Any CPU.Build.0 = Config 1|Any CPU
-		{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}.Config 1|x64.ActiveCfg = Config 1|x64
-		{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}.Config 1|x64.Build.0 = Config 1|x64
-		{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}.Config 1|x86.ActiveCfg = Config 1|x86
-		{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}.Config 1|x86.Build.0 = Config 1|x86
 		{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}.Debug|x64.ActiveCfg = Debug|x64
@@ -41,12 +32,6 @@ Global
 		{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}.Release|x64.Build.0 = Release|x64
 		{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}.Release|x86.ActiveCfg = Release|x86
 		{F10FB551-2ABA-4FBD-BB93-D289B40CAA9F}.Release|x86.Build.0 = Release|x86
-		{1EB39A18-8A1C-4C19-AF0B-39809AD6606F}.Config 1|Any CPU.ActiveCfg = Release|Any CPU
-		{1EB39A18-8A1C-4C19-AF0B-39809AD6606F}.Config 1|Any CPU.Build.0 = Release|Any CPU
-		{1EB39A18-8A1C-4C19-AF0B-39809AD6606F}.Config 1|x64.ActiveCfg = Release|x64
-		{1EB39A18-8A1C-4C19-AF0B-39809AD6606F}.Config 1|x64.Build.0 = Release|x64
-		{1EB39A18-8A1C-4C19-AF0B-39809AD6606F}.Config 1|x86.ActiveCfg = Release|x86
-		{1EB39A18-8A1C-4C19-AF0B-39809AD6606F}.Config 1|x86.Build.0 = Release|x86
 		{1EB39A18-8A1C-4C19-AF0B-39809AD6606F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1EB39A18-8A1C-4C19-AF0B-39809AD6606F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EB39A18-8A1C-4C19-AF0B-39809AD6606F}.Debug|x64.ActiveCfg = Debug|x64
